@@ -31,7 +31,7 @@ class ApiRequest {
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 604800
         configuration.timeoutIntervalForResource = 604800
-        configuration.httpMaximumConnectionsPerHost = 50
+        configuration.httpMaximumConnectionsPerHost = 100
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         alamoFireManager = Session(configuration: configuration)
     }
@@ -41,6 +41,7 @@ class ApiRequest {
         return (secret.count > 0) ? ["Authorization": "Bearer \(secret)"] : [:]
     }
 
+    @discardableResult
     private static func req(
         _ url: String,
         method: HTTPMethod = .get,
@@ -97,17 +98,9 @@ class ApiRequest {
         completeHandler(config)
     }
 
-    static func requestConfigUpdate(callback: @escaping ((ErrorString?) -> Void)) {
-        let filePath = "\(kConfigFolderPath)\(ConfigManager.selectConfigName).yaml"
+    static func requestConfigUpdate(configName: String, callback: @escaping ((ErrorString?) -> Void)) {
+        let filePath = "\(kConfigFolderPath)\(configName).yaml"
         let placeHolderErrorDesp = "Error occoured, Please try to fix it by restarting ClashX. "
-        let errorHanlder: (ErrorString) -> Void = {
-            err in
-            if err.contains("no such file or directory") {
-                ConfigManager.selectConfigName = "config"
-            } else {
-                callback(err)
-            }
-        }
 
         // DEV MODE: Use API
         if !ConfigManager.builtInApiMode {
@@ -118,7 +111,7 @@ class ApiRequest {
                 } else {
                     let errorJson = try? res.result.get()
                     let err = JSON(errorJson ?? "")["message"].string ?? placeHolderErrorDesp
-                    errorHanlder(err)
+                    callback(err)
                 }
             }
             return
@@ -129,7 +122,7 @@ class ApiRequest {
         if res == "success" {
             callback(nil)
         } else {
-            errorHanlder(res)
+            callback(res)
         }
     }
 
@@ -231,7 +224,24 @@ class ApiRequest {
     }
 }
 
-// Stream Apis
+// MARK: - Connections
+
+extension ApiRequest {
+    static func getConnections(completeHandler: @escaping ([ClashConnectionSnapShot.Connection]) -> Void) {
+        req("/connections").responseData { res in
+            guard let data = try? res.result.get() else { return }
+            let resp = ClashConnectionSnapShot.fromData(data)
+            completeHandler(resp.connections)
+        }
+    }
+
+    static func closeConnection(_ conn: ClashConnectionSnapShot.Connection) {
+        req("/connections/".appending(conn.id), method: .delete)
+    }
+}
+
+// MARK: - Stream Apis
+
 extension ApiRequest {
     func resetStreamApis() {
         trafficWebSocketRetryCount = 0

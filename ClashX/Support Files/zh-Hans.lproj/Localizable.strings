@@ -6,6 +6,9 @@
 "Apply and Quit" = "应用并退出";
 
 /* No comment provided by engineer. */
+"Auto Close Connection" = "切换代理时中断连接";
+
+/* No comment provided by engineer. */
 "Benchmark" = "延迟测速";
 
 /* No comment provided by engineer. */
@@ -31,6 +34,12 @@
 
 /* No comment provided by engineer. */
 "Config loading Fail!" = "配置文件加载失败";
+
+/* No comment provided by engineer. */
+"Copy Shell Export Command" = "复制终端代理命令";
+
+/* No comment provided by engineer. */
+"Copy Shell Export Command with External IP" = "复制终端代理命令(外部IP)";
 
 /* No comment provided by engineer. */
 "Direct" = "直连";
@@ -60,6 +69,9 @@
 "OK" = "确定";
 
 /* No comment provided by engineer. */
+"Prelease" = "Prelease";
+
+/* No comment provided by engineer. */
 "Proxy Mode" = "出站模式";
 
 /* No comment provided by engineer. */
@@ -81,7 +93,13 @@
 "Remote Config Update Fail" = "托管配置文件更新失败";
 
 /* No comment provided by engineer. */
+"ReTest" = "重新测速";
+
+/* No comment provided by engineer. */
 "Rule" = "规则";
+
+/* No comment provided by engineer. */
+"Stable" = "Stable";
 
 /* No comment provided by engineer. */
 "Succeed!" = "成功！";
@@ -100,6 +118,9 @@
 
 /* No comment provided by engineer. */
 "Updating" = "更新中";
+
+/* No comment provided by engineer. */
+"Upgrade Channel" = "更新通道";
 
 /* No comment provided by engineer. */
 "URL is not valid" = "链接不合法";

@@ -6,6 +6,9 @@
 "Apply and Quit" = "Apply and Quit";
 
 /* No comment provided by engineer. */
+"Auto Close Connection" = "Auto Close Connection";
+
+/* No comment provided by engineer. */
 "Benchmark" = "Benchmark";
 
 /* No comment provided by engineer. */
@@ -31,6 +34,12 @@
 
 /* No comment provided by engineer. */
 "Config loading Fail!" = "Config loading Fail!";
+
+/* No comment provided by engineer. */
+"Copy Shell Export Command" = "Copy Shell Export Command";
+
+/* No comment provided by engineer. */
+"Copy Shell Export Command with External IP" = "Copy Shell Export Command with External IP";
 
 /* No comment provided by engineer. */
 "Direct" = "Direct";
@@ -60,6 +69,9 @@
 "OK" = "OK";
 
 /* No comment provided by engineer. */
+"Prelease" = "Prelease";
+
+/* No comment provided by engineer. */
 "Proxy Mode" = "Proxy Mode";
 
 /* No comment provided by engineer. */
@@ -81,7 +93,13 @@
 "Remote Config Update Fail" = "Remote Config Update Fail";
 
 /* No comment provided by engineer. */
+"ReTest" = "ReTest";
+
+/* No comment provided by engineer. */
 "Rule" = "Rule";
+
+/* No comment provided by engineer. */
+"Stable" = "Stable";
 
 /* No comment provided by engineer. */
 "Succeed!" = "Succeed!";
@@ -100,6 +118,9 @@
 
 /* No comment provided by engineer. */
 "Updating" = "Updating";
+
+/* No comment provided by engineer. */
+"Upgrade Channel" = "Upgrade Channel";
 
 /* No comment provided by engineer. */
 "URL is not valid" = "URL is not valid";
