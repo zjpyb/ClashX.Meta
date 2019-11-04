@@ -94,16 +94,6 @@ class MenuItemFactory {
         }
         let submenu = NSMenu(title: proxyGroup.name)
 
-        let nowMenuItem = NSMenuItem(title: "now:\(selectedName)", action: #selector(empty), keyEquivalent: "")
-        nowMenuItem.target = MenuItemFactory.self
-
-        if let nowProxy = proxyMap[selectedName], let historyMenu = generateHistoryMenu(nowProxy) {
-            nowMenuItem.submenu = historyMenu
-        }
-
-        submenu.addItem(nowMenuItem)
-        submenu.addItem(NSMenuItem.separator())
-
         for proxyName in proxyGroup.all ?? [] {
             guard let proxy = proxyMap[proxyName] else { continue }
             let proxyMenuItem = NSMenuItem(title: proxy.name, action: #selector(empty), keyEquivalent: "")
@@ -185,7 +175,11 @@ extension MenuItemFactory {
                 }
                 sender.state = .on
                 // remember select proxy
-                ConfigManager.selectedProxyMap[proxyGroup] = proxyName
+                let newModel = SavedProxyModel(group: proxyGroup, selected: proxyName, config: ConfigManager.selectConfigName)
+                ConfigManager.selectedProxyRecords.removeAll { model -> Bool in
+                    return model == newModel
+                }
+                ConfigManager.selectedProxyRecords.append(newModel)
                 // terminal Connections for this group
                 ConnectionManager.closeConnection(for: proxyGroup)
             }

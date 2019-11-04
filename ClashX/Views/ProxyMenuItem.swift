@@ -9,7 +9,7 @@
 import Cocoa
 
 class ProxyMenuItem: NSMenuItem {
-    var proxyName: String = ""
+    let proxyName: String
     var maxProxyNameLength: CGFloat
 
     var isSelected: Bool = false {
@@ -24,9 +24,8 @@ class ProxyMenuItem: NSMenuItem {
 
     init(proxy: ClashProxy, action selector: Selector?, maxProxyNameLength: CGFloat) {
         self.maxProxyNameLength = maxProxyNameLength
-        super.init(title: proxy.name, action: selector, keyEquivalent: "")
-
         proxyName = proxy.name
+        super.init(title: proxy.name, action: selector, keyEquivalent: "")
 
         if let his = proxy.history.last {
             attributedTitle = getAttributedTitle(name: proxyName, delay: his.delayDisplay)
@@ -42,10 +41,10 @@ class ProxyMenuItem: NSMenuItem {
     func getAttributedTitle(name: String, delay: String) -> NSAttributedString {
         let paragraph = NSMutableParagraphStyle()
         paragraph.tabStops = [
-            NSTextTab(textAlignment: .right, location: maxProxyNameLength + 80, options: [:]),
+            NSTextTab(textAlignment: .right, location: maxProxyNameLength + 90, options: [:]),
         ]
 
-        let str = "\(name)\t\(delay)"
+        let str = "\(name.replacingOccurrences(of: "\t", with: " "))\t\(delay)"
 
         let attributed = NSMutableAttributedString(
             string: str,
