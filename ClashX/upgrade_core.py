@@ -7,7 +7,8 @@ from build_clash import build_clash
 
 def upgrade_version(current_version):
     string = open('go.mod').read()
-    string = string.replace(current_version, "dev")
+    string = string.replace(current_version, "clashr")
+    print("__________" + string + "___________")
     file = open("go.mod", "w")
     file.write(string)
 
