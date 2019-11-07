@@ -49,7 +49,8 @@ github.com/stretchr/testify v1.4.0 h1:2E4SXV/wtOkTonXsotYi4li6zVWxYlZuYNCXe9XRJy
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
 github.com/whojave/clash v0.16.4-0.20191104091629-8d83a82bb0aa h1:M58ZEMiRnejAZjlX/6C3dJ+VpanYi+pABHcKvsc5UZw=
 github.com/whojave/clash v0.16.4-0.20191104091629-8d83a82bb0aa/go.mod h1:Zjd27NFdyqdYlsL+Ip5Va3MBpXq4HO7WuMUufqsKnI4=
-github.com/whojave/clashr v0.0.0-20191022050908-3d7e2af9e5ba/go.mod h1:aLoCx06YEF5P7Zo0s8dc8dmDJzIPPC5lyFkzKnx8ekM=
+github.com/whojave/clash v0.16.4-0.20191107045204-d402221b7631 h1:sVbSWDeGGyE2TSo8T//B3SzEgYe+7MSQqqVLikCQue8=
+github.com/whojave/clash v0.16.4-0.20191107045204-d402221b7631/go.mod h1:W6bsTOXa1d/sTMUOC3W5vAQGX5f10IMrnkx4nqds5no=
 github.com/whojave/gossr v0.0.0-20191022040802-3c6b7e7fcb9c h1:hYxGzMZJDwQN/k+UbB+vxjA2kKT7WhqptBztqQ1Cj1g=
 github.com/whojave/gossr v0.0.0-20191022040802-3c6b7e7fcb9c/go.mod h1:xWOcwGsDuBq8DvudbVwDqflR25qUeUyU9hoyAWwqarI=
 gitlab.com/yawning/chacha20.git v0.0.0-20190903091407-6d1cb28dc72c h1:yrfrd1u7MWIwWIulet2TZPEkeNQhQ/GcPLdPXgiEEr0=
