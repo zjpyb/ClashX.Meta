@@ -12,7 +12,7 @@ import ServiceManagement
 class SystemProxyManager: NSObject {
     static let shared = SystemProxyManager()
 
-    private static let machServiceName = "com.west2online.ClashX.ProxyConfigHelper"
+    private static let machServiceName = "com.west2online.ClashXR.ProxyConfigHelper"
     private var authRef: AuthorizationRef?
     private var connection: NSXPCConnection?
     private var _helper: ProxyConfigRemoteProcessProtocol?
@@ -222,7 +222,7 @@ class SystemProxyManager: NSObject {
             let helper = self.helper() else {
             return false
         }
-        let helperFileExists = FileManager.default.fileExists(atPath: "/Library/PrivilegedHelperTools/com.west2online.ClashX.ProxyConfigHelper")
+        let helperFileExists = FileManager.default.fileExists(atPath: "/Library/PrivilegedHelperTools/com.west2online.ClashXR.ProxyConfigHelper")
         let timeout: TimeInterval = helperFileExists ? 8 : 2
         var installed = false
         let time = Date()
@@ -247,7 +247,7 @@ extension SystemProxyManager {
 
     private func showInstallHelperAlert() -> Bool {
         let alert = NSAlert()
-        alert.messageText = NSLocalizedString("ClashX needs to install a helper tool with administrator privileges to set system proxy quickly.", comment: "")
+        alert.messageText = NSLocalizedString("ClashXR needs to install a helper tool with administrator privileges to set system proxy quickly.", comment: "")
         alert.alertStyle = .warning
         alert.addButton(withTitle: NSLocalizedString("Install", comment: ""))
         alert.addButton(withTitle: NSLocalizedString("Quit", comment: ""))
@@ -256,7 +256,7 @@ extension SystemProxyManager {
 }
 
 fileprivate struct AppAuthorizationRights {
-    static let rightName: NSString = "com.west2online.ClashX.ProxyConfigHelper.config"
+    static let rightName: NSString = "com.west2online.ClashXR.ProxyConfigHelper.config"
     static let rightDefaultRule: Dictionary = adminRightsRule
     static let rightDescription: CFString = "ProxyConfigHelper wants to configure your proxy setting'" as CFString
     static var adminRightsRule: [String: Any] = ["class": "user",

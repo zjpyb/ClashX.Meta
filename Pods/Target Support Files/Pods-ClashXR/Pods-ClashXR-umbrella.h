@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_ClashXVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_ClashXVersionString[];
+FOUNDATION_EXPORT double Pods_ClashXRVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_ClashXRVersionString[];
 

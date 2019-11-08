@@ -10,7 +10,8 @@ post_install do |installer|
   end
 end
 
-target 'ClashX' do
+target 'ClashXR' do
+  platform :osx, '10.12'
   inhibit_all_warnings!
   use_frameworks!
   pod 'LetsMove'

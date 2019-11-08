@@ -73,7 +73,7 @@
 
 + (NSMutableDictionary<NSString *,NSDictionary *> *)currentProxySettings {
     __block NSMutableDictionary<NSString *,NSDictionary *> *info = [NSMutableDictionary dictionary];
-    SCPreferencesRef ref = SCPreferencesCreate(nil, CFSTR("ClashX"), nil);
+    SCPreferencesRef ref = SCPreferencesCreate(nil, CFSTR("ClashXR"), nil);
     [ProxySettingTool getDiviceListWithPrefRef:ref devices:^(NSString *key, NSDictionary *dev) {
         NSDictionary *proxySettings = dev[(__bridge NSString *)kSCEntNetProxies];
         info[key] = [proxySettings copy];
@@ -90,7 +90,7 @@
 
 
 + (NSString *)getUserHomePath {
-    SCDynamicStoreRef store = SCDynamicStoreCreate(NULL, CFSTR("com.west2online.ClashX.ProxyConfigHelper"), NULL, NULL);
+    SCDynamicStoreRef store = SCDynamicStoreCreate(NULL, CFSTR("com.west2online.ClashXR.ProxyConfigHelper"), NULL, NULL);
     CFStringRef CopyCurrentConsoleUsername(SCDynamicStoreRef store);
     CFStringRef result;
     uid_t uid;
@@ -208,7 +208,7 @@
 }
 
 - (void)applySCNetworkSettingWithRef:(void(^)(SCPreferencesRef))callback {
-    SCPreferencesRef ref = SCPreferencesCreateWithAuthorization(nil, CFSTR("com.west2online.ClashX.ProxyConfigHelper.config"), nil, self.authRef);
+    SCPreferencesRef ref = SCPreferencesCreateWithAuthorization(nil, CFSTR("com.west2online.ClashXR.ProxyConfigHelper.config"), nil, self.authRef);
     if (!ref) {
         return;
     }
@@ -238,7 +238,7 @@
         return @"AuthorizationCreateFromExternalForm fail";
     }
     
-    NSString *authName = @"com.west2online.ClashX.ProxyConfigHelper.config";
+    NSString *authName = @"com.west2online.ClashXR.ProxyConfigHelper.config";
     AuthorizationItem authItem = {authName.UTF8String, 0, NULL, 0};
     AuthorizationRights authRight = {1, &authItem};
     

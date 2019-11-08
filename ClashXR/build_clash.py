@@ -6,7 +6,7 @@ import os
 def get_version():
     with open('./go.mod') as file:
         for line in file.readlines():
-            if "clash" in line and "ClashX" not in line:
+            if "clash" in line and "ClashXR" not in line:
                 return line.split(" ")[-1].strip()
     return "unknown"
 
