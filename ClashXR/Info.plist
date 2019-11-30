@@ -55,7 +55,8 @@
 		<array>
 			<dict>
 				<key>KitInfo</key>
-				<dict/>
+				<dict>
+				</dict>
 				<key>KitName</key>
 				<string>Crashlytics</string>
 			</dict>
@@ -80,12 +81,12 @@
 	<string>NSApplication</string>
 	<key>SMAuthorizedClients</key>
 	<array>
-		<string>identifier &quot;com.west2online.ClashXR&quot; and anchor apple generic and certificate leaf[subject.CN] = &quot;Apple Distribution: Mark Jerry (8U6T3TBX56)&quot; and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+		<string>anchor apple generic and identifier "com.west2online.ClashXR.ProxyConfigHelper" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "8U6T3TBX56")</string>
 	</array>
 	<key>SMPrivilegedExecutables</key>
 	<dict>
 		<key>com.west2online.ClashXR.ProxyConfigHelper</key>
-		<string>identifier "com.west2online.ClashXR.ProxyConfigHelper" and anchor apple generic and certificate leaf[subject.CN] = "Apple Distribution: Mark Jerry (8U6T3TBX56)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+		<string>anchor apple generic and identifier "com.west2online.ClashXR.ProxyConfigHelper" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "8U6T3TBX56")</string>
 	</dict>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
