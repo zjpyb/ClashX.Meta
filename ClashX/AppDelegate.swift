@@ -40,6 +40,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var httpPortMenuItem: NSMenuItem!
     @IBOutlet var socksPortMenuItem: NSMenuItem!
     @IBOutlet var apiPortMenuItem: NSMenuItem!
+    @IBOutlet var ipMenuItem: NSMenuItem!
     @IBOutlet var remoteConfigAutoupdateMenuItem: NSMenuItem!
     @IBOutlet var buildApiModeMenuitem: NSMenuItem!
     @IBOutlet var showProxyGroupCurrentMenuItem: NSMenuItem!
@@ -103,6 +104,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let socketPort = ConfigManager.shared.currentConfig?.socketPort ?? 0
             SystemProxyManager.shared.disableProxy(port: port, socksPort: socketPort)
         }
+        UserDefaults.standard.set(0, forKey: "launch_fail_times")
     }
 
     func setupData() {
@@ -161,9 +163,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     SystemProxyManager.shared.enableProxy(port: config.port, socksPort: config.socketPort)
                 }
 
-                self.httpPortMenuItem.title = "Http Port:\(config.port)"
-                self.socksPortMenuItem.title = "Socks Port:\(config.socketPort)"
-                self.apiPortMenuItem.title = "Api Port:\(ConfigManager.shared.apiPort)"
+                self.httpPortMenuItem.title = "Http Port: \(config.port)"
+                self.socksPortMenuItem.title = "Socks Port: \(config.socketPort)"
+                self.apiPortMenuItem.title = "Api Port: \(ConfigManager.shared.apiPort)"
+                self.ipMenuItem.title = "IP: \(NetworkChangeNotifier.getPrimaryIPAddress() ?? "")"
+
+                if config.port == 0 || config.socketPort == 0 {
+                    self.showClashPortErrorAlert()
+                }
 
             }.disposed(by: disposeBag)
 
@@ -204,6 +211,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .notification(kSystemNetworkStatusDidChange)
             .observeOn(MainScheduler.instance)
             .bind { _ in
+                guard NetworkChangeNotifier.getPrimaryInterface() != nil else { return }
                 let (http, https, socks) = NetworkChangeNotifier.currentSystemProxySetting()
                 let currentPort = ConfigManager.shared.currentConfig?.port ?? 0
                 let currentSocks = ConfigManager.shared.currentConfig?.socketPort ?? 0
@@ -320,7 +328,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.resetStreamApi()
                 self.selectOutBoundModeWithMenory()
                 self.selectAllowLanWithMenory()
-                ConfigFileManager.checkFinalRuleAndShowAlert()
                 if showNotification {
                     NSUserNotificationCenter.default
                         .post(title: NSLocalizedString("Reload Config Succeed", comment: ""),
@@ -415,7 +422,7 @@ extension AppDelegate {
         let localhost = "127.0.0.1"
 
         let ip = isMenuOptionEnter ? NetworkChangeNotifier.getPrimaryIPAddress() ?? localhost : localhost
-        pasteboard.setString("export https_proxy=http://\(ip):\(port);export http_proxy=http://\(ip):\(port);export all_proxy=socks5://\(ip):\(socksport)", forType: .string)
+        pasteboard.setString("export https_proxy=http://\(ip):\(port) http_proxy=http://\(ip):\(port) all_proxy=socks5://\(ip):\(socksport)", forType: .string)
     }
 
     @IBAction func actionSpeedTest(_ sender: Any) {
@@ -451,9 +458,7 @@ extension AppDelegate {
 
 extension AppDelegate: ApiRequestStreamDelegate {
     func didUpdateTraffic(up: Int, down: Int) {
-        DispatchQueue.main.async {
-            self.statusItemView.updateSpeedLabel(up: up, down: down)
-        }
+        statusItemView.updateSpeedLabel(up: up, down: down)
     }
 
     func didGetLog(log: String, level: String) {
@@ -556,7 +561,7 @@ extension AppDelegate {
             }
             NSUserNotificationCenter.default.post(title: "Fail on launch protect", info: "You origin Config has been renamed")
         }
-        DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
+        DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + Double(Int64(5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
             x.set(0, forKey: "launch_fail_times")
         })
     }
@@ -592,6 +597,7 @@ extension AppDelegate {
     func selectOutBoundModeWithMenory() {
         ApiRequest.updateOutBoundMode(mode: ConfigManager.selectOutBoundMode) {
             [weak self] _ in
+            ConnectionManager.closeAllConnection()
             self?.syncConfig()
         }
     }
@@ -653,5 +659,15 @@ extension AppDelegate {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "didGetUrl"), object: nil, userInfo: userInfo)
             }
         }
+    }
+}
+
+// MARK: - Alerts
+
+extension AppDelegate {
+    func showClashPortErrorAlert() {
+        let alert = NSAlert()
+        alert.messageText = NSLocalizedString("ClashX Start Error!", comment: "")
+        alert.informativeText = NSLocalizedString("Ports Open Fail, Please try to restart ClashX", comment: "")
     }
 }
