@@ -171,7 +171,7 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="ClashX" customModuleProvider="target">
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="ClashXR" customModuleProvider="target">
                     <connections>
                         <outlet property="allowFromLanMenuItem" destination="Vz8-7n-vx6" id="Fzz-EG-huC"/>
                         <outlet property="apiPortMenuItem" destination="hwG-qf-DeZ" id="d6K-i7-yCo"/>
@@ -445,7 +445,7 @@
         <!--About View Controller-->
         <scene sceneID="bW6-wi-r8Q">
             <objects>
-                <viewController showSeguePresentationStyle="single" id="UWQ-O3-RVk" customClass="AboutViewController" customModule="ClashX" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController showSeguePresentationStyle="single" id="UWQ-O3-RVk" customClass="AboutViewController" customModule="ClashXR" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="JCR-G0-H6V">
                         <rect key="frame" x="0.0" y="0.0" width="451" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -502,7 +502,7 @@
                                     <fragment content="#bc-ignore!"/>
                                 </attributedString>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q4m-SB-uHV" customClass="HyperlinkTextField" customModule="ClashX" customModuleProvider="target">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q4m-SB-uHV" customClass="HyperlinkTextField" customModule="ClashXR" customModuleProvider="target">
                                 <rect key="frame" x="168" y="55" width="223" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="https://github.com/Dreamacro/clash" id="Bej-j7-KKV">
                                     <font key="font" metaFont="system"/>
@@ -516,7 +516,7 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="href" value="https://github.com/Dreamacro/clash"/>
                                 </userDefinedRuntimeAttributes>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bSi-kz-Dkf" customClass="HyperlinkTextField" customModule="ClashX" customModuleProvider="target">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bSi-kz-Dkf" customClass="HyperlinkTextField" customModule="ClashXR" customModuleProvider="target">
                                 <rect key="frame" x="168" y="31" width="244" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="https://github.com/yichengchen/clashX" id="9ox-Fc-Wk3">
                                     <font key="font" metaFont="system"/>
@@ -588,7 +588,7 @@
         <!--Remote Configs-->
         <scene sceneID="lXv-k7-YEi">
             <objects>
-                <viewController title="Remote Configs" identifier="RemoteConfigViewController" storyboardIdentifier="RemoteConfigViewController" showSeguePresentationStyle="single" id="6WI-Hi-v9j" customClass="RemoteConfigViewController" customModule="ClashX" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Remote Configs" identifier="RemoteConfigViewController" storyboardIdentifier="RemoteConfigViewController" showSeguePresentationStyle="single" id="6WI-Hi-v9j" customClass="RemoteConfigViewController" customModule="ClashXR" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="BIo-GY-n0C">
                         <rect key="frame" x="0.0" y="0.0" width="408" height="257"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -608,7 +608,7 @@
                                             <tableColumns>
                                                 <tableColumn identifier="url" editable="NO" width="176" minWidth="40" maxWidth="1000" id="C79-J5-30z">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Url">
-                                                        <font key="font" metaFont="controlContent" size="11"/>
+                                                        <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -648,7 +648,7 @@
                                                 </tableColumn>
                                                 <tableColumn identifier="configName" width="86" minWidth="40" maxWidth="1000" id="lRE-Xa-euB">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Config Name">
-                                                        <font key="font" metaFont="controlContent" size="11"/>
+                                                        <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -688,7 +688,7 @@
                                                 </tableColumn>
                                                 <tableColumn identifier="updateTime" width="95" minWidth="40" maxWidth="1000" id="xoc-hs-9qa">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Update Time">
-                                                        <font key="font" metaFont="controlContent" size="11"/>
+                                                        <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
@@ -823,7 +823,7 @@
         <!--Clash Web View Contoller-->
         <scene sceneID="hPF-qG-B6J">
             <objects>
-                <viewController showSeguePresentationStyle="single" id="ZNp-tx-6bv" customClass="ClashWebViewContoller" customModule="ClashX" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController showSeguePresentationStyle="single" id="ZNp-tx-6bv" customClass="ClashWebViewContoller" customModule="ClashXR" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="2Hi-rP-ejJ">
                         <rect key="frame" x="0.0" y="0.0" width="920" height="580"/>
                         <autoresizingMask key="autoresizingMask"/>
