@@ -210,6 +210,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .rx
             .notification(kSystemNetworkStatusDidChange)
             .observeOn(MainScheduler.instance)
+            .delay(.milliseconds(200), scheduler: MainScheduler.instance)
             .bind { _ in
                 guard NetworkChangeNotifier.getPrimaryInterface() != nil else { return }
                 let (http, https, socks) = NetworkChangeNotifier.currentSystemProxySetting()
@@ -346,6 +347,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         ConnectionManager.addCloseOptionMenuItem(&experimentalMenu)
         AutoUpgardeManager.shared.setup()
         AutoUpgardeManager.shared.addChanelMenuItem(&experimentalMenu)
+        if WebPortalManager.hasWebProtal {
+            WebPortalManager.shared.addWebProtalMenuItem(&statusMenu)
+        }
         updateExperimentalFeatureStatus()
     }
 
@@ -574,10 +578,11 @@ extension AppDelegate {
         let copy = [SavedProxyModel](ConfigManager.selectedProxyRecords)
         for item in copy {
             guard item.config == ConfigManager.selectConfigName else { continue }
+            Logger.log("Auto selecting \(item.group) \(item.selected)", level: .debug)
             ApiRequest.updateProxyGroup(group: item.group, selectProxy: item.selected) { success in
                 if !success {
                     ConfigManager.selectedProxyRecords.removeAll { model -> Bool in
-                        return model == item
+                        return model.key == item.key
                     }
                 }
             }
