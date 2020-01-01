@@ -15,13 +15,13 @@ target 'ClashXR' do
   inhibit_all_warnings!
   use_frameworks!
   pod 'LetsMove'
-  pod 'Alamofire', '~> 5.0.0-rc.2'
+  pod 'Alamofire', '~> 5.0.0-rc.3'
   pod 'SwiftyJSON'
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'CocoaLumberjack/Swift'
   pod 'WebViewJavascriptBridge'
-  pod 'Starscream',:git=>'https://github.com/daltoniam/Starscream.git', :branch => 'master'
+  pod 'Starscream'
   pod 'Fabric'
   pod 'Crashlytics'
   pod 'Sparkle'

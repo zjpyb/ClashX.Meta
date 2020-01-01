@@ -166,6 +166,13 @@ class ApiRequest {
         ApiRequest.shared.proxyRespCache = proxies
     }
 
+    static func requestProxyProviderList(completeHandler: ((ClashProviderResp) -> Void)? = nil) {
+        req("/providers/proxies").responseData { res in
+            let provider = ClashProviderResp.create(try? res.result.get())
+            completeHandler?(provider)
+        }
+    }
+
     static func updateAllowLan(allow: Bool, completeHandler: (() -> Void)? = nil) {
         req("/configs",
             method: .patch,
@@ -220,7 +227,7 @@ class ApiRequest {
         }
     }
 
-    static func healthCheck(proxy: ClashProxyName) {
+    static func healthCheck(proxy: ClashProviderName) {
         Logger.log("HeathCheck for \(proxy) started")
         req("/providers/proxies/\(proxy.encoded)/healthcheck").response { res in
             if res.response?.statusCode == 204 {

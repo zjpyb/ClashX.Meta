@@ -37,6 +37,11 @@ class RemoteConfigViewController: NSViewController {
             }.disposed(by: disposeBag)
     }
 
+    override func viewWillAppear() {
+        super.viewWillAppear()
+        NSApp.activate(ignoringOtherApps: true)
+    }
+
     override func viewWillDisappear() {
         super.viewWillDisappear()
         RemoteConfigManager.shared.saveConfigs()
