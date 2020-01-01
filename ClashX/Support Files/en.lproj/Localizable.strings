@@ -39,16 +39,13 @@
 "Config loading Fail!" = "Config loading Fail!";
 
 /* No comment provided by engineer. */
-"Copy Shell Export Command" = "Copy Shell Export Command";
-
-/* No comment provided by engineer. */
-"Copy Shell Export Command with External IP" = "Copy Shell Export Command with External IP";
-
-/* No comment provided by engineer. */
 "Direct" = "Direct";
 
 /* No comment provided by engineer. */
 "Download fail" = "Download fail";
+
+/* No comment provided by engineer. */
+"Fail:" = "Fail:";
 
 /* No comment provided by engineer. */
 "Global" = "Global";
@@ -111,6 +108,9 @@
 "Succees" = "Succees";
 
 /* No comment provided by engineer. */
+"Success!" = "Success!";
+
+/* No comment provided by engineer. */
 "Tap to reload config" = "Tap to reload config";
 
 /* No comment provided by engineer. */
@@ -118,6 +118,9 @@
 
 /* No comment provided by engineer. */
 "The remote config name is duplicated" = "The remote config name is duplicated";
+
+/* No comment provided by engineer. */
+"Update GEOIP Database" = "Update GEOIP Database";
 
 /* No comment provided by engineer. */
 "Updating" = "Updating";

@@ -17,26 +17,31 @@ class MenuItemFactory {
             return
         }
 
-        ApiRequest.requestProxyGroupList() {
-            proxyInfo in
-            var menuItems = [NSMenuItem]()
+        ApiRequest.requestProxyProviderList() {
+            proxyprovider in
 
-            for proxy in proxyInfo.proxyGroups {
-                var menu: NSMenuItem?
-                switch proxy.type {
-                case .select: menu = self.generateSelectorMenuItem(proxyGroup: proxy, proxyInfo: proxyInfo)
-                case .urltest, .fallback: menu = generateUrlTestFallBackMenuItem(proxyGroup: proxy, proxyInfo: proxyInfo)
-                case .loadBalance:
-                    menu = generateLoadBalanceMenuItem(proxyGroup: proxy, proxyInfo: proxyInfo)
-                default: continue
-                }
+            ApiRequest.requestProxyGroupList() {
+                proxyInfo in
+                proxyInfo.updateProvider(proxyprovider)
 
-                if let menu = menu {
-                    menuItems.append(menu)
-                    menu.isEnabled = true
+                var menuItems = [NSMenuItem]()
+                for proxy in proxyInfo.proxyGroups {
+                    var menu: NSMenuItem?
+                    switch proxy.type {
+                    case .select: menu = self.generateSelectorMenuItem(proxyGroup: proxy, proxyInfo: proxyInfo)
+                    case .urltest, .fallback: menu = generateUrlTestFallBackMenuItem(proxyGroup: proxy, proxyInfo: proxyInfo)
+                    case .loadBalance:
+                        menu = generateLoadBalanceMenuItem(proxyGroup: proxy, proxyInfo: proxyInfo)
+                    default: continue
+                    }
+
+                    if let menu = menu {
+                        menuItems.append(menu)
+                        menu.isEnabled = true
+                    }
                 }
+                completionHandler(menuItems.reversed())
             }
-            completionHandler(menuItems.reversed())
         }
     }
 
@@ -117,8 +122,6 @@ class MenuItemFactory {
         guard proxyGroup.speedtestAble.count > 0 else { return }
         menus.addItem(NSMenuItem.separator())
         let speedTestItem = ProxyGroupSpeedTestMenuItem(group: proxyGroup)
-        speedTestItem.target = MenuItemFactory.self
-        speedTestItem.action = #selector(actionSpeedTest)
         menus.addItem(speedTestItem)
     }
 
@@ -195,11 +198,6 @@ extension MenuItemFactory {
                 ConnectionManager.closeAllConnection()
             }
         }
-    }
-
-    @objc static func actionSpeedTest(sender: ProxyGroupSpeedTestMenuItem) {
-        guard sender.testType == .reTest else { return }
-        ApiRequest.healthCheck(proxy: sender.proxyGroup.name)
     }
 
     @objc static func empty() {}

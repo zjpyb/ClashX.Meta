@@ -50,7 +50,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var disposeBag = DisposeBag()
     var statusItemView: StatusItemView!
     var isSpeedTesting = false
-    var isMenuOptionEnter = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         signal(SIGPIPE, SIG_IGN)
@@ -260,7 +259,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         for item in logLevelMenuItem.submenu?.items ?? [] {
             item.state = item.title.lowercased() == ConfigManager.selectLoggingApiLevel.rawValue ? .on : .off
         }
-        NotificationCenter.default.post(name: kLogLevelDidChange, object: nil)
+        NotificationCenter.default.post(name: kReloadDashboard, object: nil)
     }
 
     func startProxy() {
@@ -339,6 +338,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     ConfigManager.selectConfigName = newConfigName
                 }
                 self.selectProxyGroupWithMemory()
+                NotificationCenter.default.post(name: kReloadDashboard, object: nil)
             }
         }
     }
@@ -347,6 +347,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         ConnectionManager.addCloseOptionMenuItem(&experimentalMenu)
         AutoUpgardeManager.shared.setup()
         AutoUpgardeManager.shared.addChanelMenuItem(&experimentalMenu)
+        ClashResourceManager.addUpdateMMDBMenuItem(&experimentalMenu)
         if WebPortalManager.hasWebProtal {
             WebPortalManager.shared.addWebProtalMenuItem(&statusMenu)
         }
@@ -418,14 +419,15 @@ extension AppDelegate {
         }
     }
 
-    @IBAction func actionCopyExportCommand(_ sender: Any) {
+    @IBAction func actionCopyExportCommand(_ sender: NSMenuItem) {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         let port = ConfigManager.shared.currentConfig?.port ?? 0
         let socksport = ConfigManager.shared.currentConfig?.socketPort ?? 0
         let localhost = "127.0.0.1"
-
-        let ip = isMenuOptionEnter ? NetworkChangeNotifier.getPrimaryIPAddress() ?? localhost : localhost
+        let isLocalhostCopy = sender == copyExportCommandMenuItem
+        let ip = isLocalhostCopy ? localhost :
+            NetworkChangeNotifier.getPrimaryIPAddress() ?? localhost
         pasteboard.setString("export https_proxy=http://\(ip):\(port) http_proxy=http://\(ip):\(port) all_proxy=socks5://\(ip):\(socksport)", forType: .string)
     }
 
@@ -546,10 +548,16 @@ extension AppDelegate {
 
 extension AppDelegate {
     func registCrashLogger() {
+        #if DEBUG
+            return
+        #endif
         Fabric.with([Crashlytics.self])
     }
 
     func failLaunchProtect() {
+        #if DEBUG
+            return
+        #endif
         let x = UserDefaults.standard
         var launch_fail_times: Int = 0
         if let xx = x.object(forKey: "launch_fail_times") as? Int { launch_fail_times = xx }
@@ -613,11 +621,6 @@ extension AppDelegate {
             self?.syncConfig()
         }
     }
-
-    func updateCopyProxyItem() {
-        isMenuOptionEnter = NSEvent.modifierFlags == [.option]
-        copyExportCommandMenuItem.title = isMenuOptionEnter ? NSLocalizedString("Copy Shell Export Command with External IP", comment: "") : NSLocalizedString("Copy Shell Export Command", comment: "")
-    }
 }
 
 // MARK: NSMenuDelegate
@@ -628,7 +631,6 @@ extension AppDelegate: NSMenuDelegate {
     func menuNeedsUpdate(_ menu: NSMenu) {
         syncConfig()
         updateConfigFiles()
-        updateCopyProxyItem()
     }
 }
 
