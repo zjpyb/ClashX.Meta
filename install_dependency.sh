@@ -19,4 +19,4 @@ gzip Country.mmdb
 mv Country.mmdb.gz ./ClashX/Resources/Country.mmdb.gz
 echo "install dashboard"
 cd ClashX/Resources
-git clone -b gh-pages https://github.com/Dreamacro/clash-dashboard.git dashboard
+git clone -b gh-pages https://github.com/MetaCubeX/yacd.git dashboard
