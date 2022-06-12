@@ -32,23 +32,15 @@ jobs:
         cd ..
         xcodebuild archive -workspace ClashX.xcworkspace -scheme ClashX -archivePath archive/ClashX.xcarchive -showBuildTimingSummary -allowProvisioningUpdates
 
-    - name: setup node
-      uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
-
-    - name: create dmg
-      run: |
-        npm install --global create-dmg
-        create-dmg archive/ClashX.xcarchive/Products/Applications/ClashX.app
-        mv ClashX*.dmg ClashX.dmg
+    - name: create zip
+      run: ditto -c -k --sequesterRsrc --keepParent archive/ClashX.xcachive/Products/Applications/ClashX.app ClashX.zip
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       if: "!startsWith(github.ref, 'refs/tags/')"
       with:
-        name: ClashX.dmg
-        path: ClashX.dmg
+        name: ClashX.zip
+        path: ClashX.zip
 
     - name: upload build to github
       uses: softprops/action-gh-release@v1
@@ -56,6 +48,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        files: ClashX.dmg
+        files: ClashX.zip
         draft: true
         prerelease: true
