@@ -7,16 +7,16 @@ import filecmp
 def get_version():
     with open('./go.mod') as file:
         for line in file.readlines():
-            if "clash" in line and "ClashX" not in line:
-                return line.split("-")[-1].strip()[:6]
+            if "Clash.Meta" in line:
+                return line.split(" ")[-1].strip()
     return "unknown"
 
 
 def build_clash(version,build_time,arch):
     clang = f"{os.getcwd()}/clangWrap.sh"
     command = f"""
-go build -trimpath -ldflags '-X "github.com/Dreamacro/clash/constant.Version={version}" \
--X "github.com/Dreamacro/clash/constant.BuildTime={build_time}"' \
+go build -trimpath -ldflags '-X "github.com/MetaCubeX/Clash.Meta/constant.Version={version}" \
+-X "github.com/MetaCubeX/Clash.Meta/constant.BuildTime={build_time}"' \
 -buildmode=c-archive -o goClash_{arch}.a """
     envs = os.environ.copy()
     envs.update({
