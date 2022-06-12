@@ -5,6 +5,12 @@ import Foundation
 import Gzip
 
 class ClashResourceManager {
+    enum RuleFiles: String {
+        case mmdb = "Country.mmdb"
+        case geosite = "geosite.dat"
+        case geoip = "geoip.dat"
+    }
+    
     static func check() -> Bool {
         checkConfigDir()
         checkMMDB()
@@ -25,26 +31,39 @@ class ClashResourceManager {
     }
 
     static func checkMMDB() {
+        checkRule(.mmdb)
+        checkRule(.geoip)
+        checkRule(.geosite)
+    }
+    
+    static func checkRule(_ file: RuleFiles) {
         let fileManage = FileManager.default
-        let destMMDBPath = "\(kConfigFolderPath)/Country.mmdb"
+        let destPath = "\(kConfigFolderPath)/\(file.rawValue)"
 
         // Remove old mmdb file after version update.
-        if fileManage.fileExists(atPath: destMMDBPath) {
-            let vaild = verifyGEOIPDataBase().toBool()
+        if fileManage.fileExists(atPath: destPath) {
             let versionChange = AppVersionUtil.hasVersionChanged || AppVersionUtil.isFirstLaunch
-            let customMMDBSet = !Settings.mmdbDownloadUrl.isEmpty
-            if !vaild || (versionChange && customMMDBSet) {
-                try? fileManage.removeItem(atPath: destMMDBPath)
+            switch file {
+            case .mmdb:
+                let vaild = verifyGEOIPDataBase().toBool()
+                let customMMDBSet = !Settings.mmdbDownloadUrl.isEmpty
+                if !vaild || (versionChange && customMMDBSet) {
+                    try? fileManage.removeItem(atPath: destPath)
+                }
+            case .geosite, .geoip:
+                if versionChange {
+                    try? fileManage.removeItem(atPath: destPath)
+                }
             }
         }
 
-        if !fileManage.fileExists(atPath: destMMDBPath) {
-            if let mmdbUrl = Bundle.main.url(forResource: "Country.mmdb", withExtension: "gz") {
+        if !fileManage.fileExists(atPath: destPath) {
+            if let gzUrl = Bundle.main.url(forResource: file.rawValue, withExtension: "gz") {
                 do {
-                    let data = try Data(contentsOf: mmdbUrl).gunzipped()
-                    try data.write(to: URL(fileURLWithPath: destMMDBPath))
+                    let data = try Data(contentsOf: gzUrl).gunzipped()
+                    try data.write(to: URL(fileURLWithPath: destPath))
                 } catch let err {
-                    Logger.log("add mmdb fail:\(err)", level: .error)
+                    Logger.log("add \(file.rawValue) fail:\(err)", level: .error)
                 }
             }
         }

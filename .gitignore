@@ -1,5 +1,7 @@
 Pods/
 Country.mmdb
+geoip.dat
+geosite.dat
 Carthage
 ClashX.a
 ClashX.h
@@ -16,4 +18,6 @@ ClashX/goClash/goClash.h
 ClashX/goClash/goClash.a
 fastlane/report.xml
 ClashX/Resources/Country.mmdb.gz
+ClashX/Resources/geoip.dat.gz
+ClashX/Resources/geosite.dat.gz
 .bundle/config
