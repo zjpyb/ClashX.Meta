@@ -523,9 +523,7 @@
 				49CF3B1920CD7463001EBF94 /* Sources */,
 				49CF3B1A20CD7463001EBF94 /* Frameworks */,
 				49CF3B1B20CD7463001EBF94 /* Resources */,
-				A741C26F5755233F0D7CEC6F /* [CP] Embed Pods Frameworks */,
 				663E4677213FCDC4006F11BB /* Copy Files */,
-				494ED8F023EB0B36008D5D2F /* Run Script - Sparkle */,
 				318032FABBC2E552CB58B254 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -656,41 +654,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ClashX/Pods-ClashX-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		494ED8F023EB0B36008D5D2F /* Run Script - Sparkle */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script - Sparkle";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nLOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\n\n# By default, use the configured code signing identity for the project/target\nIDENTITY=\"${CODE_SIGN_IDENTITY}\"\nif [ \"$IDENTITY\" == \"\" ]\nthen\n  # If a code signing identity is not specified, use ad hoc signing\n  IDENTITY=\"-\"\nfi\ncodesign --verbose --force --deep -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A/Resources/AutoUpdate.app\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A\"\n";
-		};
-		A741C26F5755233F0D7CEC6F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ClashX/Pods-ClashX-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ClashX/Pods-ClashX-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ClashX/Pods-ClashX-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
