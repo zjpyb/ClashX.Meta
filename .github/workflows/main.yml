@@ -33,7 +33,7 @@ jobs:
         xcodebuild archive -workspace ClashX.xcworkspace -scheme ClashX -archivePath archive/ClashX.xcarchive -showBuildTimingSummary -allowProvisioningUpdates
 
     - name: create zip
-      run: ditto -c -k --sequesterRsrc --keepParent archive/ClashX.xcachive/Products/Applications/ClashX.app ClashX.zip
+      run: ditto -c -k --sequesterRsrc --keepParent archive/ClashX.xcarchive/Products/Applications/ClashX.app ClashX.zip
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
