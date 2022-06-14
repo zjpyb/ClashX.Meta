@@ -11,6 +11,8 @@
 #import "ProxyConfigRemoteProcessProtocol.h"
 #import "ProxySettingTool.h"
 
+#import "goClash.h"
+
 @interface ProxyConfigHelper()
 <
 NSXPCListenerDelegate,
@@ -128,5 +130,41 @@ ProxyConfigRemoteProcessProtocol
     });
 }
 
+
+- (void)initMetaCoreWithPath:(char *)path {
+    initClashCore(path);
+}
+
+- (void)runCheckConfig:(BOOL)checkConfig allowLan:(BOOL)allowLan result:(stringReplyBlock)reply {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        reply(stringFromChar(run(checkConfig, allowLan)));
+    });
+}
+
+- (void)metaGetConfigs:(stringReplyBlock)reply {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        reply(stringFromChar(clashGetConfigs()));
+    });
+}
+
+- (void)metaSetUIPath:(char *)path {
+    setUIPath(path);
+}
+
+- (void)metaUpdateConfig:(char *)path result:(stringReplyBlock)reply {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        reply(stringFromChar(clashUpdateConfig(path)));
+    });
+}
+
+- (void)verifyMetaConfig:(char *)content result:(stringReplyBlock)reply {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        reply(stringFromChar(verifyClashConfig(content)));
+    });
+}
+
+NSString *stringFromChar(const char *input) {
+    return [NSString stringWithUTF8String: input];
+}
 
 @end
