@@ -58,6 +58,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     var dashboardWindowController: ClashWebViewWindowController?
 
+    let helper = PrivilegedHelperManager.shared.helper()
+    
     func applicationWillFinishLaunching(_ notification: Notification) {
         signal(SIGPIPE, SIG_IGN)
         // crash recorder
@@ -105,7 +107,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // start proxy
         Logger.log("initClashCore")
-        initClashCore()
+        helper?.initMetaCore(withPath: Paths.localConfigPath(for: "config").goStringBuffer())
         Logger.log("initClashCore finish")
         setupData()
         runAfterConfigReload = { [weak self] in
@@ -404,15 +406,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let externalController: String
             let secret: String
         }
-
+        
         // setup ui config first
         if let htmlPath = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "dashboard") {
             let uiPath = URL(fileURLWithPath: htmlPath).deletingLastPathComponent().path
-            setUIPath(uiPath.goStringBuffer())
+            helper?.metaSetUIPath(uiPath.goStringBuffer())
         }
 
         Logger.log("Trying start proxy")
-        let string = run(ConfigManager.builtInApiMode.goObject(), ConfigManager.allowConnectFromLan.goObject())?.toString() ?? ""
+        var string = ""
+        let queue = DispatchGroup()
+        queue.enter()
+        helper?.runCheckConfig(ConfigManager.builtInApiMode, allowLan: ConfigManager.allowConnectFromLan) {
+            string = $0 ?? ""
+            queue.leave()
+        }
+        queue.wait()
         let jsonData = string.data(using: .utf8) ?? Data()
         if let res = try? JSONDecoder().decode(StartProxyResp.self, from: jsonData) {
             let port = res.externalController.components(separatedBy: ":").last ?? "9090"
