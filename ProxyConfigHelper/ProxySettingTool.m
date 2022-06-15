@@ -241,7 +241,7 @@
 }
 
 - (void)applySCNetworkSettingWithRef:(void(^)(SCPreferencesRef))callback {
-    SCPreferencesRef ref = SCPreferencesCreateWithAuthorization(nil, CFSTR("com.west2online.ClashX.ProxyConfigHelper.config"), nil, self.authRef);
+    SCPreferencesRef ref = SCPreferencesCreateWithAuthorization(nil, CFSTR("com.metacubex.ClashX.ProxyConfigHelper.config"), nil, self.authRef);
     if (!ref) {
         return;
     }

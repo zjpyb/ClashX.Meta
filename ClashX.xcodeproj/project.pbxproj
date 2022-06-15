@@ -77,7 +77,7 @@
 		F92D0B2A236C759100575E15 /* NSTextField+Vibrancy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92D0B29236C759100575E15 /* NSTextField+Vibrancy.swift */; };
 		F92D0B2C236C7C3600575E15 /* MenuItemBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92D0B2B236C7C3600575E15 /* MenuItemBaseView.swift */; };
 		F92D0B2E236D35C000575E15 /* ProxyItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92D0B2D236D35C000575E15 /* ProxyItemView.swift */; };
-		F935B2F02307C52E009E4D33 /* com.west2online.ClashX.ProxyConfigHelper in Copy Files */ = {isa = PBXBuildFile; fileRef = F9A7C0692306E874007163C7 /* com.west2online.ClashX.ProxyConfigHelper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		F935B2F02307C52E009E4D33 /* com.metacubex.ClashX.ProxyConfigHelper in Copy Files */ = {isa = PBXBuildFile; fileRef = F9A7C0692306E874007163C7 /* com.metacubex.ClashX.ProxyConfigHelper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F935B2F42307CD32009E4D33 /* ProxyConfigHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F935B2F32307CD32009E4D33 /* ProxyConfigHelper.m */; };
 		F935B2FA23083EE6009E4D33 /* ProxySettingTool.m in Sources */ = {isa = PBXBuildFile; fileRef = F935B2F923083EE6009E4D33 /* ProxySettingTool.m */; };
 		F935B2FC23085515009E4D33 /* SystemProxyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F935B2FB23085515009E4D33 /* SystemProxyManager.swift */; };
@@ -110,7 +110,7 @@
 			dstPath = Contents/Library/LaunchServices;
 			dstSubfolderSpec = 1;
 			files = (
-				F935B2F02307C52E009E4D33 /* com.west2online.ClashX.ProxyConfigHelper in Copy Files */,
+				F935B2F02307C52E009E4D33 /* com.metacubex.ClashX.ProxyConfigHelper in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -164,7 +164,7 @@
 		4981C88E216BAE4D008CC14A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		4982F51E2344A216008804B0 /* Cgo+Convert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cgo+Convert.swift"; sourceTree = "<group>"; };
 		49862F9F218418C600A1D5EC /* ClashRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashRule.swift; sourceTree = "<group>"; };
-		498960722340F21C00AFB7EC /* com.west2online.ClashX.ProxyConfigHelper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = com.west2online.ClashX.ProxyConfigHelper.entitlements; sourceTree = "<group>"; };
+		498960722340F21C00AFB7EC /* com.metacubex.ClashX.ProxyConfigHelper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = com.metacubex.ClashX.ProxyConfigHelper.entitlements; sourceTree = "<group>"; };
 		4989F98D20D0AE990001E564 /* sampleConfig.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = sampleConfig.yaml; sourceTree = "<group>"; };
 		499976C721359F0400E7BF83 /* ClashWebViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashWebViewContoller.swift; sourceTree = "<group>"; };
 		499A485322ED707300F6C675 /* RemoteConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigViewController.swift; sourceTree = "<group>"; };
@@ -222,7 +222,7 @@
 		F976275B23634DF8000EDEFE /* LoginServiceKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginServiceKit.swift; sourceTree = "<group>"; };
 		F977FAAB2366790500C17F1F /* AutoUpgardeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoUpgardeManager.swift; sourceTree = "<group>"; };
 		F977FAAD23669D6400C17F1F /* ConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
-		F9A7C0692306E874007163C7 /* com.west2online.ClashX.ProxyConfigHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = com.west2online.ClashX.ProxyConfigHelper; sourceTree = BUILT_PRODUCTS_DIR; };
+		F9A7C0692306E874007163C7 /* com.metacubex.ClashX.ProxyConfigHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = com.metacubex.ClashX.ProxyConfigHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9A7C06B2306E874007163C7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F9C180A1243C6590005EE8C4 /* goClash.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = goClash.a; path = ClashX/goClash/goClash.a; sourceTree = SOURCE_ROOT; };
 		F9C180A2243C6590005EE8C4 /* goClash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = goClash.h; path = ClashX/goClash/goClash.h; sourceTree = SOURCE_ROOT; };
@@ -426,7 +426,7 @@
 			isa = PBXGroup;
 			children = (
 				49CF3B1D20CD7463001EBF94 /* ClashX.app */,
-				F9A7C0692306E874007163C7 /* com.west2online.ClashX.ProxyConfigHelper */,
+				F9A7C0692306E874007163C7 /* com.metacubex.ClashX.ProxyConfigHelper */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -505,7 +505,7 @@
 			children = (
 				491E61FC258A424500313AEF /* CommonUtils.h */,
 				491E61FD258A424500313AEF /* CommonUtils.m */,
-				498960722340F21C00AFB7EC /* com.west2online.ClashX.ProxyConfigHelper.entitlements */,
+				498960722340F21C00AFB7EC /* com.metacubex.ClashX.ProxyConfigHelper.entitlements */,
 				F9A7C06B2306E874007163C7 /* main.m */,
 				F935B2F12307C802009E4D33 /* Helper-Launchd.plist */,
 				F935B2EA2307B6BA009E4D33 /* Helper-Info.plist */,
@@ -542,9 +542,9 @@
 			productReference = 49CF3B1D20CD7463001EBF94 /* ClashX.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F9A7C0682306E874007163C7 /* com.west2online.ClashX.ProxyConfigHelper */ = {
+		F9A7C0682306E874007163C7 /* com.metacubex.ClashX.ProxyConfigHelper */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F9A7C06D2306E874007163C7 /* Build configuration list for PBXNativeTarget "com.west2online.ClashX.ProxyConfigHelper" */;
+			buildConfigurationList = F9A7C06D2306E874007163C7 /* Build configuration list for PBXNativeTarget "com.metacubex.ClashX.ProxyConfigHelper" */;
 			buildPhases = (
 				F9A7C0652306E874007163C7 /* Sources */,
 				F9A7C0662306E874007163C7 /* Frameworks */,
@@ -554,9 +554,9 @@
 			);
 			dependencies = (
 			);
-			name = com.west2online.ClashX.ProxyConfigHelper;
+			name = com.metacubex.ClashX.ProxyConfigHelper;
 			productName = ProxyConfigHelper;
-			productReference = F9A7C0692306E874007163C7 /* com.west2online.ClashX.ProxyConfigHelper */;
+			productReference = F9A7C0692306E874007163C7 /* com.metacubex.ClashX.ProxyConfigHelper */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -601,7 +601,7 @@
 			projectRoot = "";
 			targets = (
 				49CF3B1C20CD7463001EBF94 /* ClashX */,
-				F9A7C0682306E874007163C7 /* com.west2online.ClashX.ProxyConfigHelper */,
+				F9A7C0682306E874007163C7 /* com.metacubex.ClashX.ProxyConfigHelper */,
 			);
 		};
 /* End PBXProject section */
@@ -755,7 +755,7 @@
 /* Begin PBXTargetDependency section */
 		F935B2EC2307B7CD009E4D33 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F9A7C0682306E874007163C7 /* com.west2online.ClashX.ProxyConfigHelper */;
+			target = F9A7C0682306E874007163C7 /* com.metacubex.ClashX.ProxyConfigHelper */;
 			targetProxy = F935B2EB2307B7CD009E4D33 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -995,9 +995,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
-				CODE_SIGN_ENTITLEMENTS = ProxyConfigHelper/com.west2online.ClashX.ProxyConfigHelper.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ProxyConfigHelper/com.metacubex.ClashX.ProxyConfigHelper.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/ProxyConfigHelper/Helper-Info.plist";
@@ -1006,7 +1007,7 @@
 					"$(PROJECT_DIR)/ClashX/goClash",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = (
@@ -1019,7 +1020,7 @@
 					__launchd_plist,
 					"\"$(SRCROOT)/ProxyConfigHelper/Helper-Launchd.plist\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.west2online.ClashX.ProxyConfigHelper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.metacubex.ClashX.ProxyConfigHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1030,9 +1031,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
-				CODE_SIGN_ENTITLEMENTS = ProxyConfigHelper/com.west2online.ClashX.ProxyConfigHelper.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ProxyConfigHelper/com.metacubex.ClashX.ProxyConfigHelper.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1042,7 +1044,7 @@
 					"$(PROJECT_DIR)/ClashX/goClash",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.0;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = (
 					"-sectcreate",
@@ -1054,7 +1056,7 @@
 					__launchd_plist,
 					"\"$(SRCROOT)/ProxyConfigHelper/Helper-Launchd.plist\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.west2online.ClashX.ProxyConfigHelper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.metacubex.ClashX.ProxyConfigHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1082,7 +1084,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F9A7C06D2306E874007163C7 /* Build configuration list for PBXNativeTarget "com.west2online.ClashX.ProxyConfigHelper" */ = {
+		F9A7C06D2306E874007163C7 /* Build configuration list for PBXNativeTarget "com.metacubex.ClashX.ProxyConfigHelper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F9A7C06E2306E874007163C7 /* Debug */,

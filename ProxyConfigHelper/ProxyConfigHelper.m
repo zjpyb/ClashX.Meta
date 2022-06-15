@@ -32,7 +32,7 @@ ProxyConfigRemoteProcessProtocol
     if (self = [super init]) {
         self.connections = [NSMutableSet new];
         self.shouldQuit = NO;
-        self.listener = [[NSXPCListener alloc] initWithMachServiceName:@"com.west2online.ClashX.ProxyConfigHelper"];
+        self.listener = [[NSXPCListener alloc] initWithMachServiceName:@"com.metacubex.ClashX.ProxyConfigHelper"];
         self.listener.delegate = self;
     }
     return self;
