@@ -94,14 +94,16 @@ class ApiRequest {
             }
             return
         }
-
-        let data = clashGetConfigs()?.toString().data(using: .utf8) ?? Data()
-        guard let config = ClashConfig.fromData(data) else {
-            NSUserNotificationCenter.default.post(title: "Error", info: "Get clash config failed. Try Fix your config file then reload config or restart ClashX.")
-            (NSApplication.shared.delegate as? AppDelegate)?.startProxy()
-            return
+        let helper = PrivilegedHelperManager.shared.helper()
+        helper?.metaGetConfigs {
+            let data = $0?.data(using: .utf8) ?? Data()
+            guard let config = ClashConfig.fromData(data) else {
+                NSUserNotificationCenter.default.post(title: "Error", info: "Get clash config failed. Try Fix your config file then reload config or restart ClashX.")
+                (NSApplication.shared.delegate as? AppDelegate)?.startProxy()
+                return
+            }
+            completeHandler(config)
         }
-        completeHandler(config)
     }
 
     static func requestConfigUpdate(configName: String, callback: @escaping ((ErrorString?) -> Void)) {
@@ -141,13 +143,16 @@ class ApiRequest {
 
         // NORMAL MODE: Use internal api
         clashRequestQueue.async {
-            let res = clashUpdateConfig(configPath.goStringBuffer())?.toString() ?? placeHolderErrorDesp
-            DispatchQueue.main.async {
-                if res == "success" {
-                    callback(nil)
-                } else {
-                    Logger.log(res)
-                    callback(res)
+            let helper = PrivilegedHelperManager.shared.helper()
+            helper?.metaUpdateConfig(configPath.goStringBuffer()) {
+                let res = $0 ?? placeHolderErrorDesp
+                DispatchQueue.main.async {
+                    if res == "success" {
+                        callback(nil)
+                    } else {
+                        Logger.log(res)
+                        callback(res)
+                    }
                 }
             }
         }
