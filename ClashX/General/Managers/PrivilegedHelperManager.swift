@@ -14,12 +14,13 @@ import RxCocoa
 class PrivilegedHelperManager {
     let isHelperCheckFinished = BehaviorRelay<Bool>(value: false)
     private var cancelInstallCheck = false
-    private var useLegacyInstall = false
+    
+    private var useLegacyInstall = true
 
     private var authRef: AuthorizationRef?
     private var connection: NSXPCConnection?
     private var _helper: ProxyConfigRemoteProcessProtocol?
-    static let machServiceName = "com.west2online.ClashX.ProxyConfigHelper"
+    static let machServiceName = "com.metacubex.ClashX.ProxyConfigHelper"
 
     static let shared = PrivilegedHelperManager()
     init() {

@@ -206,13 +206,20 @@ class RemoteConfigManager {
     }
 
     static func verifyConfig(string: String) -> ErrorString? {
-        let res = verifyClashConfig(string.goStringBuffer())?.toString() ?? "unknown error"
-        if res == "success" {
-            return nil
-        } else {
-            Logger.log(res, level: .error)
-            return res
+        var res: String?
+        let queue = DispatchGroup()
+        queue.enter()
+        PrivilegedHelperManager.shared.helper()?.verifyMetaConfig(string.goStringBuffer()) {
+            res = $0 ?? "unknown error"
+            if res == "success" {
+                res = nil
+            } else {
+                Logger.log(res ?? "", level: .error)
+            }
+            queue.leave()
         }
+        queue.wait()
+        return res
     }
     
     static func showAdd() {

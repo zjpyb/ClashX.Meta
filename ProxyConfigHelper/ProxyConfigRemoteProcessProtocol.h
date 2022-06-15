@@ -15,6 +15,23 @@ typedef void(^dictReplyBlock)(NSDictionary *);
 @protocol ProxyConfigRemoteProcessProtocol <NSObject>
 @required
 
+- (void)initMetaCoreWithPath:(char *)path;
+
+- (void)runCheckConfig:(BOOL)checkConfig
+              allowLan:(BOOL)allowLan
+                result:(stringReplyBlock)reply;
+
+- (void)metaSetUIPath:(char *)path;
+
+- (void)metaGetConfigs:(stringReplyBlock)reply;
+
+- (void)metaUpdateConfig:(char *)path
+                  result:(stringReplyBlock)reply;
+
+- (void)verifyMetaConfig:(char *)content
+                  result:(stringReplyBlock)reply;
+
+
 - (void)getVersion:(stringReplyBlock)reply;
 
 - (void)enableProxyWithPort:(int)port

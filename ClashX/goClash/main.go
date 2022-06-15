@@ -57,9 +57,10 @@ func checkPortAvailable(port int) bool {
 }
 
 //export initClashCore
-func initClashCore() {
-	configFile := filepath.Join(constant.Path.HomeDir(), constant.Path.Config())
-	constant.SetConfig(configFile)
+func initClashCore(path *C.char) {
+	p := C.GoString(path)
+	constant.SetConfig(p)
+	constant.SetHomeDir(filepath.Dir(p))
 }
 
 func readConfig(path string) ([]byte, error) {
