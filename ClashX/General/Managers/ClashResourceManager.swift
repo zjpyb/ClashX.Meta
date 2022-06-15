@@ -43,18 +43,18 @@ class ClashResourceManager {
         // Remove old mmdb file after version update.
         if fileManage.fileExists(atPath: destPath) {
             let versionChange = AppVersionUtil.hasVersionChanged || AppVersionUtil.isFirstLaunch
-            switch file {
-            case .mmdb:
-                let vaild = verifyGEOIPDataBase().toBool()
-                let customMMDBSet = !Settings.mmdbDownloadUrl.isEmpty
-                if !vaild || (versionChange && customMMDBSet) {
-                    try? fileManage.removeItem(atPath: destPath)
-                }
-            case .geosite, .geoip:
+//            switch file {
+//            case .mmdb:
+//                let vaild = verifyGEOIPDataBase().toBool()
+//                let customMMDBSet = !Settings.mmdbDownloadUrl.isEmpty
+//                if !vaild || (versionChange && customMMDBSet) {
+//                    try? fileManage.removeItem(atPath: destPath)
+//                }
+//            case .geosite, .geoip:
                 if versionChange {
                     try? fileManage.removeItem(atPath: destPath)
                 }
-            }
+//            }
         }
 
         if !fileManage.fileExists(atPath: destPath) {
@@ -101,10 +101,10 @@ extension ClashResourceManager {
                 info = NSLocalizedString("Fail:", comment: "") + err.localizedDescription
                 Logger.log("update fail \(err)")
             }
-            if !verifyGEOIPDataBase().toBool() {
-                info = "Database verify fail"
-                checkMMDB()
-            }
+//            if !verifyGEOIPDataBase().toBool() {
+//                info = "Database verify fail"
+//                checkMMDB()
+//            }
             let alert = NSAlert()
             alert.messageText = NSLocalizedString("Update GEOIP Database", comment: "")
             alert.informativeText = info
