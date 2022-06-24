@@ -74,28 +74,15 @@ class ApiRequest {
     private var alamoFireManager: Session
 
     static func requestConfig(completeHandler: @escaping ((ClashConfig) -> Void)) {
-        if !useDirectApi() {
-            req("/configs").responseDecodable(of: ClashConfig.self) {
-                resp in
-                switch resp.result {
-                case let .success(config):
-                    completeHandler(config)
-                case let .failure(err):
-                    Logger.log(err.localizedDescription)
-                    NSUserNotificationCenter.default.post(title: "Error", info: err.localizedDescription)
-                }
+        req("/configs").responseDecodable(of: ClashConfig.self) {
+            resp in
+            switch resp.result {
+            case let .success(config):
+                completeHandler(config)
+            case let .failure(err):
+                Logger.log(err.localizedDescription)
+                NSUserNotificationCenter.default.post(title: "Error", info: err.localizedDescription)
             }
-            return
-        }
-        let helper = PrivilegedHelperManager.shared.helper()
-        helper?.metaGetConfigs {
-            let data = $0?.data(using: .utf8) ?? Data()
-            guard let config = ClashConfig.fromData(data) else {
-                NSUserNotificationCenter.default.post(title: "Error", info: "Get clash config failed. Try Fix your config file then reload config or restart ClashX.")
-                (NSApplication.shared.delegate as? AppDelegate)?.startProxy()
-                return
-            }
-            completeHandler(config)
         }
     }
 
@@ -118,35 +105,15 @@ class ApiRequest {
     static func requestConfigUpdate(configPath: String, callback: @escaping ((ErrorString?) -> Void)) {
         let placeHolderErrorDesp = "Error occoured, Please try to fix it by restarting ClashX. "
 
-        // DEV MODE: Use API
-        if !useDirectApi() {
-            req("/configs", method: .put, parameters: ["Path": configPath], encoding: JSONEncoding.default).responseJSON { res in
-                if res.response?.statusCode == 204 {
-                    ConfigManager.shared.isRunning = true
-                    callback(nil)
-                } else {
-                    let errorJson = try? res.result.get()
-                    let err = JSON(errorJson ?? "")["message"].string ?? placeHolderErrorDesp
-                    Logger.log(err)
-                    callback(err)
-                }
-            }
-            return
-        }
-
-        // NORMAL MODE: Use internal api
-        clashRequestQueue.async {
-            let helper = PrivilegedHelperManager.shared.helper()
-            helper?.metaUpdateConfig(configPath.goStringBuffer()) {
-                let res = $0 ?? placeHolderErrorDesp
-                DispatchQueue.main.async {
-                    if res == "success" {
-                        callback(nil)
-                    } else {
-                        Logger.log(res)
-                        callback(res)
-                    }
-                }
+        req("/configs", method: .put, parameters: ["Path": configPath], encoding: JSONEncoding.default).responseJSON { res in
+            if res.response?.statusCode == 204 {
+                ConfigManager.shared.isRunning = true
+                callback(nil)
+            } else {
+                let errorJson = try? res.result.get()
+                let err = JSON(errorJson ?? "")["message"].string ?? placeHolderErrorDesp
+                Logger.log(err)
+                callback(err)
             }
         }
     }
