@@ -8,8 +8,8 @@ import Cocoa
 class MetaTask: NSObject {
     
     struct MetaServer: Encodable {
-        let serverAddr: String
-        let serverSecret: String
+        let externalController: String
+        let secret: String
         
         func jsonString() -> String {
             let encoder = JSONEncoder()
@@ -63,6 +63,15 @@ class MetaTask: NSObject {
                 confFilePath
             ])
         }
+        
+        if let uiPath = uiPath {
+            args.append(contentsOf: [
+                "-ext-ui",
+                uiPath
+            ])
+        }
+        
+        killOldProc()
         
         procQueue.async {
             do {
@@ -121,6 +130,11 @@ class MetaTask: NSObject {
                     
                     returnResult(results.joined(separator: "\n"))
                 }
+                
+                DispatchQueue.global().asyncAfter(deadline: .now() + 10) {
+                    returnResult(serverResult.jsonString())
+                }
+                
                 try self.proc.run()
             } catch let error {
                 returnResult("Start meta error, \(error.localizedDescription).")
@@ -184,6 +198,14 @@ class MetaTask: NSObject {
         }
     }
     
+    func killOldProc() {
+        let proc = Process()
+        proc.executableURL = .init(fileURLWithPath: "/usr/bin/killall")
+        proc.arguments = ["com.metacubex.ClashX.ProxyConfigHelper.meta"]
+        try? proc.run()
+        proc.waitUntilExit()
+    }
+    
     
     func formatMsg(_ msg: String) -> String {
         guard msg.starts(with: "time="),
@@ -217,7 +239,7 @@ class MetaTask: NSObject {
         
         let serverSecret = lines.first(where: { $0.starts(with: "secret: ") })?.dropFirst("secret: ".count) ?? ""
         
-        return MetaServer(serverAddr: String(serverAddr),
-                          serverSecret: String(serverSecret))
+        return MetaServer(externalController: String(serverAddr),
+                          secret: String(serverSecret))
     }
 }

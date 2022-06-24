@@ -106,8 +106,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // start proxy
         Logger.log("initClashCore")
-        helper?.initMetaCore(withPath: Paths.localConfigPath(for: "config").goStringBuffer())
+        if let path = Bundle.main.path(forResource: "com.metacubex.ClashX.ProxyConfigHelper.meta", ofType: nil) {
+            helper?.initMetaCore(withPath: path)
+        } else {
+            assertionFailure("Meta Core file losted.")
+        }
         Logger.log("initClashCore finish")
+        
         setupData()
         runAfterConfigReload = { [weak self] in
             self?.selectAllowLanWithMenory()
@@ -407,14 +412,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // setup ui config first
         if let htmlPath = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "dashboard") {
             let uiPath = URL(fileURLWithPath: htmlPath).deletingLastPathComponent().path
-            helper?.metaSetUIPath(uiPath.goStringBuffer())
+            helper?.metaSetUIPath(uiPath)
         }
 
         Logger.log("Trying start proxy")
         var string = ""
         let queue = DispatchGroup()
         queue.enter()
-        helper?.runCheckConfig(ConfigManager.builtInApiMode, allowLan: ConfigManager.allowConnectFromLan) {
+        helper?.startMeta(withConfPath: kConfigFolderPath,
+                          confFilePath: "")  {
             string = $0 ?? ""
             queue.leave()
         }
