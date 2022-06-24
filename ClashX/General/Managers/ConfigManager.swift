@@ -150,12 +150,6 @@ class ConfigManager {
         }
     }
 
-    static var builtInApiMode = (UserDefaults.standard.object(forKey: "kBuiltInApiMode") as? Bool) ?? true {
-        didSet {
-            UserDefaults.standard.set(builtInApiMode, forKey: "kBuiltInApiMode")
-        }
-    }
-
     var disableShowCurrentProxyInMenu: Bool = UserDefaults.standard.object(forKey: "kSDisableShowCurrentProxyInMenu") as? Bool ?? !AppDelegate.isAboveMacOS14 {
         didSet {
             UserDefaults.standard.set(disableShowCurrentProxyInMenu, forKey: "kSDisableShowCurrentProxyInMenu")

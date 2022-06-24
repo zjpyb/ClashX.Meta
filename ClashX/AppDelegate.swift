@@ -43,7 +43,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var apiPortMenuItem: NSMenuItem!
     @IBOutlet var ipMenuItem: NSMenuItem!
     @IBOutlet var remoteConfigAutoupdateMenuItem: NSMenuItem!
-    @IBOutlet var buildApiModeMenuitem: NSMenuItem!
     @IBOutlet var showProxyGroupCurrentMenuItem: NSMenuItem!
     @IBOutlet var copyExportCommandMenuItem: NSMenuItem!
     @IBOutlet var copyExportCommandExternalMenuItem: NSMenuItem!
@@ -111,9 +110,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         Logger.log("initClashCore finish")
         setupData()
         runAfterConfigReload = { [weak self] in
-            if !ConfigManager.builtInApiMode {
-                self?.selectAllowLanWithMenory()
-            }
+            self?.selectAllowLanWithMenory()
         }
         updateConfig(showNotification: false)
         updateLoggingLevel()
@@ -508,7 +505,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func updateExperimentalFeatureStatus() {
-        buildApiModeMenuitem.state = ConfigManager.builtInApiMode ? .on : .off
         showProxyGroupCurrentMenuItem.state = ConfigManager.shared.disableShowCurrentProxyInMenu ? .off : .on
     }
 
@@ -739,17 +735,6 @@ extension AppDelegate {
     
     @IBAction func actionSetUpdateInterval(_ sender: Any) {
         RemoteConfigManager.showAdd()
-    }
-
-    @IBAction func actionSetUseApiMode(_ sender: Any) {
-        let alert = NSAlert()
-        alert.informativeText = NSLocalizedString("Need to Restart the ClashX to Take effect, Please start clashX manually", comment: "")
-        alert.addButton(withTitle: NSLocalizedString("Apply and Quit", comment: ""))
-        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-        if alert.runModal() == .alertFirstButtonReturn {
-            ConfigManager.builtInApiMode = !ConfigManager.builtInApiMode
-            NSApp.terminate(nil)
-        }
     }
 
     @IBAction func actionUpdateProxyGroupMenu(_ sender: Any) {

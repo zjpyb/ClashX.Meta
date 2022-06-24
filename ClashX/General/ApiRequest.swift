@@ -73,13 +73,6 @@ class ApiRequest {
 
     private var alamoFireManager: Session
 
-    static func useDirectApi() -> Bool {
-        if ConfigManager.shared.overrideApiURL != nil {
-            return false
-        }
-        return ConfigManager.builtInApiMode
-    }
-
     static func requestConfig(completeHandler: @escaping ((ClashConfig) -> Void)) {
         if !useDirectApi() {
             req("/configs").responseDecodable(of: ClashConfig.self) {
