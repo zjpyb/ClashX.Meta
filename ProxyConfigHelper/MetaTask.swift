@@ -29,19 +29,24 @@ class MetaTask: NSObject {
     let procQueue = DispatchQueue(label: "com.metacubex.ClashX.ProxyConfigHelper.MetaProcess")
     
     
-    func setLaunchPath(_ path: String) {
+    @objc func setLaunchPath(_ path: String) {
         proc.executableURL = .init(fileURLWithPath: path)
     }
     
-    func setUIPath(_ path: String) {
+    @objc func setUIPath(_ path: String) {
         uiPath = path
     }
     
-    func start(_ confPath: String,
+    @objc func start(_ confPath: String,
                confFilePath: String,
                result: @escaping stringReplyBlock) {
         
+        var resultReturned = false
+        
         func returnResult(_ re: String) {
+            guard !resultReturned else { return }
+            resultReturned = true
+            
             DispatchQueue.main.async {
                 result(re)
             }
@@ -104,6 +109,18 @@ class MetaTask: NSObject {
                 
                 self.proc.standardOutput = pipe
                 
+                self.proc.terminationHandler = { _ in
+                    let data = pipe.fileHandleForReading.readDataToEndOfFile()
+                    guard let string = String(data: data, encoding: String.Encoding.utf8) else {
+                        
+                        returnResult("Meta process terminated, no found output.")
+                        return
+                    }
+                    
+                    let results = string.split(separator: "\n").map(String.init).map(self.formatMsg(_:))
+                    
+                    returnResult(results.joined(separator: "\n"))
+                }
                 try self.proc.run()
             } catch let error {
                 returnResult("Start meta error, \(error.localizedDescription).")
@@ -111,6 +128,12 @@ class MetaTask: NSObject {
         }
     }
 
+    @objc func stop() {
+        DispatchQueue.main.async {
+            guard self.proc.isRunning else { return }
+            self.proc.interrupt()
+        }
+    }
     
     func test(_ confPath: String, confFilePath: String) throws -> String? {
         let proc = Process()
