@@ -11,7 +11,6 @@
 #import "ProxyConfigRemoteProcessProtocol.h"
 #import "ProxySettingTool.h"
 
-#import "goClash.h"
 
 @interface ProxyConfigHelper()
 <
