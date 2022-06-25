@@ -672,23 +672,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ClashX/Pods-ClashX-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A741C26F5755233F0D7CEC6F /* [CP] Embed Pods Frameworks */ = {
-		};
-			showEnvVarsInLog = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ClashX/Pods-ClashX-frameworks.sh\"\n";
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ClashX/Pods-ClashX-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			name = "[CP] Embed Pods Frameworks";
-			);
-				"${PODS_ROOT}/Target Support Files/Pods-ClashX/Pods-ClashX-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			inputFileListPaths = (
-			);
-			files = (
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
