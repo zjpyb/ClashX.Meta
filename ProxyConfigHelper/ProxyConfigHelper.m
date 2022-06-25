@@ -11,7 +11,8 @@
 #import "ProxyConfigRemoteProcessProtocol.h"
 #import "ProxySettingTool.h"
 
-#import "goClash.h"
+#import "com_metacubex_ClashX_ProxyConfigHelper-Swift.h"
+
 
 @interface ProxyConfigHelper()
 <
@@ -24,6 +25,8 @@ ProxyConfigRemoteProcessProtocol
 @property (nonatomic, strong) NSTimer *checkTimer;
 @property (nonatomic, assign) BOOL shouldQuit;
 
+@property (nonatomic, strong) MetaTask *metaTask;
+
 @end
 
 @implementation ProxyConfigHelper
@@ -34,6 +37,7 @@ ProxyConfigRemoteProcessProtocol
         self.shouldQuit = NO;
         self.listener = [[NSXPCListener alloc] initWithMachServiceName:@"com.metacubex.ClashX.ProxyConfigHelper"];
         self.listener.delegate = self;
+        self.metaTask = [MetaTask new];
     }
     return self;
 }
@@ -51,6 +55,7 @@ ProxyConfigRemoteProcessProtocol
 - (void)connectionCheckOnLaunch {
     if (self.connections.count == 0) {
         self.shouldQuit = YES;
+        [self.metaTask stop];
     }
 }
 
@@ -130,41 +135,17 @@ ProxyConfigRemoteProcessProtocol
     });
 }
 
-
-- (void)initMetaCoreWithPath:(char *)path {
-    initClashCore(path);
+- (void)initMetaCoreWithPath:(NSString *)path {
+    [self.metaTask setLaunchPath:path];
 }
 
-- (void)runCheckConfig:(BOOL)checkConfig allowLan:(BOOL)allowLan result:(stringReplyBlock)reply {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        reply(stringFromChar(run(checkConfig, allowLan)));
-    });
+
+- (void)metaSetUIPath:(NSString *)path {
+    [self.metaTask setUIPath:path];
 }
 
-- (void)metaGetConfigs:(stringReplyBlock)reply {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        reply(stringFromChar(clashGetConfigs()));
-    });
-}
-
-- (void)metaSetUIPath:(char *)path {
-    setUIPath(path);
-}
-
-- (void)metaUpdateConfig:(char *)path result:(stringReplyBlock)reply {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        reply(stringFromChar(clashUpdateConfig(path)));
-    });
-}
-
-- (void)verifyMetaConfig:(char *)content result:(stringReplyBlock)reply {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        reply(stringFromChar(verifyClashConfig(content)));
-    });
-}
-
-NSString *stringFromChar(const char *input) {
-    return [NSString stringWithUTF8String: input];
+- (void)startMetaWithConfPath:(NSString *)confPath ConfFilePath:(NSString *)confFilePath result:(stringReplyBlock)reply {
+    [self.metaTask start:confPath confFilePath:confFilePath result:reply];
 }
 
 @end
