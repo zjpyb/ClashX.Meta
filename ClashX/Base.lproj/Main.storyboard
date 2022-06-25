@@ -352,18 +352,18 @@
                                             </items>
                                         </menu>
                                     </menuItem>
-                                    <menuItem title="Meta" id="F3d-AD-N6E">
+                                </items>
+                            </menu>
+                        </menuItem>
+                        <menuItem title="Meta" id="F3d-AD-N6E">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <menu key="submenu" title="Meta" id="ji6-hK-w0I">
+                                <items>
+                                    <menuItem title="Hide unselectable" id="C3l-5G-vzB">
                                         <modifierMask key="keyEquivalentModifierMask"/>
-                                        <menu key="submenu" title="Meta" id="ji6-hK-w0I">
-                                            <items>
-                                                <menuItem title="Hide unselectable" id="C3l-5G-vzB">
-                                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                                    <connections>
-                                                        <action selector="hideUnselectable:" target="Voe-Tx-rLC" id="ifq-SY-ov8"/>
-                                                    </connections>
-                                                </menuItem>
-                                            </items>
-                                        </menu>
+                                        <connections>
+                                            <action selector="hideUnselectable:" target="Voe-Tx-rLC" id="ifq-SY-ov8"/>
+                                        </connections>
                                     </menuItem>
                                 </items>
                             </menu>
