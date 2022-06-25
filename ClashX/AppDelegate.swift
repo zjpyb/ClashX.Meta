@@ -44,6 +44,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var copyExportCommandExternalMenuItem: NSMenuItem!
     @IBOutlet var experimentalMenu: NSMenu!
     @IBOutlet var externalControlSeparator: NSMenuItem!
+    
+    @IBOutlet var hideUnselecableMenuItem: NSMenuItem!
 
     var disposeBag = DisposeBag()
     var statusItemView: StatusItemView!
@@ -206,6 +208,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }).disposed(by: disposeBag)
 
         remoteConfigAutoupdateMenuItem.state = RemoteConfigManager.autoUpdateEnable ? .on : .off
+        
+        hideUnselecableMenuItem.state = .init(rawValue: MenuItemFactory.hideUnselectable)
     }
 
     func setupData() {
@@ -766,6 +770,30 @@ extension AppDelegate {
                 err.runModal()
             }
         }
+    }
+}
+
+// MARK: Meta Menu
+
+extension AppDelegate {
+    @IBAction func hideUnselectable(_ sender: NSMenuItem) {
+        /*
+        var newState = NSControl.StateValue.off
+        switch sender.state {
+        case .off:
+            newState = .mixed
+        case .mixed:
+            newState = .on
+        case .on:
+            newState = .off
+        default:
+            return
+        }
+         */
+        let newState: NSControl.StateValue = sender.state == .on ? .off : .on
+        sender.state = newState
+        
+        MenuItemFactory.hideUnselectable = newState.rawValue
     }
 }
 

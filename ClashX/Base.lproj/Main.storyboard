@@ -182,6 +182,7 @@
                         <outlet property="dashboardMenuItem" destination="XG6-2M-PNi" id="hzn-77-3Uc"/>
                         <outlet property="experimentalMenu" destination="sbS-Fj-gxn" id="m2U-Zq-cKD"/>
                         <outlet property="externalControlSeparator" destination="tXn-AQ-OT3" id="ddo-u2-wUb"/>
+                        <outlet property="hideUnselecableMenuItem" destination="C3l-5G-vzB" id="pxn-sY-Hmf"/>
                         <outlet property="httpPortMenuItem" destination="WNw-8Y-VFw" id="ldW-Gw-Q9L"/>
                         <outlet property="ipMenuItem" destination="D2R-eG-cms" id="ugc-iD-j9T"/>
                         <outlet property="logLevelMenuItem" destination="3Da-fL-Mzr" id="ZCW-Il-fOZ"/>
@@ -346,6 +347,19 @@
                                                     <modifierMask key="keyEquivalentModifierMask"/>
                                                     <connections>
                                                         <action selector="actionSetBenchmarkUrl:" target="Voe-Tx-rLC" id="uok-Pz-Uuz"/>
+                                                    </connections>
+                                                </menuItem>
+                                            </items>
+                                        </menu>
+                                    </menuItem>
+                                    <menuItem title="Meta" id="F3d-AD-N6E">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                        <menu key="submenu" title="Meta" id="ji6-hK-w0I">
+                                            <items>
+                                                <menuItem title="Hide unselectable" id="C3l-5G-vzB">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                    <connections>
+                                                        <action selector="hideUnselectable:" target="Voe-Tx-rLC" id="ifq-SY-ov8"/>
                                                     </connections>
                                                 </menuItem>
                                             </items>

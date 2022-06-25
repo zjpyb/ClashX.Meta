@@ -18,6 +18,13 @@ class MenuItemFactory {
             UserDefaults.standard.set(useViewToRenderProxy, forKey: "useViewToRenderProxy")
         }
     }
+    
+    static var hideUnselectable: Int = UserDefaults.standard.object(forKey: "hideUnselectable") as? Int ?? NSControl.StateValue.off.rawValue {
+        didSet {
+            UserDefaults.standard.set(hideUnselectable, forKey: "hideUnselectable")
+            recreateProxyMenuItems()
+        }
+    }
 
     // MARK: - Public
 
@@ -47,8 +54,16 @@ class MenuItemFactory {
     static func refreshMenuItems(mergedData proxyInfo: ClashProxyResp?) {
         let leftPadding = AppDelegate.shared.hasMenuSelected()
         guard let proxyInfo = proxyInfo else { return }
+        
+        let hideState = NSControl.StateValue(rawValue: hideUnselectable)
+        
         var menuItems = [NSMenuItem]()
         for proxy in proxyInfo.proxyGroups {
+            if hideState != .off,
+               [.urltest, .fallback, .loadBalance, .relay].contains(proxy.type) {
+                continue
+            }
+            
             var menu: NSMenuItem?
             switch proxy.type {
             case .select: menu = generateSelectorMenuItem(proxyGroup: proxy, proxyInfo: proxyInfo, leftPadding: leftPadding)
