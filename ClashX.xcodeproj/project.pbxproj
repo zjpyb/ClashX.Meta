@@ -58,7 +58,7 @@
 		49B445162457CDF000B27E3E /* ClashStatusTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B445152457CDF000B27E3E /* ClashStatusTool.swift */; };
 		49B4575D244F4A2A00463C39 /* PrivilegedHelperManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4575C244F4A2A00463C39 /* PrivilegedHelperManager.swift */; };
 		49B4575F244FD4D100463C39 /* PrivilegedHelperManager+Legacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B4575E244FD4D100463C39 /* PrivilegedHelperManager+Legacy.swift */; };
-		49BB31E7246853EA008A4CB0 /* iCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BB31E6246853EA008A4CB0 /* iCloudManager.swift */; };
+		49BB31E7246853EA008A4CB0 /* ICloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BB31E6246853EA008A4CB0 /* ICloudManager.swift */; };
 		49BC061C212931F4005A0FE7 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC061B212931F4005A0FE7 /* AboutViewController.swift */; };
 		49C9EF64223E78F5005D8B6A /* ClashProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C9EF63223E78F5005D8B6A /* ClashProxy.swift */; };
 		49CF3B2120CD7463001EBF94 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49CF3B2020CD7463001EBF94 /* AppDelegate.swift */; };
@@ -185,7 +185,7 @@
 		49B445152457CDF000B27E3E /* ClashStatusTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashStatusTool.swift; sourceTree = "<group>"; };
 		49B4575C244F4A2A00463C39 /* PrivilegedHelperManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivilegedHelperManager.swift; sourceTree = "<group>"; };
 		49B4575E244FD4D100463C39 /* PrivilegedHelperManager+Legacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrivilegedHelperManager+Legacy.swift"; sourceTree = "<group>"; };
-		49BB31E6246853EA008A4CB0 /* iCloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudManager.swift; sourceTree = "<group>"; };
+		49BB31E6246853EA008A4CB0 /* ICloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICloudManager.swift; sourceTree = "<group>"; };
 		49BC061B212931F4005A0FE7 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		49C9EF63223E78F5005D8B6A /* ClashProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashProxy.swift; sourceTree = "<group>"; };
 		49CF3B1D20CD7463001EBF94 /* ClashX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClashX.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -306,7 +306,7 @@
 				F9E754CF239CC21F00CEE7CC /* WebPortalManager.swift */,
 				49B4575C244F4A2A00463C39 /* PrivilegedHelperManager.swift */,
 				49B4575E244FD4D100463C39 /* PrivilegedHelperManager+Legacy.swift */,
-				49BB31E6246853EA008A4CB0 /* iCloudManager.swift */,
+				49BB31E6246853EA008A4CB0 /* ICloudManager.swift */,
 				499ADAFC2498CC5900C488FE /* RemoteControlManager.swift */,
 				4929F67E258CE04700A435F6 /* Settings.swift */,
 			);
@@ -672,6 +672,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ClashX/Pods-ClashX-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		A741C26F5755233F0D7CEC6F /* [CP] Embed Pods Frameworks */ = {
+		};
+			showEnvVarsInLog = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ClashX/Pods-ClashX-frameworks.sh\"\n";
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ClashX/Pods-ClashX-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			name = "[CP] Embed Pods Frameworks";
+			);
+				"${PODS_ROOT}/Target Support Files/Pods-ClashX/Pods-ClashX-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			inputFileListPaths = (
+			);
+			files = (
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -730,7 +747,7 @@
 				F976275C23634DF8000EDEFE /* LoginServiceKit.swift in Sources */,
 				4966E9E6211824F300A391FB /* NSImage+extension.swift in Sources */,
 				F92D0B2E236D35C000575E15 /* ProxyItemView.swift in Sources */,
-				49BB31E7246853EA008A4CB0 /* iCloudManager.swift in Sources */,
+				49BB31E7246853EA008A4CB0 /* ICloudManager.swift in Sources */,
 				49B1086A216A356D0064FFCE /* String+Extension.swift in Sources */,
 				F92D0B2C236C7C3600575E15 /* MenuItemBaseView.swift in Sources */,
 				499ADAFD2498CC5900C488FE /* RemoteControlManager.swift in Sources */,
@@ -964,7 +981,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				COMPRESS_PNG_FILES = YES;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 1.91.1;
+				CURRENT_PROJECT_VERSION = 1.94.0;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
