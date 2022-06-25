@@ -26,7 +26,6 @@ target 'ClashX' do
   pod 'CocoaLumberjack/Swift'
   pod 'WebViewJavascriptBridge'
   pod 'Starscream','3.1.1'
-  pod 'AppCenter/Analytics'
   pod "FlexibleDiff"
   pod 'GzipSwift'
 end

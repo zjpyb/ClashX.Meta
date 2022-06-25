@@ -12,9 +12,6 @@ import LetsMove
 import RxCocoa
 import RxSwift
 
-import AppCenter
-import AppCenterAnalytics
-
 private let statusItemLengthWithSpeed: CGFloat = 72
 
 @NSApplicationMain
@@ -774,6 +771,7 @@ extension AppDelegate {
 
 extension AppDelegate {
     func registCrashLogger() {
+        /*
         #if DEBUG
             return
         #else
@@ -784,6 +782,7 @@ extension AppDelegate {
             }
 
         #endif
+         */
     }
 
     func failLaunchProtect() {
