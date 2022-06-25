@@ -1,10 +1,19 @@
 #!/bin/bash
 set -e
-echo "Build Clash core"
 
-cd ClashX/goClash
-python3 build_clash_universal.py
-cd ../..
+echo "Download meta core"
+rm -rf clash.meta
+mkdir clash.meta
+cd clash.meta
+curl -s https://api.github.com/repos/MetaCubeX/Clash.Meta/releases/latest | grep -wo "https.*darwin.*.gz" | wget -i -
+echo "Unzip core files"
+gzip -d *.gz
+echo "Create Universal core"
+lipo -create -output com.metacubex.ClashX.ProxyConfigHelper.meta Clash.Meta-darwin-amd64* Clash.Meta-darwin-arm64*
+chmod +x com.metacubex.ClashX.ProxyConfigHelper.meta
+cp com.metacubex.ClashX.ProxyConfigHelper.meta ../ClashX/Resources/
+cd ..
+
 
 echo "Pod install"
 bundle install --jobs 4
