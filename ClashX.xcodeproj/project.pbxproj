@@ -1008,7 +1008,7 @@
 				CODE_SIGN_ENTITLEMENTS = ProxyConfigHelper/com.metacubex.ClashX.ProxyConfigHelper.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/ProxyConfigHelper/Helper-Info.plist";
@@ -1022,7 +1022,7 @@
 					"$(PROJECT_DIR)/ClashX/goClash",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = (
@@ -1053,7 +1053,7 @@
 				CODE_SIGN_ENTITLEMENTS = ProxyConfigHelper/com.metacubex.ClashX.ProxyConfigHelper.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1068,7 +1068,7 @@
 					"$(PROJECT_DIR)/ClashX/goClash",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = (
 					"-sectcreate",
