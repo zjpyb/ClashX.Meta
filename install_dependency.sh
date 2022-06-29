@@ -5,7 +5,9 @@ echo "Download meta core"
 rm -rf clash.meta
 mkdir clash.meta
 cd clash.meta
-curl -s https://api.github.com/repos/MetaCubeX/Clash.Meta/releases/latest | grep -wo "https.*darwin.*.gz" | wget -i -
+curl -s https://api.github.com/repos/MetaCubeX/Clash.Meta/releases/latest | grep -wo "https.*darwin.*.gz" > meta.txt
+cat meta.txt
+wget -i meta.txt
 echo "Unzip core files"
 gzip -d *.gz
 echo "Create Universal core"
