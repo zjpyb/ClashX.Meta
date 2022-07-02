@@ -20,6 +20,9 @@ def write_to_info():
     buildVersion = subprocess.check_output(["git", "describe", "--tags", "--abbrev=0"]).strip().decode()
     contents["CFBundleShortVersionString"] = buildVersion
 
+    coreVersion = subprocess.check_output(["Resources/com.metacubex.ClashX.ProxyConfigHelper.meta", "-v"]).strip().decode().split()[2]
+    contents["coreVersion"] = coreVersion
+
 
     branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).strip().decode()
     commit = subprocess.check_output(["git", "describe", "--always"]).strip().decode()
