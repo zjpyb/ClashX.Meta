@@ -12,6 +12,7 @@
 		019A23982865F70100AE5698 /* com.metacubex.ClashX.ProxyConfigHelper.meta in Resources */ = {isa = PBXBuildFile; fileRef = 019A23972865F70100AE5698 /* com.metacubex.ClashX.ProxyConfigHelper.meta */; };
 		01B009AE2854533300B93618 /* geoip.dat.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B009AC2854533200B93618 /* geoip.dat.gz */; };
 		01B009AF2854533300B93618 /* geosite.dat.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B009AD2854533300B93618 /* geosite.dat.gz */; };
+		185CBAEDFE986E6E1B836359 /* libPods-ClashX Meta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA63125BBF03DC1A291D3351 /* libPods-ClashX Meta.a */; };
 		4913C82321157D0200F6B87C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4913C82221157D0200F6B87C /* Notification.swift */; };
 		491E6203258A424D00313AEF /* CommonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 491E61FD258A424500313AEF /* CommonUtils.m */; };
 		49228457270AADE20027A4B6 /* RemoteConfigUpdateIntervalSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49228456270AADE20027A4B6 /* RemoteConfigUpdateIntervalSettingView.swift */; };
@@ -71,7 +72,6 @@
 		8A2BBEA727A03ACB0081EBEF /* ProxySetting.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 8A2BBEA627A03ACB0081EBEF /* ProxySetting.sdef */; };
 		8ACD21BB27A04C7800BC4632 /* ProxySettingCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACD21BA27A04C7800BC4632 /* ProxySettingCommand.swift */; };
 		8ACD21BD27A04ED500BC4632 /* ProxyModeChangeCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACD21BC27A04ED500BC4632 /* ProxyModeChangeCommand.swift */; };
-		9E0E2F1481CB327D3753969D /* libPods-ClashX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE7981A9F34B5E210C549CB /* libPods-ClashX.a */; };
 		F910AA24240134AF00116E95 /* ProxyGroupMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F910AA23240134AF00116E95 /* ProxyGroupMenu.swift */; };
 		F915A4622366ADEF004840BE /* ClashConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F915A4612366ADEF004840BE /* ClashConnection.swift */; };
 		F9203A26236342820020D57D /* AppDelegate+..swift in Sources */ = {isa = PBXBuildFile; fileRef = F9203A25236342820020D57D /* AppDelegate+..swift */; };
@@ -135,6 +135,7 @@
 		019A23972865F70100AE5698 /* com.metacubex.ClashX.ProxyConfigHelper.meta */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = com.metacubex.ClashX.ProxyConfigHelper.meta; sourceTree = "<group>"; };
 		01B009AC2854533200B93618 /* geoip.dat.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = geoip.dat.gz; sourceTree = "<group>"; };
 		01B009AD2854533300B93618 /* geosite.dat.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = geosite.dat.gz; sourceTree = "<group>"; };
+		3F86DA2DA3CC14731BE1ABF7 /* Pods-ClashX Meta.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClashX Meta.release.xcconfig"; path = "Pods/Target Support Files/Pods-ClashX Meta/Pods-ClashX Meta.release.xcconfig"; sourceTree = "<group>"; };
 		4913C82221157D0200F6B87C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		491E61FC258A424500313AEF /* CommonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonUtils.h; sourceTree = "<group>"; };
 		491E61FD258A424500313AEF /* CommonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonUtils.m; sourceTree = "<group>"; };
@@ -206,7 +207,7 @@
 		8ACD21BA27A04C7800BC4632 /* ProxySettingCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxySettingCommand.swift; sourceTree = "<group>"; };
 		8ACD21BC27A04ED500BC4632 /* ProxyModeChangeCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyModeChangeCommand.swift; sourceTree = "<group>"; };
 		A1485BCE642059532D01B8BA /* Pods-ClashX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClashX.release.xcconfig"; path = "Pods/Target Support Files/Pods-ClashX/Pods-ClashX.release.xcconfig"; sourceTree = "<group>"; };
-		CAE7981A9F34B5E210C549CB /* libPods-ClashX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ClashX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA63125BBF03DC1A291D3351 /* libPods-ClashX Meta.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ClashX Meta.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F910AA23240134AF00116E95 /* ProxyGroupMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyGroupMenu.swift; sourceTree = "<group>"; };
 		F915A4612366ADEF004840BE /* ClashConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashConnection.swift; sourceTree = "<group>"; };
 		F9203A25236342820020D57D /* AppDelegate+..swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+..swift"; sourceTree = "<group>"; };
@@ -234,6 +235,7 @@
 		F9E754D1239CC28D00CEE7CC /* NSAlert+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAlert+Extension.swift"; sourceTree = "<group>"; };
 		F9E8F34523A12B89002DE5E8 /* String+Encode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Encode.swift"; sourceTree = "<group>"; };
 		F9FAB31D262BE04800DE02A6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		FA2FD2FAF2E12CDFC01E72D3 /* Pods-ClashX Meta.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClashX Meta.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ClashX Meta/Pods-ClashX Meta.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,7 +243,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9E0E2F1481CB327D3753969D /* libPods-ClashX.a in Frameworks */,
+				185CBAEDFE986E6E1B836359 /* libPods-ClashX Meta.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,6 +476,8 @@
 			children = (
 				5217C006C5A22A1CEA24BFC1 /* Pods-ClashX.debug.xcconfig */,
 				A1485BCE642059532D01B8BA /* Pods-ClashX.release.xcconfig */,
+				FA2FD2FAF2E12CDFC01E72D3 /* Pods-ClashX Meta.debug.xcconfig */,
+				3F86DA2DA3CC14731BE1ABF7 /* Pods-ClashX Meta.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -491,7 +495,7 @@
 		CF1AC9FACC36FCE7663C5583 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CAE7981A9F34B5E210C549CB /* libPods-ClashX.a */,
+				AA63125BBF03DC1A291D3351 /* libPods-ClashX Meta.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -648,7 +652,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ClashX-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-ClashX Meta-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -661,15 +665,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ClashX/Pods-ClashX-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ClashX Meta/Pods-ClashX Meta-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ClashX/Pods-ClashX-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ClashX Meta/Pods-ClashX Meta-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ClashX/Pods-ClashX-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ClashX Meta/Pods-ClashX Meta-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -908,7 +912,7 @@
 		};
 		49CF3B2E20CD7465001EBF94 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5217C006C5A22A1CEA24BFC1 /* Pods-ClashX.debug.xcconfig */;
+			baseConfigurationReference = FA2FD2FAF2E12CDFC01E72D3 /* Pods-ClashX Meta.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -953,7 +957,7 @@
 		};
 		49CF3B2F20CD7465001EBF94 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A1485BCE642059532D01B8BA /* Pods-ClashX.release.xcconfig */;
+			baseConfigurationReference = 3F86DA2DA3CC14731BE1ABF7 /* Pods-ClashX Meta.release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
