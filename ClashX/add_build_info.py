@@ -13,6 +13,14 @@ def write_to_info():
     if not contents:
         exit(-1)
 
+
+    buildNumber = subprocess.check_output(["git", "rev-list", "--count", "master..meta"]).strip().decode()
+    contents["CFBundleVersion"] = buildNumber
+
+    buildVersion = subprocess.check_output(["git", "describe", "--tags", "--abbrev=0"]).strip().decode()
+    contents["CFBundleShortVersionString"] = buildVersion
+
+
     branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).strip().decode()
     commit = subprocess.check_output(["git", "describe", "--always"]).strip().decode()
 
