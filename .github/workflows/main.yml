@@ -27,9 +27,7 @@ jobs:
 
     - name: build
       run: |
-        cd ClashX
-        python3 add_build_info.py
-        cd ..
+        python3 ClashX/add_build_info.py
         xcodebuild archive -workspace ClashX.xcworkspace -scheme ClashX -archivePath archive/ClashX.xcarchive -showBuildTimingSummary -allowProvisioningUpdates
 
     - name: create zip
