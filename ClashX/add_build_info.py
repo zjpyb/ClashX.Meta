@@ -14,7 +14,7 @@ def write_to_info():
         exit(-1)
 
 
-    buildNumber = subprocess.check_output(["git", "rev-list", "--count", "origin/master..meta"]).strip().decode()
+    buildNumber = subprocess.check_output(["git", "rev-list", "--count", "master..meta"]).strip().decode()
     contents["CFBundleVersion"] = buildNumber
 
     buildVersion = subprocess.check_output(["git", "describe", "--tags", "--abbrev=0"]).strip().decode()
