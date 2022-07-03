@@ -15,7 +15,7 @@ class PrivilegedHelperManager {
     let isHelperCheckFinished = BehaviorRelay<Bool>(value: false)
     private var cancelInstallCheck = false
     
-    private var useLegacyInstall = true
+    private let useLegacyInstall = true
 
     private var authRef: AuthorizationRef?
     private var connection: NSXPCConnection?
@@ -179,7 +179,6 @@ extension PrivilegedHelperManager {
         }
 
         if useLegacyInstall {
-            useLegacyInstall = false
             legacyInstallHelper()
             if !cancelInstallCheck {
                 checkInstall()
@@ -192,7 +191,6 @@ extension PrivilegedHelperManager {
             return
         }
         result.alertAction()
-        useLegacyInstall = result.shouldRetryLegacyWay()
         NSAlert.alert(with: result.alertContent)
         if !cancelInstallCheck {
             checkInstall()
