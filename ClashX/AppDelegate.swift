@@ -11,6 +11,7 @@ import Cocoa
 import LetsMove
 import RxCocoa
 import RxSwift
+import SwiftyJSON
 
 private let statusItemLengthWithSpeed: CGFloat = 72
 
@@ -791,6 +792,30 @@ extension AppDelegate {
 
         sender.state = newState
         MenuItemFactory.hideUnselectable = newState.rawValue
+    }
+    
+    @IBAction func checkForUpdate(_ sender: NSMenuItem) {
+        let unc = NSUserNotificationCenter.default
+        AF.request("https://api.github.com/repos/MetaCubeX/ClashX.Meta/releases/latest").responseString {
+            guard $0.error == nil,
+                  let data = $0.data,
+                  let tagName = try? JSON(data: data)["tag_name"].string else {
+                unc.postUpdateNotice(msg: "Some thing failed.")
+                return
+            }
+            
+            if tagName != AppVersionUtil.currentVersion {
+                let alert = NSAlert()
+                alert.messageText = "Open github release page to download \(tagName)"
+                alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+                alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+                if alert.runModal() == .alertFirstButtonReturn {
+                    NSWorkspace.shared.open(.init(string: "https://github.com/MetaCubeX/ClashX.Meta/releases/latest")!)
+                }
+            } else {
+                unc.postUpdateNotice(msg: "No new release found.")
+            }
+        }
     }
 }
 

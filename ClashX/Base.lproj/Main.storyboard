@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19162"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -171,7 +171,7 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="ClashX" customModuleProvider="target">
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="ClashX_Meta" customModuleProvider="target">
                     <connections>
                         <outlet property="allowFromLanMenuItem" destination="Vz8-7n-vx6" id="Fzz-EG-huC"/>
                         <outlet property="apiPortMenuItem" destination="hwG-qf-DeZ" id="d6K-i7-yCo"/>
@@ -381,7 +381,7 @@
                                     <menuItem title="Check Update" id="p0T-J8-Emx">
                                         <modifierMask key="keyEquivalentModifierMask"/>
                                         <connections>
-                                            <action selector="checkForUpdates:" target="fth-rt-saN" id="gaF-35-d7h"/>
+                                            <action selector="checkForUpdate:" target="Voe-Tx-rLC" id="y8T-Su-dgd"/>
                                         </connections>
                                     </menuItem>
                                     <menuItem title="Log level" id="3Da-fL-Mzr">
@@ -480,7 +480,7 @@
         <!--About View Controller-->
         <scene sceneID="bW6-wi-r8Q">
             <objects>
-                <viewController showSeguePresentationStyle="single" id="UWQ-O3-RVk" customClass="AboutViewController" customModule="ClashX" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController showSeguePresentationStyle="single" id="UWQ-O3-RVk" customClass="AboutViewController" customModule="ClashX_Meta" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="JCR-G0-H6V">
                         <rect key="frame" x="0.0" y="0.0" width="451" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -556,7 +556,7 @@
                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BaZ-rB-g4s">
                                         <rect key="frame" x="118" y="0.0" width="237" height="40"/>
                                         <subviews>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q4m-SB-uHV" customClass="HyperlinkTextField" customModule="ClashX" customModuleProvider="target">
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q4m-SB-uHV" customClass="HyperlinkTextField" customModule="ClashX_Meta" customModuleProvider="target">
                                                 <rect key="frame" x="-2" y="24" width="221" height="16"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="https://github.com/Dreamacro/clash" id="Bej-j7-KKV">
                                                     <font key="font" metaFont="system"/>
@@ -570,7 +570,7 @@
                                                     <userDefinedRuntimeAttribute type="string" keyPath="href" value="https://github.com/Dreamacro/clash"/>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bSi-kz-Dkf" customClass="HyperlinkTextField" customModule="ClashX" customModuleProvider="target">
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bSi-kz-Dkf" customClass="HyperlinkTextField" customModule="ClashX_Meta" customModuleProvider="target">
                                                 <rect key="frame" x="-2" y="0.0" width="241" height="16"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="https://github.com/yichengchen/clashX" id="9ox-Fc-Wk3">
                                                     <font key="font" metaFont="system"/>
@@ -653,7 +653,7 @@
         <!--Remote Configs-->
         <scene sceneID="lXv-k7-YEi">
             <objects>
-                <viewController title="Remote Configs" identifier="RemoteConfigViewController" storyboardIdentifier="RemoteConfigViewController" showSeguePresentationStyle="single" id="6WI-Hi-v9j" customClass="RemoteConfigViewController" customModule="ClashX" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Remote Configs" identifier="RemoteConfigViewController" storyboardIdentifier="RemoteConfigViewController" showSeguePresentationStyle="single" id="6WI-Hi-v9j" customClass="RemoteConfigViewController" customModule="ClashX_Meta" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="BIo-GY-n0C">
                         <rect key="frame" x="0.0" y="0.0" width="403" height="256"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -684,7 +684,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="urlCell" id="Nfz-jY-8Of">
-                                                            <rect key="frame" x="11" y="1" width="181" height="30"/>
+                                                            <rect key="frame" x="1" y="1" width="181" height="30"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="4q7-nk-ts1">
@@ -723,7 +723,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="nameCell" id="nJ2-CL-UMO">
-                                                            <rect key="frame" x="195" y="1" width="86" height="17"/>
+                                                            <rect key="frame" x="185" y="1" width="86" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="ma1-VU-D1q">
@@ -762,7 +762,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="timeCell" id="EV1-my-fwa">
-                                                            <rect key="frame" x="284" y="1" width="56" height="17"/>
+                                                            <rect key="frame" x="274" y="1" width="56" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="giF-oe-BsQ">
@@ -885,9 +885,9 @@
         <!--External Control-->
         <scene sceneID="TO5-jN-VsZ">
             <objects>
-                <viewController title="External Manager" identifier="ExternalControlViewController" storyboardIdentifier="ExternalControlViewController" showSeguePresentationStyle="single" id="s6y-wL-pnr" userLabel="External Control" customClass="ExternalControlViewController" customModule="ClashX" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="External Manager" identifier="ExternalControlViewController" storyboardIdentifier="ExternalControlViewController" showSeguePresentationStyle="single" id="s6y-wL-pnr" userLabel="External Control" customClass="ExternalControlViewController" customModule="ClashX_Meta" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Gao-fa-Dwr">
-                        <rect key="frame" x="0.0" y="0.0" width="515" height="256"/>
+                        <rect key="frame" x="0.0" y="0.0" width="515" height="268"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="30" horizontalPageScroll="10" verticalLineScroll="30" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h2z-Vu-j5M">
@@ -919,7 +919,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="nameCell" id="8mR-Pw-M5O">
-                                                            <rect key="frame" x="11" y="1" width="193" height="28"/>
+                                                            <rect key="frame" x="1" y="1" width="193" height="28"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="6q3-XW-4SC">
@@ -964,7 +964,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="urlCell" id="hgu-Ez-7fj">
-                                                            <rect key="frame" x="207" y="1" width="188" height="28"/>
+                                                            <rect key="frame" x="197" y="1" width="188" height="28"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="rfv-RN-Pkz">
@@ -1006,7 +1006,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="secretCell" id="1lj-rr-UvU">
-                                                            <rect key="frame" x="398" y="1" width="54" height="22"/>
+                                                            <rect key="frame" x="388" y="1" width="54" height="22"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="T9c-i1-UF2">
@@ -1057,7 +1057,7 @@
                                 </tableHeaderView>
                             </scrollView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Apx-gL-RAm">
-                                <rect key="frame" x="18" y="220" width="108" height="16"/>
+                                <rect key="frame" x="18" y="232" width="108" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="External Controls" id="9gE-NX-2wJ">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
