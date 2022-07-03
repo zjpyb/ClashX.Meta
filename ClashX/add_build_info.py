@@ -20,7 +20,7 @@ def write_to_info():
     buildVersion = subprocess.check_output(["git", "describe", "--tags", "--abbrev=0"]).strip().decode()
     contents["CFBundleShortVersionString"] = buildVersion
 
-    coreVersion = subprocess.check_output(["curl", "-s", "https://api.github.com/repos/MetaCubeX/Clash.Meta/releases/latest", "|", "jq", "-r", ".name"]).strip().decode().split()[2]
+    coreVersion = subprocess.check_output(["bash", "-c", "curl -s https://api.github.com/repos/MetaCubeX/Clash.Meta/releases/latest | jq -r '.name'"]).strip().decode().split()[2]
     contents["coreVersion"] = coreVersion
 
 
