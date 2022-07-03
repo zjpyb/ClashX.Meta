@@ -5,7 +5,7 @@ import os
 
 
 def write_to_info():
-    path = "info.plist"
+    path = "ClashX/info.plist"
 
     with open(path, 'rb') as f:
         contents = plistlib.load(f)
@@ -14,13 +14,13 @@ def write_to_info():
         exit(-1)
 
 
-    buildNumber = subprocess.check_output(["git", "rev-list", "--count", "master..meta"]).strip().decode()
+    buildNumber = subprocess.check_output(["git", "rev-list", "--count", "origin/master..origin/meta"]).strip().decode()
     contents["CFBundleVersion"] = buildNumber
 
     buildVersion = subprocess.check_output(["git", "describe", "--tags", "--abbrev=0"]).strip().decode()
     contents["CFBundleShortVersionString"] = buildVersion
 
-    coreVersion = subprocess.check_output(["Resources/com.metacubex.ClashX.ProxyConfigHelper.meta", "-v"]).strip().decode().split()[2]
+    coreVersion = subprocess.check_output(["bash", "-c", "curl -s https://api.github.com/repos/MetaCubeX/Clash.Meta/releases/latest | jq -r '.name'"]).strip().decode()
     contents["coreVersion"] = coreVersion
 
 
