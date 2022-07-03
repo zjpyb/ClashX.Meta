@@ -20,7 +20,7 @@ jobs:
         fetch-depth: 0
 
     - name: test
-      run: git rev-list --count master..meta
+      run: git rev-list --count origin/master..origin/meta
 
     - name: setup Go
       uses: actions/setup-go@v2
