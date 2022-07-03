@@ -15,9 +15,12 @@ jobs:
   build:
     runs-on: macos-12
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
+
+    - name: test
+      run: git rev-list --count master..meta
 
     - name: setup Go
       uses: actions/setup-go@v2
@@ -25,16 +28,13 @@ jobs:
         go-version: 1.18.x
     
     - name: install deps
-      run: |
-        bash install_dependency.sh
+      run: bash install_dependency.sh
 
     - name: build infos
-      run: |
-        python3 ClashX/add_build_info.py
+      run: python3 ClashX/add_build_info.py
 
     - name: build
-      run: |
-        xcodebuild archive -workspace ClashX.xcworkspace -scheme ClashX -archivePath archive/ClashX.xcarchive -showBuildTimingSummary -allowProvisioningUpdates
+      run: xcodebuild archive -workspace ClashX.xcworkspace -scheme ClashX -archivePath archive/ClashX.xcarchive -showBuildTimingSummary -allowProvisioningUpdates
 
     - name: create zip
       run: ditto -c -k --sequesterRsrc --keepParent archive/ClashX.xcarchive/Products/Applications/ClashX\ Meta.app ClashX\ Meta.zip
