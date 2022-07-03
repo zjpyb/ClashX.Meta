@@ -43,8 +43,8 @@ jobs:
       uses: actions/upload-artifact@v3
       if: "!startsWith(github.ref, 'refs/tags/')"
       with:
-        name: ClashX\ Meta.zip
-        path: ClashX\ Meta.zip
+        name: "ClashX Meta.zip"
+        path: "ClashX Meta.zip"
 
     - name: upload build to github
       uses: softprops/action-gh-release@v1
@@ -53,4 +53,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         generate_release_notes: true
-        files: ClashX\ Meta.zip
+        files: "ClashX Meta.zip"
