@@ -52,8 +52,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var runAfterConfigReload: (() -> Void)?
 
     var dashboardWindowController: ClashWebViewWindowController?
-
-    let helper = PrivilegedHelperManager.shared.helper()
     
     func applicationWillFinishLaunching(_ notification: Notification) {
         signal(SIGPIPE, SIG_IGN)
@@ -103,7 +101,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // start proxy
         Logger.log("initClashCore")
         if let path = Bundle.main.path(forResource: "com.metacubex.ClashX.ProxyConfigHelper.meta", ofType: nil) {
-            helper?.initMetaCore(withPath: path)
+            PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: path)
         } else {
             assertionFailure("Meta Core file losted.")
         }
@@ -407,14 +405,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // setup ui config first
         if let htmlPath = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "dashboard") {
             let uiPath = URL(fileURLWithPath: htmlPath).deletingLastPathComponent().path
-            helper?.metaSetUIPath(uiPath)
+            PrivilegedHelperManager.shared.helper()?.metaSetUIPath(uiPath)
         }
 
         Logger.log("Trying start proxy")
         var string = ""
         let queue = DispatchGroup()
         queue.enter()
-        helper?.startMeta(withConfPath: kConfigFolderPath,
+        
+        PrivilegedHelperManager.shared.helper {
+            string = "Can't connect to helper."
+            queue.leave()
+        }?.startMeta(withConfPath: kConfigFolderPath,
                           confFilePath: "")  {
             string = $0 ?? ""
             queue.leave()
