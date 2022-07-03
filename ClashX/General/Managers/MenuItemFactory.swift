@@ -58,12 +58,9 @@ class MenuItemFactory {
         let hideState = NSControl.StateValue(rawValue: hideUnselectable)
         
         var menuItems = [NSMenuItem]()
+        var collapsedItems = [NSMenuItem]()
+
         for proxy in proxyInfo.proxyGroups {
-            if hideState != .off,
-               [.urltest, .fallback, .loadBalance, .relay].contains(proxy.type) {
-                continue
-            }
-            
             var menu: NSMenuItem?
             switch proxy.type {
             case .select: menu = generateSelectorMenuItem(proxyGroup: proxy, proxyInfo: proxyInfo, leftPadding: leftPadding)
@@ -75,11 +72,31 @@ class MenuItemFactory {
             default: continue
             }
 
-            if let menu = menu {
+            guard let menu = menu else {
+                continue
+            }
+            
+            switch hideState {
+            case .mixed where [.urltest, .fallback, .loadBalance, .relay].contains(proxy.type):
+                collapsedItems.append(menu)
+                menu.isEnabled = true
+            case .on where [.urltest, .fallback, .loadBalance, .relay].contains(proxy.type):
+                continue
+            default:
                 menuItems.append(menu)
                 menu.isEnabled = true
             }
         }
+        
+        if hideState == .mixed {
+            let collapsedItem = NSMenuItem(title: "Collapsed", action: nil, keyEquivalent: "")
+            collapsedItem.isEnabled = true
+            collapsedItem.submenu = .init(title: "")
+            collapsedItem.submenu?.items = collapsedItems
+            
+            menuItems.append(collapsedItem)
+        }
+        
         let items = Array(menuItems.reversed())
         updateProxyList(withMenus: items)
     }

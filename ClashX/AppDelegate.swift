@@ -777,7 +777,6 @@ extension AppDelegate {
 
 extension AppDelegate {
     @IBAction func hideUnselectable(_ sender: NSMenuItem) {
-        /*
         var newState = NSControl.StateValue.off
         switch sender.state {
         case .off:
@@ -789,10 +788,8 @@ extension AppDelegate {
         default:
             return
         }
-         */
-        let newState: NSControl.StateValue = sender.state == .on ? .off : .on
+
         sender.state = newState
-        
         MenuItemFactory.hideUnselectable = newState.rawValue
     }
 }
