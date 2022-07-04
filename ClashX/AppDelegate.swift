@@ -405,6 +405,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         struct StartProxyResp: Codable {
             let externalController: String
             let secret: String
+            let log: String?
         }
         
         // setup ui config first
@@ -429,6 +430,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         queue.wait()
         let jsonData = string.data(using: .utf8) ?? Data()
         if let res = try? JSONDecoder().decode(StartProxyResp.self, from: jsonData) {
+            
+            if let log = res.log {
+                Logger.log("""
+\n########  Clash Meta Start Log  #########
+\(log)
+########  END  #########
+""", level: .info)
+            }
+            
             let port = res.externalController.components(separatedBy: ":").last ?? "9090"
             ConfigManager.shared.apiPort = port
             ConfigManager.shared.apiSecret = res.secret

@@ -10,6 +10,7 @@ class MetaTask: NSObject {
     struct MetaServer: Encodable {
         let externalController: String
         let secret: String
+        var log: String = ""
         
         func jsonString() -> String {
             let encoder = JSONEncoder()
@@ -82,24 +83,26 @@ class MetaTask: NSObject {
                     print("Test meta config success.")
                 }
                 
-                guard let serverResult = self.parseConfFile(confPath, confFilePath: confFilePath) else {
+                guard var serverResult = self.parseConfFile(confPath, confFilePath: confFilePath) else {
                     returnResult("Can't decode config file.")
                     return
                 }
                 
                 self.proc.arguments = args
                 let pipe = Pipe()
-                
+                var logs = [String]()
                 
                 pipe.fileHandleForReading.readabilityHandler = { pipe in
-                    guard let output = String(data: pipe.availableData, encoding: .utf8) else {
+                    guard let output = String(data: pipe.availableData, encoding: .utf8),
+                          !resultReturned else {
                         return
                     }
                     
                     output.split(separator: "\n").map {
                         self.formatMsg(String($0))
                     }.forEach {
-                        if $0.starts(with: "External controller listen error:") || $0.starts(with: "External controller serve error:") {
+                        logs.append($0)
+                        if $0.contains("External controller listen error:") || $0.contains("External controller serve error:") {
                             returnResult($0)
                         }
                         
@@ -109,7 +112,8 @@ class MetaTask: NSObject {
                         }
                          */
                         
-                        if $0 == "Apply all configs finished." {
+                        if $0.contains("Apply all configs finished.") {
+                            serverResult.log = logs.joined(separator: "\n")
                             returnResult(serverResult.jsonString())
                         }
                     }
@@ -131,7 +135,7 @@ class MetaTask: NSObject {
                     returnResult(results.joined(separator: "\n"))
                 }
                 
-                DispatchQueue.global().asyncAfter(deadline: .now() + 10) {
+                DispatchQueue.global().asyncAfter(deadline: .now() + 30) {
                     returnResult(serverResult.jsonString())
                 }
                 
@@ -208,11 +212,16 @@ class MetaTask: NSObject {
     
     
     func formatMsg(_ msg: String) -> String {
-        guard msg.starts(with: "time="),
-              let msgRange = msg.range(of: "msg=\"") else {
+        let msgs = msg.split(separator: " ", maxSplits: 2).map(String.init)
+        
+        guard msgs.count == 3,
+              msgs[1].starts(with: "level"),
+              msgs[2].starts(with: "msg") else {
             return msg
         }
-        var re = String(msg[msgRange.upperBound..<msg.endIndex])
+        
+        let level = msgs[1].replacingOccurrences(of: "level=", with: "")
+        var re = msgs[2].replacingOccurrences(of: "msg=\"", with: "")
         
         while re.last == "\"" || re.last == "\n" {
             re.removeLast()
@@ -222,7 +231,7 @@ class MetaTask: NSObject {
             print(re)
         }
         
-        return re
+        return "[\(level)] \(re)"
     }
     
     func parseConfFile(_ confPath: String, confFilePath: String) -> MetaServer? {
