@@ -48,6 +48,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @IBOutlet var hideUnselecableMenuItem: NSMenuItem!
     @IBOutlet var proxyProvidersMenu: NSMenu!
+    @IBOutlet var snifferMenuItem: NSMenuItem!
 
     var disposeBag = DisposeBag()
     var statusItemView: StatusItemView!
@@ -273,6 +274,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     ClashStatusTool.checkPortConfig(cfg: config)
                 }
 
+                self.snifferMenuItem.state = config.sniffing ? .on : .off
             }.disposed(by: disposeBag)
 
         if !PrivilegedHelperManager.shared.isHelperCheckFinished.value &&
@@ -832,6 +834,13 @@ extension AppDelegate {
     @IBAction func updateGEO(_ sender: NSMenuItem) {
         ApiRequest.updateGEO() { _ in
             NSUserNotificationCenter.default.post(title: "Updating GEO Databases...", info: "Good luck to you  🙃")
+        }
+    }
+    
+    @IBAction func updateSniffing(_ sender: NSMenuItem) {
+        let enable = sender.state != .on
+        ApiRequest.updateSniffing(enable: enable) {
+            sender.state = enable ? .on : .off
         }
     }
 }

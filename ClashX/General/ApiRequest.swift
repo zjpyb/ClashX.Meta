@@ -337,6 +337,17 @@ extension ApiRequest {
         }
     }
     
+    static func updateSniffing(enable: Bool, completeHandler: (() -> Void)? = nil) {
+        Logger.log("update sniffing:\(enable)", level: .debug)
+        req("/configs",
+            method: .patch,
+            parameters: ["sniffing": enable],
+            encoding: JSONEncoding.default).response {
+            _ in
+            completeHandler?()
+        }
+    }
+    
     
 }
 

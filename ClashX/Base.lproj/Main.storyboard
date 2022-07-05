@@ -197,6 +197,7 @@
                         <outlet property="sepatatorLineEndProxySelect" destination="n67-fU-hLx" id="Vgv-N6-SOH"/>
                         <outlet property="showNetSpeedIndicatorMenuItem" destination="YIO-Vj-64f" id="9a5-3N-Ylk"/>
                         <outlet property="showProxyGroupCurrentMenuItem" destination="j9o-36-NTd" id="5jc-iE-bou"/>
+                        <outlet property="snifferMenuItem" destination="mk5-fI-KvW" id="wy5-NG-fu9"/>
                         <outlet property="socksPortMenuItem" destination="Uy1-g8-r6Q" id="NiI-Gy-9Sa"/>
                         <outlet property="statusMenu" destination="Afa-lD-EbR" id="cov-E9-WrO"/>
                     </connections>
@@ -360,10 +361,10 @@
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <menu key="submenu" title="Meta" id="ji6-hK-w0I">
                                 <items>
-                                    <menuItem title="Hide unselectable" id="C3l-5G-vzB">
+                                    <menuItem title="Sniffer" id="mk5-fI-KvW">
                                         <modifierMask key="keyEquivalentModifierMask"/>
                                         <connections>
-                                            <action selector="hideUnselectable:" target="Voe-Tx-rLC" id="ifq-SY-ov8"/>
+                                            <action selector="updateSniffing:" target="Voe-Tx-rLC" id="vO0-Ys-NET"/>
                                         </connections>
                                     </menuItem>
                                     <menuItem title="Update GEO databases" id="WZu-fm-nxd">
@@ -375,6 +376,13 @@
                                     <menuItem title="Proxy providers" id="4Jz-gx-7X9">
                                         <modifierMask key="keyEquivalentModifierMask"/>
                                         <menu key="submenu" title="Proxy providers" id="PXU-hU-r0O"/>
+                                    </menuItem>
+                                    <menuItem isSeparatorItem="YES" id="mmr-bS-73Y"/>
+                                    <menuItem title="Hide unselectable" id="C3l-5G-vzB">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                        <connections>
+                                            <action selector="hideUnselectable:" target="Voe-Tx-rLC" id="ifq-SY-ov8"/>
+                                        </connections>
                                     </menuItem>
                                 </items>
                             </menu>
