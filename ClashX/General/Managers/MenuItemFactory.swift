@@ -99,6 +99,8 @@ class MenuItemFactory {
         
         let items = Array(menuItems.reversed())
         updateProxyList(withMenus: items)
+        
+        refreshProviderMenuItems(mergedData: proxyInfo)
     }
 
     static func generateSwitchConfigMenuItems(complete: @escaping (([NSMenuItem]) -> Void)) {
@@ -282,6 +284,104 @@ extension MenuItemFactory {
         updateUseViewRenderMenuItem(sender)
         recreateProxyMenuItems()
     }
+}
+
+
+// MARK: - Meta
+
+extension MenuItemFactory {
+    
+    
+    static func refreshProviderMenuItems(mergedData proxyInfo: ClashProxyResp?) {
+        let app = AppDelegate.shared
+        guard let proxyInfo = proxyInfo,
+              let menu = app.proxyProvidersMenu,
+              let providers = proxyInfo.enclosingProviderResp
+        else { return }
+        
+        let updateAllTitle = "Update All Providers"
+        
+        if menu.items.count > 1 {
+            menu.items.enumerated().filter {
+                $0.offset > 1
+            }.forEach {
+                menu.removeItem($0.element)
+            }
+        } else {
+            let updateAllItem = NSMenuItem(title: updateAllTitle, action: #selector(actionUpdateAllProviders), keyEquivalent: "")
+            updateAllItem.target = self
+            menu.addItem(updateAllItem)
+            menu.addItem(.separator())
+        }
+        
+        let proxyProviders = providers.allProviders.filter {
+            $0.value.vehicleType == .HTTP
+        }.values.sorted(by: { $0.name < $1.name })
+        
+        let maxNameLength: CGFloat = {
+            func getLength(_ string: String) -> CGFloat {
+                let rect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: 20)
+                let attr = [NSAttributedString.Key.font: NSFont.menuBarFont(ofSize: 14)]
+                let length = (string as NSString)
+                    .boundingRect(with: rect,
+                                  options: .usesLineFragmentOrigin,
+                                  attributes: attr).width
+                return length
+            }
+            
+            var lengths = proxyProviders.map {
+                getLength($0.name) + 65
+            }
+            lengths.append(getLength(updateAllTitle))
+            return lengths.max() ?? 0
+        }()
+        
+        proxyProviders.forEach { provider in
+            let dateString: String? = {
+                let dateCF = DateComponentsFormatter()
+                dateCF.allowedUnits = [.day, .hour, .minute]
+                dateCF.maximumUnitCount = 1
+                dateCF.unitsStyle = .abbreviated
+                dateCF.zeroFormattingBehavior = .dropAll
+                
+                guard let dateStr = provider.updatedAt,
+                      let date = DateFormatter.provider.date(from: dateStr),
+                      !date.timeIntervalSinceNow.isNaN,
+                      !date.timeIntervalSinceNow.isInfinite,
+                      let re = dateCF.string(from: abs(date.timeIntervalSinceNow)) else { return nil }
+                
+                return "\(re) ago"
+            }()
+            
+            let item = DualTitleMenuItem(provider.name, subTitle: dateString, action: #selector(actionUpdateSelectProvider), maxLength: maxNameLength)
+            item.target = self
+            menu.addItem(item)
+        }
+    }
+    
+    @objc static func actionUpdateAllProviders(sender: NSMenuItem) {
+        let s = "Update All Proxy Providers"
+        Logger.log(s)
+        ApiRequest.updateAllProxyProviders() {
+            Logger.log("\(s) \($0) failed")
+            let info = $0 == 0 ? "Success" : "\($0) failed"
+            NSUserNotificationCenter.default.post(title: s, info: info)
+            recreateProxyMenuItems()
+        }
+    }
+    
+    @objc static func actionUpdateSelectProvider(sender: DualTitleMenuItem) {
+        let name = sender.originTitle
+        let log = "Update Proxy Provider \(name)"
+        Logger.log(log)
+        ApiRequest.updateProxyProvider(name: name) {
+            let info = $0 ? "Success" : "Failed"
+            Logger.log("\(log) info")
+            NSUserNotificationCenter.default.post(title: log, info: info)
+            recreateProxyMenuItems()
+        }
+    }
+    
 }
 
 // MARK: - Action

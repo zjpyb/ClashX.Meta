@@ -190,6 +190,7 @@
                         <outlet property="proxyModeGlobalMenuItem" destination="yiM-U4-MNg" id="M7s-kl-aPh"/>
                         <outlet property="proxyModeMenuItem" destination="jGT-1M-xJu" id="3Xj-xK-MJj"/>
                         <outlet property="proxyModeRuleMenuItem" destination="89n-bD-JHk" id="lT1-J1-X3k"/>
+                        <outlet property="proxyProvidersMenu" destination="PXU-hU-r0O" id="2cc-kM-p9d"/>
                         <outlet property="proxySettingMenuItem" destination="8se-yr-wmp" id="yvm-QP-yoA"/>
                         <outlet property="remoteConfigAutoupdateMenuItem" destination="r8s-OI-tgf" id="tmB-30-trh"/>
                         <outlet property="separatorLineTop" destination="1fM-p6-bHd" id="NFb-qS-TKR"/>
@@ -364,6 +365,10 @@
                                         <connections>
                                             <action selector="hideUnselectable:" target="Voe-Tx-rLC" id="ifq-SY-ov8"/>
                                         </connections>
+                                    </menuItem>
+                                    <menuItem title="Proxy providers" id="4Jz-gx-7X9">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                        <menu key="submenu" title="Proxy providers" id="PXU-hU-r0O"/>
                                     </menuItem>
                                 </items>
                             </menu>

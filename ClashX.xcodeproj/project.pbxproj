@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0162E74F2864B819007218A6 /* MetaTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162E74E2864B819007218A6 /* MetaTask.swift */; };
+		018F88F9286DD0CB004DD0F7 /* DualTitleMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018F88F8286DD0CB004DD0F7 /* DualTitleMenuItem.swift */; };
 		019A239628657A7A00AE5698 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019A239528657A7A00AE5698 /* main.swift */; };
 		019A23982865F70100AE5698 /* com.metacubex.ClashX.ProxyConfigHelper.meta in Resources */ = {isa = PBXBuildFile; fileRef = 019A23972865F70100AE5698 /* com.metacubex.ClashX.ProxyConfigHelper.meta */; };
 		01B009AE2854533300B93618 /* geoip.dat.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B009AC2854533200B93618 /* geoip.dat.gz */; };
@@ -131,6 +132,7 @@
 /* Begin PBXFileReference section */
 		0162E74D2864B818007218A6 /* com.metacubex.ClashX.ProxyConfigHelper-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "com.metacubex.ClashX.ProxyConfigHelper-Bridging-Header.h"; sourceTree = "<group>"; };
 		0162E74E2864B819007218A6 /* MetaTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaTask.swift; sourceTree = "<group>"; };
+		018F88F8286DD0CB004DD0F7 /* DualTitleMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DualTitleMenuItem.swift; sourceTree = "<group>"; };
 		019A239528657A7A00AE5698 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		019A23972865F70100AE5698 /* com.metacubex.ClashX.ProxyConfigHelper.meta */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = com.metacubex.ClashX.ProxyConfigHelper.meta; sourceTree = "<group>"; };
 		01B009AC2854533200B93618 /* geoip.dat.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = geoip.dat.gz; sourceTree = "<group>"; };
@@ -353,6 +355,7 @@
 				F910AA23240134AF00116E95 /* ProxyGroupMenu.swift */,
 				493A9F272453E60400D35296 /* ProxyDelayHistoryMenu.swift */,
 				49228456270AADE20027A4B6 /* RemoteConfigUpdateIntervalSettingView.swift */,
+				018F88F8286DD0CB004DD0F7 /* DualTitleMenuItem.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -712,6 +715,7 @@
 				492C4869210EE6B9004554A0 /* ApiRequest.swift in Sources */,
 				49CF3B6520CEE06C001EBF94 /* ConfigManager.swift in Sources */,
 				F9E754D0239CC21F00CEE7CC /* WebPortalManager.swift in Sources */,
+				018F88F9286DD0CB004DD0F7 /* DualTitleMenuItem.swift in Sources */,
 				495BFB8821919B9800C8779D /* RemoteConfigManager.swift in Sources */,
 				4982F51F2344A216008804B0 /* Cgo+Convert.swift in Sources */,
 				8ACD21BB27A04C7800BC4632 /* ProxySettingCommand.swift in Sources */,

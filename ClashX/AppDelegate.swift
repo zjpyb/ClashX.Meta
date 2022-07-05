@@ -47,6 +47,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var externalControlSeparator: NSMenuItem!
     
     @IBOutlet var hideUnselecableMenuItem: NSMenuItem!
+    @IBOutlet var proxyProvidersMenu: NSMenu!
 
     var disposeBag = DisposeBag()
     var statusItemView: StatusItemView!
