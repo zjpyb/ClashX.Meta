@@ -520,8 +520,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             WebPortalManager.shared.addWebProtalMenuItem(&statusMenu)
         }
         ICloudManager.shared.addEnableMenuItem(&experimentalMenu)
-        AutoUpgardeManager.shared.setup()
-        AutoUpgardeManager.shared.addChanelMenuItem(&experimentalMenu)
+//        AutoUpgardeManager.shared.setup()
+//        AutoUpgardeManager.shared.addChanelMenuItem(&experimentalMenu)
         updateExperimentalFeatureStatus()
         RemoteControlManager.setupMenuItem(separator: externalControlSeparator)
     }
