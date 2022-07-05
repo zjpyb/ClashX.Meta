@@ -366,6 +366,12 @@
                                             <action selector="hideUnselectable:" target="Voe-Tx-rLC" id="ifq-SY-ov8"/>
                                         </connections>
                                     </menuItem>
+                                    <menuItem title="Update GEO databases" id="WZu-fm-nxd">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                        <connections>
+                                            <action selector="updateGEO:" target="Voe-Tx-rLC" id="TMi-ff-cMZ"/>
+                                        </connections>
+                                    </menuItem>
                                     <menuItem title="Proxy providers" id="4Jz-gx-7X9">
                                         <modifierMask key="keyEquivalentModifierMask"/>
                                         <menu key="submenu" title="Proxy providers" id="PXU-hU-r0O"/>

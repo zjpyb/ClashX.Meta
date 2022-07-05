@@ -326,6 +326,18 @@ extension ApiRequest {
         }
     }
     
+    static func updateGEO(completeHandler: ((Bool) -> Void)? = nil) {
+        Logger.log("UpdateGEO")
+        req("/configs/geo", method: .post).response {
+            let re = $0.response?.statusCode == 204
+            
+            completeHandler?(re)
+//            Logger.log("UpdateGEO \(re ? "success" : "failed")")
+            Logger.log("Updating GEO Databases...")
+        }
+    }
+    
+    
 }
 
 // MARK: - Stream Apis

@@ -828,6 +828,12 @@ extension AppDelegate {
             }
         }
     }
+    
+    @IBAction func updateGEO(_ sender: NSMenuItem) {
+        ApiRequest.updateGEO() { _ in
+            NSUserNotificationCenter.default.post(title: "Updating GEO Databases...", info: "Good luck to you  🙃")
+        }
+    }
 }
 
 // MARK: crash hanlder
