@@ -513,7 +513,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func setupExperimentalMenuItem() {
         ConnectionManager.addCloseOptionMenuItem(&experimentalMenu)
-        ClashResourceManager.addUpdateMMDBMenuItem(&experimentalMenu)
+//        ClashResourceManager.addUpdateMMDBMenuItem(&experimentalMenu)
         SystemProxyManager.shared.addDisableRestoreProxyMenuItem(&experimentalMenu)
         MenuItemFactory.addExperimentalMenuItem(&experimentalMenu)
         if WebPortalManager.hasWebProtal {
