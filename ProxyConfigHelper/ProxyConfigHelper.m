@@ -148,4 +148,9 @@ ProxyConfigRemoteProcessProtocol
     [self.metaTask start:confPath confFilePath:confFilePath result:reply];
 }
 
+- (void)verifyMetaWithConfPath:(NSString *)confPath ConfFilePath:(NSString *)confFilePath result:(stringReplyBlock)reply {
+    NSString* re = [self.metaTask test:confPath confFilePath:confFilePath];
+    reply(re);
+}
+
 @end

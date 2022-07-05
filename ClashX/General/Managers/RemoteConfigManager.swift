@@ -206,23 +206,28 @@ class RemoteConfigManager {
     }
 
     static func verifyConfig(string: String) -> ErrorString? {
-        /*
         var res: String?
+        let path = NSTemporaryDirectory().appending("com.MetaCubeX.ClashX.meta")
+        let confPath = path + "/\(UUID().uuidString).yaml"
+        
+        let fm = FileManager.default
+        try? fm.createDirectory(atPath: path, withIntermediateDirectories: true)
+        guard fm.createFile(atPath: confPath, contents: string.data(using: .utf8)) else {
+            return "Create verify config file failed"
+        }
+        
         let queue = DispatchGroup()
         queue.enter()
-        PrivilegedHelperManager.shared.helper()?.verifyMetaConfig(string.goStringBuffer()) {
-            res = $0 ?? "unknown error"
-            if res == "success" {
-                res = nil
-            } else {
-                Logger.log(res ?? "", level: .error)
-            }
+        PrivilegedHelperManager.shared.helper {
+            res = "unknown error"
             queue.leave()
-        }
+        }?.verifyMeta(withConfPath: kConfigFolderPath, confFilePath: "", result: {
+            res = $0
+            queue.leave()
+        })
+        
         queue.wait()
         return res
-         */
-        return "success"
     }
 
     static func showAdd() {

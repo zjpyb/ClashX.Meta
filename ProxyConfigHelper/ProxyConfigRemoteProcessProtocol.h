@@ -23,6 +23,10 @@ typedef void(^dictReplyBlock)(NSDictionary *);
                  ConfFilePath:(NSString *)confFilePath
                        result:(stringReplyBlock)reply;
 
+- (void)verifyMetaWithConfPath:(NSString *)confPath
+                  ConfFilePath:(NSString *)confFilePath
+                        result:(stringReplyBlock)reply;
+
 - (void)getVersion:(stringReplyBlock)reply;
 
 - (void)enableProxyWithPort:(int)port
