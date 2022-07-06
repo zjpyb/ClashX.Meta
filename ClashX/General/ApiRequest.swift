@@ -284,6 +284,73 @@ extension ApiRequest {
     }
 }
 
+// MARK: - Meta
+
+extension ApiRequest {
+    static func updateAllProxyProviders(completeHandler: ((Int) -> Void)? = nil) {
+        var failuresCount = 0
+        
+        let group = DispatchGroup()
+        group.enter()
+        requestProxyProviderList { resp in
+            let names = resp.allProviders.filter {
+                $0.value.vehicleType == .HTTP
+            }.map {
+                $0.key
+            }
+            
+            names.forEach {
+                group.enter()
+                updateProxyProvider(name: $0) {
+                    if !$0 {
+                        failuresCount += 1
+                    }
+                    group.leave()
+                }
+            }
+            group.leave()
+        }
+        
+        group.notify(queue: .main) {
+            completeHandler?(failuresCount)
+        }
+    }
+    
+    static func updateProxyProvider(name: String, completeHandler: ((Bool) -> Void)? = nil) {
+        Logger.log("UpdateProxyProvider \(name)")
+        req("/providers/proxies/\(name)", method: .put).response {
+            let re = $0.response?.statusCode == 204
+            
+            completeHandler?(re)
+            Logger.log("UpdateProxyProvider \(name) \(re ? "success" : "failed")")
+        }
+    }
+    
+    static func updateGEO(completeHandler: ((Bool) -> Void)? = nil) {
+        Logger.log("UpdateGEO")
+        req("/configs/geo", method: .post).response {
+            let re = $0.response?.statusCode == 204
+            
+            completeHandler?(re)
+//            Logger.log("UpdateGEO \(re ? "success" : "failed")")
+            Logger.log("Updating GEO Databases...")
+        }
+    }
+    
+    static func updateSniffing(enable: Bool, completeHandler: (() -> Void)? = nil) {
+        Logger.log("update sniffing:\(enable)", level: .debug)
+        req("/configs",
+            method: .patch,
+            parameters: ["sniffing": enable],
+            encoding: JSONEncoding.default).response {
+            _ in
+            completeHandler?()
+        }
+    }
+    
+    
+}
+
 // MARK: - Stream Apis
 
 extension ApiRequest {

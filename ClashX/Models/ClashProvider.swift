@@ -46,4 +46,5 @@ class ClashProvider: Codable {
     let proxies: [ClashProxy]
     let type: ProviderType
     let vehicleType: ProviderVehicleType
+    let updatedAt: String?
 }

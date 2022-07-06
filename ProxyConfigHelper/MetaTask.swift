@@ -76,7 +76,7 @@ class MetaTask: NSObject {
         
         procQueue.async {
             do {
-                if let info = try self.test(confPath, confFilePath: confFilePath) {
+                if let info = self.test(confPath, confFilePath: confFilePath) {
                     returnResult(info)
                     return
                 } else {
@@ -153,52 +153,56 @@ class MetaTask: NSObject {
         }
     }
     
-    func test(_ confPath: String, confFilePath: String) throws -> String? {
-        let proc = Process()
-        proc.executableURL = self.proc.executableURL
-        var args = [
-            "-t",
-            "-d",
-            confPath
-        ]
-        if confFilePath != "" {
-            args.append(contentsOf: [
-                "-f",
-                confFilePath
-            ])
-        }
-        let pipe = Pipe()
-        proc.standardOutput = pipe
-        
-        proc.arguments = args
-        try proc.run()
-        proc.waitUntilExit()
-        
-        guard proc.terminationStatus == 0 else {
-            return "Test failed, status \(proc.terminationStatus)"
-        }
-        
-        let data = pipe.fileHandleForReading.readDataToEndOfFile()
-        guard let string = String(data: data, encoding: String.Encoding.utf8) else {
-            return "Test failed, no found output."
-        }
-        
-        let results = string.split(separator: "\n").map(String.init).map(formatMsg(_:))
-        
-        guard let re = results.last else {
-            return "Test failed, no found output."
-        }
-        
-        if re.hasPrefix("configuration file"),
-           re.hasSuffix("test is successful") {
-            return nil
-        } else if re.hasPrefix("configuration file"),
-                  re.hasSuffix("test failed") {
-            return results.count > 1
-            ? results[results.count - 2]
-            : "Test failed, unknown result."
-        } else {
-            return re
+    @objc func test(_ confPath: String, confFilePath: String) -> String? {
+        do {
+            let proc = Process()
+            proc.executableURL = self.proc.executableURL
+            var args = [
+                "-t",
+                "-d",
+                confPath
+            ]
+            if confFilePath != "" {
+                args.append(contentsOf: [
+                    "-f",
+                    confFilePath
+                ])
+            }
+            let pipe = Pipe()
+            proc.standardOutput = pipe
+            
+            proc.arguments = args
+            try proc.run()
+            proc.waitUntilExit()
+            
+            guard proc.terminationStatus == 0 else {
+                return "Test failed, status \(proc.terminationStatus)"
+            }
+            
+            let data = pipe.fileHandleForReading.readDataToEndOfFile()
+            guard let string = String(data: data, encoding: String.Encoding.utf8) else {
+                return "Test failed, no found output."
+            }
+            
+            let results = string.split(separator: "\n").map(String.init).map(formatMsg(_:))
+            
+            guard let re = results.last else {
+                return "Test failed, no found output."
+            }
+            
+            if re.hasPrefix("configuration file"),
+               re.hasSuffix("test is successful") {
+                return nil
+            } else if re.hasPrefix("configuration file"),
+                      re.hasSuffix("test failed") {
+                return results.count > 1
+                ? results[results.count - 2]
+                : "Test failed, unknown result."
+            } else {
+                return re
+            }
+        } catch let error {
+            return "\(error)"
         }
     }
     

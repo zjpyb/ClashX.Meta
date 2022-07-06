@@ -39,6 +39,8 @@ class ClashConfig: Codable {
     var mixedPort: Int
     var mode: ClashProxyMode
     var logLevel: ClashLogLevel
+    
+    var sniffing: Bool
 
     var usedHttpPort: Int {
         if mixedPort > 0 {
@@ -55,7 +57,7 @@ class ClashConfig: Codable {
     }
 
     private enum CodingKeys: String, CodingKey {
-        case port, socksPort = "socks-port", mixedPort = "mixed-port", allowLan = "allow-lan", mode, logLevel = "log-level"
+        case port, socksPort = "socks-port", mixedPort = "mixed-port", allowLan = "allow-lan", mode, logLevel = "log-level", sniffing
     }
 
     static func fromData(_ data: Data) -> ClashConfig? {

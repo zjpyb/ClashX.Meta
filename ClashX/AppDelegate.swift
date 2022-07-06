@@ -47,6 +47,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var externalControlSeparator: NSMenuItem!
     
     @IBOutlet var hideUnselecableMenuItem: NSMenuItem!
+    @IBOutlet var proxyProvidersMenu: NSMenu!
+    @IBOutlet var snifferMenuItem: NSMenuItem!
 
     var disposeBag = DisposeBag()
     var statusItemView: StatusItemView!
@@ -272,6 +274,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     ClashStatusTool.checkPortConfig(cfg: config)
                 }
 
+                self.snifferMenuItem.state = config.sniffing ? .on : .off
             }.disposed(by: disposeBag)
 
         if !PrivilegedHelperManager.shared.isHelperCheckFinished.value &&
@@ -510,15 +513,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func setupExperimentalMenuItem() {
         ConnectionManager.addCloseOptionMenuItem(&experimentalMenu)
-        ClashResourceManager.addUpdateMMDBMenuItem(&experimentalMenu)
+//        ClashResourceManager.addUpdateMMDBMenuItem(&experimentalMenu)
         SystemProxyManager.shared.addDisableRestoreProxyMenuItem(&experimentalMenu)
         MenuItemFactory.addExperimentalMenuItem(&experimentalMenu)
         if WebPortalManager.hasWebProtal {
             WebPortalManager.shared.addWebProtalMenuItem(&statusMenu)
         }
         ICloudManager.shared.addEnableMenuItem(&experimentalMenu)
-        AutoUpgardeManager.shared.setup()
-        AutoUpgardeManager.shared.addChanelMenuItem(&experimentalMenu)
+//        AutoUpgardeManager.shared.setup()
+//        AutoUpgardeManager.shared.addChanelMenuItem(&experimentalMenu)
         updateExperimentalFeatureStatus()
         RemoteControlManager.setupMenuItem(separator: externalControlSeparator)
     }
@@ -825,6 +828,19 @@ extension AppDelegate {
             } else {
                 unc.postUpdateNotice(msg: "No new release found.")
             }
+        }
+    }
+    
+    @IBAction func updateGEO(_ sender: NSMenuItem) {
+        ApiRequest.updateGEO() { _ in
+            NSUserNotificationCenter.default.post(title: "Updating GEO Databases...", info: "Good luck to you  🙃")
+        }
+    }
+    
+    @IBAction func updateSniffing(_ sender: NSMenuItem) {
+        let enable = sender.state != .on
+        ApiRequest.updateSniffing(enable: enable) {
+            sender.state = enable ? .on : .off
         }
     }
 }
