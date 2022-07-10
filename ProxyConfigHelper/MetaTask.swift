@@ -108,7 +108,21 @@ class MetaTask: NSObject {
                         
                         /*
                         if let range = $0.range(of: "RESTful API listening at: ") {
-                            self.serverAddr = String($0[range.upperBound..<$0.endIndex])
+                            let addr = String($0[range.upperBound..<$0.endIndex])
+                            guard addr.split(separator: ":").count == 2,
+                                  let port = Int(addr.split(separator: ":")[1]) else {
+                                returnResult("Not found RESTful API port.")
+                                return
+                            }
+                            let test = self.testListenPort(port)
+                            if test.pid != 0,
+                               test.pid == self.proc.processIdentifier,
+                               test.addr == addr {
+                                serverResult.log = logs.joined(separator: "\n")
+                                returnResult(serverResult.jsonString())
+                            } else {
+                                returnResult("Check RESTful API pid failed.")
+                            }
                         }
                          */
                         
@@ -212,6 +226,28 @@ class MetaTask: NSObject {
         proc.arguments = ["com.metacubex.ClashX.ProxyConfigHelper.meta"]
         try? proc.run()
         proc.waitUntilExit()
+    }
+    
+    func testListenPort(_ port: Int) -> (pid: Int32, addr: String) {
+        let proc = Process()
+        let pipe = Pipe()
+        proc.standardOutput = pipe
+        proc.executableURL = .init(fileURLWithPath: "/bin/bash")
+        proc.arguments = ["-c", "lsof -nP -iTCP:\(port) -sTCP:LISTEN | grep LISTEN"]
+        try? proc.run()
+        proc.waitUntilExit()
+        
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        guard let str = String(data: data, encoding: .utf8),
+              str.split(separator: " ").map(String.init).count == 10 else {
+            return (0, "")
+        }
+        
+        let re = str.split(separator: " ").map(String.init)
+        let pid = re[1]
+        let addr = re[8]
+        
+        return (Int32(pid) ?? 0, addr)
     }
     
     
