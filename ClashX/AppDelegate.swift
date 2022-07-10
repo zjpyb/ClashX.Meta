@@ -102,21 +102,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // claer not existed selected model
         removeUnExistProxyGroups()
-
-        // start proxy
-        Logger.log("initClashCore")
-        if let path = Bundle.main.path(forResource: "com.metacubex.ClashX.ProxyConfigHelper.meta", ofType: nil) {
-            PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: path)
-        } else {
-            assertionFailure("Meta Core file losted.")
-        }
-        Logger.log("initClashCore finish")
-        
         setupData()
         runAfterConfigReload = { [weak self] in
             self?.selectAllowLanWithMenory()
         }
-        updateConfig(showNotification: false)
+        
         updateLoggingLevel()
 
         // start watch config file change
@@ -302,6 +292,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     self.proxySettingMenuItem.target = self
                 }.disposed(by: disposeBag)
         }
+        
+        // start proxy
+        if !PrivilegedHelperManager.shared.isHelperCheckFinished.value {
+            PrivilegedHelperManager.shared.isHelperCheckFinished
+                .filter({$0})
+                .take(1)
+                .observe(on: MainScheduler.instance)
+                .bind(onNext: { _ in
+                    self.initMetaCore()
+                    self.updateConfig(showNotification: false)
+                }).disposed(by: disposeBag)
+        } else {
+            initMetaCore()
+            updateConfig(showNotification: false)
+        }
     }
 
     func setupNetworkNotifier() {
@@ -400,6 +405,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             item.state = item.title.lowercased() == ConfigManager.selectLoggingApiLevel.rawValue ? .on : .off
         }
         NotificationCenter.default.post(name: .reloadDashboard, object: nil)
+    }
+    
+    func initMetaCore() {
+        Logger.log("initClashCore")
+        if let path = Bundle.main.path(forResource: "com.metacubex.ClashX.ProxyConfigHelper.meta", ofType: nil) {
+            PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: path)
+        } else {
+            assertionFailure("Meta Core file losted.")
+        }
+        Logger.log("initClashCore finish")
     }
 
     func startProxy() {
