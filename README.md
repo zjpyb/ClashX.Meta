@@ -1,28 +1,22 @@
 <h1 align="center">
-  <img src="https://github.com/Dreamacro/clash/raw/master/docs/logo.png" alt="Clash" width="200">
+  <img src="https://github.com/MetaCubeX/Clash.Meta/raw/Meta/Meta.png" alt="Clash" width="200">
   <br>
   ClashX
   <br>
 </h1>
 
 
-A rule based proxy For Mac base on [Clash](https://github.com/Dreamacro/clash).
+A rule based proxy For Mac base on [Clash Meta](https://github.com/MetaCubeX/Clash.Meta).
 
-ClashX 旨在提供一个简单轻量化的代理客户端，如果需要更多的定制化，可以考虑使用 [CFW Mac 版](https://github.com/Fndroid/clash_for_windows_pkg/releases) 
 
 ## Features
 
-- HTTP/HTTPS and SOCKS protocol
-- Surge like configuration
-- GeoIP rule support
-- Support Vmess/Shadowsocks/Socks5/Trojan
-- Support for Netfilter TCP redirect
+- Clash.Meta Core
+- Tun mode support
 
 ## Install
 
-You can download from [Release](https://github.com/yichengchen/clashX/releases) page
-
-**Download ClashX Pro With enhanced mode and Native Apple Silicon support  at [AppCenter](https://install.appcenter.ms/users/clashx/apps/clashx-pro/distribution_groups/public) for free permanently.**
+You can download from [Release](https://github.com/MetaCubeX/Clash.Meta/releases) page
 
 
 ## Build
@@ -50,7 +44,7 @@ The default configuration directory is `$HOME/.config/clash`
 The default name of the configuration file is `config.yaml`. You can use your custom config name and switch config in menu `Config` section.
 
 
-Checkout [Clash](https://github.com/Dreamacro/clash) or [SS-Rule-Snippet for Clash](https://github.com/Hackl0us/SS-Rule-Snippet/blob/master/LAZY_RULES/clash.yaml) or [lancellc's gitbook](https://lancellc.gitbook.io/clash/) for more detail.
+Checkout [Clash Meta](https://docs.metacubex.one) or [Clash](https://github.com/Dreamacro/clash) or [SS-Rule-Snippet for Clash](https://github.com/Hackl0us/SS-Rule-Snippet/blob/master/LAZY_RULES/clash.yaml) or [lancellc's gitbook](https://lancellc.gitbook.io/clash/) for more detail.
 
 ## Advance Config
 
@@ -73,7 +67,7 @@ Checkout [Clash](https://github.com/Dreamacro/clash) or [SS-Rule-Snippet for Cla
 
 - Edit the `proxyIgnoreList.plist` to set up your own proxy ignore list
 
-### URL Schemes.
+### URL Schemes (May not work).
 
 - Using url scheme to import remote config.
 
@@ -105,11 +99,10 @@ script:
 
 ### 关闭ClashX的通知
 
-1. 在系统设置中关闭 clashx 的推送权限
+1. 在系统设置中关闭 clashx meta 的推送权限
 2. 执行
 ```
-defaults write com.west2online.ClashX disableNoti -bool true
-defaults write com.west2online.ClashXPro disableNoti -bool true
+defaults write com.metacubex.ClashX.meta disableNoti -bool true
 ```
 
 Note：强烈不推荐这么做，这可能导致clashx的很多重要错误提醒无法显示。
