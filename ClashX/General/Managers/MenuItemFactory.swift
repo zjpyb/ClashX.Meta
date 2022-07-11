@@ -100,7 +100,7 @@ class MenuItemFactory {
         let items = Array(menuItems.reversed())
         updateProxyList(withMenus: items)
         
-        refreshProviderMenuItems(mergedData: proxyInfo)
+        refreshProxyProviderMenuItems(mergedData: proxyInfo)
     }
 
     static func generateSwitchConfigMenuItems(complete: @escaping (([NSMenuItem]) -> Void)) {
@@ -291,8 +291,7 @@ extension MenuItemFactory {
 
 extension MenuItemFactory {
     
-    
-    static func refreshProviderMenuItems(mergedData proxyInfo: ClashProxyResp?) {
+    static func refreshProxyProviderMenuItems(mergedData proxyInfo: ClashProxyResp?) {
         let app = AppDelegate.shared
         guard let proxyInfo = proxyInfo,
               let menu = app.proxyProvidersMenu,
@@ -308,7 +307,7 @@ extension MenuItemFactory {
                 menu.removeItem($0.element)
             }
         } else {
-            let updateAllItem = NSMenuItem(title: updateAllTitle, action: #selector(actionUpdateAllProviders), keyEquivalent: "")
+            let updateAllItem = NSMenuItem(title: updateAllTitle, action: #selector(actionUpdateAllProxyProviders), keyEquivalent: "")
             updateAllItem.target = self
             menu.addItem(updateAllItem)
             menu.addItem(.separator())
@@ -353,13 +352,13 @@ extension MenuItemFactory {
                 return "\(re) ago"
             }()
             
-            let item = DualTitleMenuItem(provider.name, subTitle: dateString, action: #selector(actionUpdateSelectProvider), maxLength: maxNameLength)
+            let item = DualTitleMenuItem(provider.name, subTitle: dateString, action: #selector(actionUpdateSelectProxyProvider), maxLength: maxNameLength)
             item.target = self
             menu.addItem(item)
         }
     }
     
-    @objc static func actionUpdateAllProviders(sender: NSMenuItem) {
+    @objc static func actionUpdateAllProxyProviders(sender: NSMenuItem) {
         let s = "Update All Proxy Providers"
         Logger.log(s)
         ApiRequest.updateAllProxyProviders() {
@@ -370,7 +369,7 @@ extension MenuItemFactory {
         }
     }
     
-    @objc static func actionUpdateSelectProvider(sender: DualTitleMenuItem) {
+    @objc static func actionUpdateSelectProxyProvider(sender: DualTitleMenuItem) {
         let name = sender.originTitle
         let log = "Update Proxy Provider \(name)"
         Logger.log(log)
