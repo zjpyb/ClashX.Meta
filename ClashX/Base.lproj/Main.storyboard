@@ -191,9 +191,11 @@
                         <outlet property="proxyModeMenuItem" destination="jGT-1M-xJu" id="3Xj-xK-MJj"/>
                         <outlet property="proxyModeRuleMenuItem" destination="89n-bD-JHk" id="lT1-J1-X3k"/>
                         <outlet property="proxyProvidersMenu" destination="PXU-hU-r0O" id="2cc-kM-p9d"/>
+                        <outlet property="proxyProvidersMenuItem" destination="4Jz-gx-7X9" id="4ma-T7-Dvw"/>
                         <outlet property="proxySettingMenuItem" destination="8se-yr-wmp" id="yvm-QP-yoA"/>
                         <outlet property="remoteConfigAutoupdateMenuItem" destination="r8s-OI-tgf" id="tmB-30-trh"/>
                         <outlet property="ruleProvidersMenu" destination="wiW-XY-cyg" id="AVe-D7-8ft"/>
+                        <outlet property="ruleProvidersMenuItem" destination="cJg-BS-yk2" id="h83-eM-lQY"/>
                         <outlet property="separatorLineTop" destination="1fM-p6-bHd" id="NFb-qS-TKR"/>
                         <outlet property="sepatatorLineEndProxySelect" destination="n67-fU-hLx" id="Vgv-N6-SOH"/>
                         <outlet property="showNetSpeedIndicatorMenuItem" destination="YIO-Vj-64f" id="9a5-3N-Ylk"/>

@@ -49,6 +49,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var hideUnselecableMenuItem: NSMenuItem!
     @IBOutlet var proxyProvidersMenu: NSMenu!
     @IBOutlet var ruleProvidersMenu: NSMenu!
+    @IBOutlet var proxyProvidersMenuItem: NSMenuItem!
+    @IBOutlet var ruleProvidersMenuItem: NSMenuItem!
     @IBOutlet var snifferMenuItem: NSMenuItem!
 
     var disposeBag = DisposeBag()

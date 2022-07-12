@@ -306,20 +306,17 @@ extension MenuItemFactory {
               let menu = app.proxyProvidersMenu,
               let providers = proxyInfo.enclosingProviderResp
         else { return }
-        
-        initUpdateAllProvidersMenuItem(for: menu, type: .proxy)
-        
+
         let proxyProviders = providers.allProviders.filter {
             $0.value.vehicleType == .HTTP
         }.values.sorted(by: { $0.name < $1.name })
         
+        let isEmpty = proxyProviders.count == 0
+        app.proxyProvidersMenuItem.isEnabled = !isEmpty
+        guard !isEmpty else { return }
+
+        initUpdateAllProvidersMenuItem(for: menu, type: .proxy)
         let maxNameLength = maxProvidersLength(for: proxyProviders.map({ $0.name }))
-        
-        guard proxyProviders.count > 0 else {
-            return
-        }
-        
-        
         proxyProviders.forEach { provider in
             let item = DualTitleMenuItem(
                 provider.name,
@@ -334,12 +331,15 @@ extension MenuItemFactory {
     
     static func refreshRuleProviderMenuItems(_ ruleProviders: [ClashRuleProvider]) {
         let app = AppDelegate.shared
-        guard let menu = app.ruleProvidersMenu else { return }
+        let isEmpty = ruleProviders.count == 0
+        app.ruleProvidersMenuItem.isEnabled = !isEmpty
+        
+        guard !isEmpty,
+              let menu = app.ruleProvidersMenu
+        else { return }
         
         initUpdateAllProvidersMenuItem(for: menu, type: .rule)
-        
         let maxNameLength = maxProvidersLength(for: ruleProviders.map({ $0.name }))
-
         ruleProviders.sorted(by: { $0.name < $1.name })
             .forEach { provider in
                 let item = DualTitleMenuItem(
