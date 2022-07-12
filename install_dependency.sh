@@ -18,8 +18,8 @@ cd ..
 
 
 echo "Pod install"
-bundle install --jobs 4
-bundle exec pod install
+brew install cocoapods
+pod install
 echo "delete old files"
 rm -f ./ClashX/Resources/Country.mmdb
 rm -f ./ClashX/Resources/geosite.dat
