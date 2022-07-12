@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0162E74F2864B819007218A6 /* MetaTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162E74E2864B819007218A6 /* MetaTask.swift */; };
 		018F88F9286DD0CB004DD0F7 /* DualTitleMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018F88F8286DD0CB004DD0F7 /* DualTitleMenuItem.swift */; };
+		01943259287D19BC008CC51A /* ClashRuleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01943258287D19BC008CC51A /* ClashRuleProvider.swift */; };
 		019A239628657A7A00AE5698 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019A239528657A7A00AE5698 /* main.swift */; };
 		019A23982865F70100AE5698 /* com.metacubex.ClashX.ProxyConfigHelper.meta in Resources */ = {isa = PBXBuildFile; fileRef = 019A23972865F70100AE5698 /* com.metacubex.ClashX.ProxyConfigHelper.meta */; };
 		01B009AE2854533300B93618 /* geoip.dat.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B009AC2854533200B93618 /* geoip.dat.gz */; };
@@ -133,6 +134,7 @@
 		0162E74D2864B818007218A6 /* com.metacubex.ClashX.ProxyConfigHelper-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "com.metacubex.ClashX.ProxyConfigHelper-Bridging-Header.h"; sourceTree = "<group>"; };
 		0162E74E2864B819007218A6 /* MetaTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaTask.swift; sourceTree = "<group>"; };
 		018F88F8286DD0CB004DD0F7 /* DualTitleMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DualTitleMenuItem.swift; sourceTree = "<group>"; };
+		01943258287D19BC008CC51A /* ClashRuleProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashRuleProvider.swift; sourceTree = "<group>"; };
 		019A239528657A7A00AE5698 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		019A23972865F70100AE5698 /* com.metacubex.ClashX.ProxyConfigHelper.meta */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = com.metacubex.ClashX.ProxyConfigHelper.meta; sourceTree = "<group>"; };
 		01B009AC2854533200B93618 /* geoip.dat.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = geoip.dat.gz; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 				F915A4612366ADEF004840BE /* ClashConnection.swift */,
 				F92D0B23236BC12000575E15 /* SavedProxyModel.swift */,
 				F939724B23A4B33500FE5A3F /* ClashProvider.swift */,
+				01943258287D19BC008CC51A /* ClashRuleProvider.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -748,6 +751,7 @@
 				499A485E22ED9B7C00F6C675 /* NSTableView+Reload.swift in Sources */,
 				F939724C23A4B33500FE5A3F /* ClashProvider.swift in Sources */,
 				49862FA0218418C600A1D5EC /* ClashRule.swift in Sources */,
+				01943259287D19BC008CC51A /* ClashRuleProvider.swift in Sources */,
 				49C9EF64223E78F5005D8B6A /* ClashProxy.swift in Sources */,
 				4929F684258CE07500A435F6 /* UserDefaultWrapper.swift in Sources */,
 				F9E8F34623A12B89002DE5E8 /* String+Encode.swift in Sources */,
