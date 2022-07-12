@@ -26,6 +26,18 @@ class ApiRequest {
     private lazy var logQueue = DispatchQueue(label: "com.ClashX.core.log")
 
     static let clashRequestQueue = DispatchQueue(label: "com.clashx.clashRequestQueue")
+    
+    @objc enum ProviderType: Int {
+        case rule, proxy
+        
+        func apiString() -> String {
+            self == .proxy ? "proxies" : "rules"
+        }
+        
+        func logString() -> String {
+            self == .proxy ? "Proxy" : "Rule"
+        }
+    }
 
     private init() {
         let configuration = URLSessionConfiguration.default
@@ -242,6 +254,9 @@ class ApiRequest {
     static func getRules(completeHandler: @escaping ([ClashRule]) -> Void) {
         req("/rules").responseData { res in
             guard let data = try? res.result.get() else { return }
+            
+            ClashRuleProviderResp.init()
+            
             let rule = ClashRuleResponse.fromData(data)
             completeHandler(rule.rules ?? [])
         }
@@ -287,28 +302,40 @@ extension ApiRequest {
 // MARK: - Meta
 
 extension ApiRequest {
-    static func updateAllProxyProviders(completeHandler: ((Int) -> Void)? = nil) {
+    static func updateAllProviders(for type: ProviderType, completeHandler: ((Int) -> Void)? = nil) {
         var failuresCount = 0
         
         let group = DispatchGroup()
         group.enter()
-        requestProxyProviderList { resp in
-            let names = resp.allProviders.filter {
-                $0.value.vehicleType == .HTTP
-            }.map {
-                $0.key
-            }
-            
-            names.forEach {
-                group.enter()
-                updateProxyProvider(name: $0) {
-                    if !$0 {
-                        failuresCount += 1
+        
+        if type == .proxy {
+            requestProxyProviderList { resp in
+                resp.allProviders.filter {
+                    $0.value.vehicleType == .HTTP
+                }.forEach {
+                    group.enter()
+                    updateProvider(for: .proxy, name: $0.key) {
+                        if !$0 {
+                            failuresCount += 1
+                        }
+                        group.leave()
                     }
-                    group.leave()
                 }
+                group.leave()
             }
-            group.leave()
+        } else {
+            requestRuleProviderList { resp in
+                resp.allProviders.forEach {
+                    group.enter()
+                    updateProvider(for: .rule, name: $0.key) {
+                        if !$0 {
+                            failuresCount += 1
+                        }
+                        group.leave()
+                    }
+                }
+                group.leave()
+            }
         }
         
         group.notify(queue: .main) {
@@ -316,13 +343,27 @@ extension ApiRequest {
         }
     }
     
-    static func updateProxyProvider(name: String, completeHandler: ((Bool) -> Void)? = nil) {
-        Logger.log("UpdateProxyProvider \(name)")
-        req("/providers/proxies/\(name)", method: .put).response {
+    static func updateProvider(for type: ProviderType, name: String, completeHandler: ((Bool) -> Void)? = nil) {
+        let s = "Update \(type.logString()) Provider"
+        
+        Logger.log("\(s) \(name)")
+        req("/providers/\(type.apiString())/\(name)", method: .put).response {
             let re = $0.response?.statusCode == 204
-            
+            Logger.log("\(s) \(name) \(re ? "success" : "failed")")
             completeHandler?(re)
-            Logger.log("UpdateProxyProvider \(name) \(re ? "success" : "failed")")
+        }
+    }
+    
+    static func requestRuleProviderList(completeHandler: @escaping (ClashRuleProviderResp) -> Void) {
+        req("/providers/rules")
+            .responseDecodable(of: ClashRuleProviderResp.self, decoder: ClashProviderResp.decoder) { resp in
+            switch resp.result {
+            case let .success(providerResp):
+                completeHandler(providerResp)
+            case let .failure(err):
+                Logger.log("Get Rule providers error \(err.errorDescription ?? "unknown")" )
+                completeHandler(ClashRuleProviderResp())
+            }
         }
     }
     
@@ -347,8 +388,6 @@ extension ApiRequest {
             completeHandler?()
         }
     }
-    
-    
 }
 
 // MARK: - Stream Apis
