@@ -182,6 +182,7 @@
                         <outlet property="dashboardMenuItem" destination="XG6-2M-PNi" id="hzn-77-3Uc"/>
                         <outlet property="experimentalMenu" destination="sbS-Fj-gxn" id="m2U-Zq-cKD"/>
                         <outlet property="externalControlSeparator" destination="tXn-AQ-OT3" id="ddo-u2-wUb"/>
+                        <outlet property="flushFakeipCacheMenuItem" destination="WZT-AH-ria" id="Sb4-rY-pg2"/>
                         <outlet property="hideUnselecableMenuItem" destination="C3l-5G-vzB" id="pxn-sY-Hmf"/>
                         <outlet property="httpPortMenuItem" destination="WNw-8Y-VFw" id="ldW-Gw-Q9L"/>
                         <outlet property="ipMenuItem" destination="D2R-eG-cms" id="ugc-iD-j9T"/>
@@ -374,6 +375,12 @@
                                         <modifierMask key="keyEquivalentModifierMask"/>
                                         <connections>
                                             <action selector="updateGEO:" target="Voe-Tx-rLC" id="TMi-ff-cMZ"/>
+                                        </connections>
+                                    </menuItem>
+                                    <menuItem title="Flush fake-ip cache" id="WZT-AH-ria">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                        <connections>
+                                            <action selector="flushFakeipCache:" target="Voe-Tx-rLC" id="ghQ-ZK-r9u"/>
                                         </connections>
                                     </menuItem>
                                     <menuItem title="Proxy providers" id="4Jz-gx-7X9">

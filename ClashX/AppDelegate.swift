@@ -52,6 +52,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var proxyProvidersMenuItem: NSMenuItem!
     @IBOutlet var ruleProvidersMenuItem: NSMenuItem!
     @IBOutlet var snifferMenuItem: NSMenuItem!
+    @IBOutlet var flushFakeipCacheMenuItem: NSMenuItem!
 
     var disposeBag = DisposeBag()
     var statusItemView: StatusItemView!
@@ -852,6 +853,12 @@ extension AppDelegate {
     @IBAction func updateGEO(_ sender: NSMenuItem) {
         ApiRequest.updateGEO() { _ in
             NSUserNotificationCenter.default.post(title: "Updating GEO Databases...", info: "Good luck to you  🙃")
+        }
+    }
+    
+    @IBAction func flushFakeipCache(_ sender: NSMenuItem) {
+        ApiRequest.flushFakeipCache() {
+            NSUserNotificationCenter.default.post(title: "Flush fake-ip cache", info: $0 ? "Success" : "Failed")
         }
     }
     
