@@ -26,6 +26,12 @@ class MenuItemFactory {
         }
     }
     
+    static var useAlphaCore: Bool = UserDefaults.standard.object(forKey: "useAlphaCore") as? Bool ?? false {
+        didSet {
+            UserDefaults.standard.set(useAlphaCore, forKey: "useAlphaCore")
+        }
+    }
+    
     static let updateAllProvidersTitle = "Update All Providers"
 
     // MARK: - Public

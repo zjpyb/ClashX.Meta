@@ -174,6 +174,7 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="ClashX_Meta" customModuleProvider="target">
                     <connections>
                         <outlet property="allowFromLanMenuItem" destination="Vz8-7n-vx6" id="Fzz-EG-huC"/>
+                        <outlet property="alphaMetaVersionMenuItem" destination="Stq-Vy-QaD" id="2d6-jd-m0Z"/>
                         <outlet property="apiPortMenuItem" destination="hwG-qf-DeZ" id="d6K-i7-yCo"/>
                         <outlet property="autoStartMenuItem" destination="B1J-XB-BiZ" id="xaS-h5-qd0"/>
                         <outlet property="configSeparatorLine" destination="WzG-og-OyZ" id="hhn-AP-zKJ"/>
@@ -204,6 +205,7 @@
                         <outlet property="snifferMenuItem" destination="mk5-fI-KvW" id="wy5-NG-fu9"/>
                         <outlet property="socksPortMenuItem" destination="Uy1-g8-r6Q" id="NiI-Gy-9Sa"/>
                         <outlet property="statusMenu" destination="Afa-lD-EbR" id="cov-E9-WrO"/>
+                        <outlet property="useAlphaMetaMenuItem" destination="sk5-MZ-XB1" id="Ijq-xa-vVc"/>
                     </connections>
                 </customObject>
                 <menu id="Afa-lD-EbR">
@@ -392,6 +394,32 @@
                                         <menu key="submenu" title="Rule providers" id="wiW-XY-cyg"/>
                                     </menuItem>
                                     <menuItem isSeparatorItem="YES" id="mmr-bS-73Y"/>
+                                    <menuItem title="Alpha Core" id="WNb-4C-MWu">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                        <menu key="submenu" title="Alpha Core" autoenablesItems="NO" id="JYf-zC-xoj">
+                                            <items>
+                                                <menuItem title="Use alpha meta" id="sk5-MZ-XB1">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                    <connections>
+                                                        <action selector="useAlphaMeta:" target="Voe-Tx-rLC" id="RkO-tr-1sq"/>
+                                                    </connections>
+                                                </menuItem>
+                                                <menuItem isSeparatorItem="YES" id="GYy-fK-D1G"/>
+                                                <menuItem title="Version: none" id="Stq-Vy-QaD">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                    <connections>
+                                                        <action selector="showAlphaInFinder:" target="Voe-Tx-rLC" id="vFS-HH-EV6"/>
+                                                    </connections>
+                                                </menuItem>
+                                                <menuItem title="Download or update" id="MWh-yg-3Yk">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                    <connections>
+                                                        <action selector="updateAlphaMeta:" target="Voe-Tx-rLC" id="hgd-A7-HbD"/>
+                                                    </connections>
+                                                </menuItem>
+                                            </items>
+                                        </menu>
+                                    </menuItem>
                                     <menuItem title="Hide unselectable" id="C3l-5G-vzB">
                                         <modifierMask key="keyEquivalentModifierMask"/>
                                         <connections>

@@ -53,6 +53,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var ruleProvidersMenuItem: NSMenuItem!
     @IBOutlet var snifferMenuItem: NSMenuItem!
     @IBOutlet var flushFakeipCacheMenuItem: NSMenuItem!
+    
+    @IBOutlet var useAlphaMetaMenuItem: NSMenuItem!
+    @IBOutlet var alphaMetaVersionMenuItem: NSMenuItem!
 
     var disposeBag = DisposeBag()
     var statusItemView: StatusItemView!
@@ -207,6 +210,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         remoteConfigAutoupdateMenuItem.state = RemoteConfigManager.autoUpdateEnable ? .on : .off
         
         hideUnselecableMenuItem.state = .init(rawValue: MenuItemFactory.hideUnselectable)
+        useAlphaMetaMenuItem.state = MenuItemFactory.useAlphaCore ? .on : .off
     }
 
     func setupData() {
@@ -413,25 +417,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func initMetaCore() {
         Logger.log("initClashCore")
-        let fm = FileManager.default
         
         let corePath: String = {
-            if let path = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?
-                .appendingPathComponent("com.metacubex.ClashX.meta")
-                .appendingPathComponent("com.metacubex.ClashX.ProxyConfigHelper.meta").path,
+            if let path = Paths.alphaCorePath()?.path,
                let v = testMetaCore(path) {
-                alphaMetaVersionMenuItem.title = "Version: \(v.version)"
-                useAlphaMetaMenuItem.isEnabled = true
+                updateAlphaVersion(v.version)
                 if MenuItemFactory.useAlphaCore {
                     return path
                 }
             } else {
-                alphaMetaVersionMenuItem.title = "Version: none"
-                useAlphaMetaMenuItem.isEnabled = false
+                updateAlphaVersion(nil)
             }
             
-            if let path = Bundle.main.path(forResource: "com.metacubex.ClashX.ProxyConfigHelper.meta", ofType: nil),
-                      testMetaCore(path) != nil {
+            if let path = Paths.defaultCorePath(),
+               testMetaCore(path) != nil {
                 return path
             } else {
                 assertionFailure("Meta Core file losted.")
@@ -947,6 +946,118 @@ extension AppDelegate {
         let enable = sender.state != .on
         ApiRequest.updateSniffing(enable: enable) {
             sender.state = enable ? .on : .off
+        }
+    }
+    
+    @IBAction func useAlphaMeta(_ sender: NSMenuItem) {
+        let use = sender.state != .on
+        MenuItemFactory.useAlphaCore = use
+        sender.state = use ? .on : .off
+    }
+    
+    @IBAction func showAlphaInFinder(_ sender: NSMenuItem) {
+        guard let u = Paths.alphaCorePath(),
+              FileManager.default.fileExists(atPath: u.path) else { return }
+        NSWorkspace.shared.activateFileViewerSelecting([u])
+    }
+    
+    @IBAction func updateAlphaMeta(_ sender: NSMenuItem) {
+        
+        struct ReleasesResp: Decodable {
+            let assets: [Asset]
+            struct Asset: Decodable {
+                let name: String
+                let downloadUrl: String
+                let contentType: String
+                let state: String
+
+                enum CodingKeys: String, CodingKey {
+                    case name,
+                         state,
+                         downloadUrl = "browser_download_url",
+                         contentType = "content_type"
+                }
+            }
+        }
+        
+        func GetMachineHardwareName() -> String? {
+            var sysInfo = utsname()
+            let retVal = uname(&sysInfo)
+
+            guard retVal == EXIT_SUCCESS else { return nil }
+
+            return String(cString: &sysInfo.machine.0, encoding: .utf8)
+        }
+        
+        let assetName: String? = {
+            switch GetMachineHardwareName() {
+            case "x86_64":
+                return "darwin-amd64"
+            case "arm64":
+                return "darwin-arm64"
+            default:
+                return nil
+            }
+        }()
+        let fm = FileManager.default
+        guard let helperURL = Paths.alphaCorePath() else {
+            return
+        }
+        
+        func dlResult(_ info: String) {
+            NSUserNotificationCenter.default.post(title: "Clash Meta Downloaded.", info: info)
+        }
+        
+        AF.request("https://api.github.com/repos/MetaCubeX/Clash.Meta/releases/tags/Prerelease-Alpha").responseDecodable(of: ReleasesResp.self) {
+            guard let assets = $0.value?.assets,
+                  let assetName = assetName,
+                  let asset = assets.first(where: {
+                      $0.name.contains(assetName) &&
+                      $0.state == "uploaded" &&
+                      $0.contentType == "application/gzip"
+                  }) else {
+                dlResult("Decode alpha release info failed")
+                return
+            }
+            
+            if let v = self.testMetaCore(helperURL.path),
+               asset.name.contains(v.version) {
+                dlResult("Not found update")
+                return
+            }
+            
+            self.updateAlphaVersion(nil)
+            try? fm.removeItem(at: helperURL)
+            
+            AF.download(asset.downloadUrl).response {
+                guard let gzPath = $0.fileURL?.path,
+                      let contentData = fm.contents(atPath: gzPath)
+                else { return }
+                do {
+                    try fm.createDirectory(at: helperURL.deletingLastPathComponent(), withIntermediateDirectories: true, attributes: nil)
+                    try contentData.gunzipped().write(to: helperURL)
+                    guard let version = self.testMetaCore(helperURL.path)?.version else {
+                        dlResult("Test downloaded file failed")
+                        return
+                    }
+                    self.updateAlphaVersion(version)
+                    dlResult("Version: \(version)")
+                } catch let error {
+                    dlResult("Something error \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    func updateAlphaVersion(_ version: String?) {
+        let enable = version != nil
+        useAlphaMetaMenuItem.isEnabled = enable
+        alphaMetaVersionMenuItem.isEnabled = enable
+        if let v = version {
+            let info = "Version: \(v)"
+            alphaMetaVersionMenuItem.title = info
+        } else {
+            alphaMetaVersionMenuItem.title = "Version: none"
         }
     }
 }
