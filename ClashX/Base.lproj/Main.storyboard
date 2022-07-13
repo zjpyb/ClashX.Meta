@@ -404,6 +404,9 @@
                                                         <action selector="useAlphaMeta:" target="Voe-Tx-rLC" id="RkO-tr-1sq"/>
                                                     </connections>
                                                 </menuItem>
+                                                <menuItem title="Requires restart  ⚠️" enabled="NO" id="u64-fu-xPW">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                </menuItem>
                                                 <menuItem isSeparatorItem="YES" id="GYy-fK-D1G"/>
                                                 <menuItem title="Version: none" id="Stq-Vy-QaD">
                                                     <modifierMask key="keyEquivalentModifierMask"/>
