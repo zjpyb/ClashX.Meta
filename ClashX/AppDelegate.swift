@@ -413,12 +413,93 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func initMetaCore() {
         Logger.log("initClashCore")
-        if let path = Bundle.main.path(forResource: "com.metacubex.ClashX.ProxyConfigHelper.meta", ofType: nil) {
-            PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: path)
-        } else {
-            assertionFailure("Meta Core file losted.")
-        }
+        let fm = FileManager.default
+        
+        let corePath: String = {
+            if let path = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?
+                .appendingPathComponent("com.metacubex.ClashX.meta")
+                .appendingPathComponent("com.metacubex.ClashX.ProxyConfigHelper.meta").path,
+               let v = testMetaCore(path) {
+                alphaMetaVersionMenuItem.title = "Version: \(v.version)"
+                useAlphaMetaMenuItem.isEnabled = true
+                if MenuItemFactory.useAlphaCore {
+                    return path
+                }
+            } else {
+                alphaMetaVersionMenuItem.title = "Version: none"
+                useAlphaMetaMenuItem.isEnabled = false
+            }
+            
+            if let path = Bundle.main.path(forResource: "com.metacubex.ClashX.ProxyConfigHelper.meta", ofType: nil),
+                      testMetaCore(path) != nil {
+                return path
+            } else {
+                assertionFailure("Meta Core file losted.")
+                return ""
+            }
+        }()
+
+        PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: corePath)
         Logger.log("initClashCore finish")
+    }
+    
+    func testMetaCore(_ path: String) -> (version: String, date: Date?)? {
+        guard FileManager.default.fileExists(atPath: path),
+              chmodX(path) else {
+            return nil
+        }
+        
+        let proc = Process()
+        proc.executableURL = .init(fileURLWithPath: path)
+        proc.arguments = ["-v"]
+        let pipe = Pipe()
+        proc.standardOutput = pipe
+        do {
+            try proc.run()
+        } catch let error {
+            Logger.log(error.localizedDescription)
+            return nil
+        }
+        proc.waitUntilExit()
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        
+        guard proc.terminationStatus == 0,
+              let out = String(data: data, encoding: .utf8) else {
+            return nil
+        }
+        
+        let outs = out.replacingOccurrences(of: "\n", with: "").split(separator: " ").map(String.init)
+        
+        guard outs.count == 13,
+              outs[0] == "Clash",
+              outs[1] == "Meta",
+              outs[3] == "darwin" else {
+            return nil
+        }
+        
+        let version = outs[2]
+        
+        let dateString = [outs[7], outs[8], outs[9], outs[10], outs[12]].joined(separator: "-")
+        let f = DateFormatter()
+        f.dateFormat = "E-MMM-d-HH:mm:ss-yyyy"
+        f.timeZone = .init(abbreviation: outs[11])
+        let date = f.date(from: dateString)
+
+        return (version: version, date: date)
+    }
+    
+    func chmodX(_ path: String) -> Bool {
+        let proc = Process()
+        proc.executableURL = .init(fileURLWithPath: "/bin/chmod")
+        proc.arguments = ["+x", path]
+        do {
+            try proc.run()
+        } catch let error {
+            Logger.log("chmod +x failed. \(error.localizedDescription)")
+            return false
+        }
+        proc.waitUntilExit()
+        return proc.terminationStatus == 0
     }
 
     func startProxy() {
