@@ -962,7 +962,10 @@ extension AppDelegate {
     }
     
     @IBAction func updateAlphaMeta(_ sender: NSMenuItem) {
-        
+        guard let helperURL = Paths.alphaCorePath() else {
+            return
+        }
+        sender.isEnabled = false
         struct ReleasesResp: Decodable {
             let assets: [Asset]
             struct Asset: Decodable {
@@ -1000,11 +1003,9 @@ extension AppDelegate {
             }
         }()
         let fm = FileManager.default
-        guard let helperURL = Paths.alphaCorePath() else {
-            return
-        }
         
         func dlResult(_ info: String) {
+            sender.isEnabled = true
             NSUserNotificationCenter.default.post(title: "Clash Meta Downloaded.", info: info)
         }
         
@@ -1032,7 +1033,10 @@ extension AppDelegate {
             AF.download(asset.downloadUrl).response {
                 guard let gzPath = $0.fileURL?.path,
                       let contentData = fm.contents(atPath: gzPath)
-                else { return }
+                else {
+                    dlResult("Download file failed")
+                    return
+                }
                 do {
                     try fm.createDirectory(at: helperURL.deletingLastPathComponent(), withIntermediateDirectories: true, attributes: nil)
                     try contentData.gunzipped().write(to: helperURL)
