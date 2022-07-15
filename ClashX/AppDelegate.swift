@@ -56,6 +56,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @IBOutlet var useAlphaMetaMenuItem: NSMenuItem!
     @IBOutlet var alphaMetaVersionMenuItem: NSMenuItem!
+    @IBOutlet var updateAlphaMetaMenuItem: NSMenuItem!
 
     var disposeBag = DisposeBag()
     var statusItemView: StatusItemView!
@@ -1006,7 +1007,7 @@ extension AppDelegate {
         
         func dlResult(_ info: String) {
             sender.isEnabled = true
-            NSUserNotificationCenter.default.post(title: "Clash Meta Downloaded.", info: info)
+            NSUserNotificationCenter.default.post(title: "Clash Meta Core", info: info)
         }
         
         AF.request("https://api.github.com/repos/MetaCubeX/Clash.Meta/releases/tags/Prerelease-Alpha").responseDecodable(of: ReleasesResp.self) {
@@ -1060,8 +1061,10 @@ extension AppDelegate {
         if let v = version {
             let info = "Version: \(v)"
             alphaMetaVersionMenuItem.title = info
+            updateAlphaMetaMenuItem.title = "Update Meta core"
         } else {
             alphaMetaVersionMenuItem.title = "Version: none"
+            updateAlphaMetaMenuItem.title = "Download Meta core"
         }
     }
 }

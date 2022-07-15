@@ -205,6 +205,7 @@
                         <outlet property="snifferMenuItem" destination="mk5-fI-KvW" id="wy5-NG-fu9"/>
                         <outlet property="socksPortMenuItem" destination="Uy1-g8-r6Q" id="NiI-Gy-9Sa"/>
                         <outlet property="statusMenu" destination="Afa-lD-EbR" id="cov-E9-WrO"/>
+                        <outlet property="updateAlphaMetaMenuItem" destination="MWh-yg-3Yk" id="jJi-h8-7T2"/>
                         <outlet property="useAlphaMetaMenuItem" destination="sk5-MZ-XB1" id="Ijq-xa-vVc"/>
                     </connections>
                 </customObject>
