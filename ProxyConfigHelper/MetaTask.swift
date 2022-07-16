@@ -106,7 +106,6 @@ class MetaTask: NSObject {
                             returnResult($0)
                         }
                         
-                        /*
                         if let range = $0.range(of: "RESTful API listening at: ") {
                             let addr = String($0[range.upperBound..<$0.endIndex])
                             guard addr.split(separator: ":").count == 2,
@@ -114,21 +113,15 @@ class MetaTask: NSObject {
                                 returnResult("Not found RESTful API port.")
                                 return
                             }
-                            let test = self.testListenPort(port)
-                            if test.pid != 0,
-                               test.pid == self.proc.processIdentifier,
-                               test.addr == addr {
+                            let testLP = self.testListenPort(port)
+                            if testLP.pid != 0,
+                               testLP.pid == self.proc.processIdentifier,
+                               testLP.addr == addr {
                                 serverResult.log = logs.joined(separator: "\n")
                                 returnResult(serverResult.jsonString())
                             } else {
                                 returnResult("Check RESTful API pid failed.")
                             }
-                        }
-                         */
-                        
-                        if $0.contains("Apply all configs finished.") {
-                            serverResult.log = logs.joined(separator: "\n")
-                            returnResult(serverResult.jsonString())
                         }
                     }
                 }
