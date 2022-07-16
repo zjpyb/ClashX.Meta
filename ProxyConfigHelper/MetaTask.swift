@@ -24,10 +24,15 @@ class MetaTask: NSObject {
         }
     }
     
+    struct MetaCurl: Decodable {
+        let hello: String
+    }
+    
     
     let proc = Process()
     var uiPath: String?
     let procQueue = DispatchQueue(label: "com.metacubex.ClashX.ProxyConfigHelper.MetaProcess")
+    var timer: Timer?
     
     
     @objc func setLaunchPath(_ path: String) {
@@ -46,8 +51,9 @@ class MetaTask: NSObject {
         
         func returnResult(_ re: String) {
             guard !resultReturned else { return }
+            timer?.invalidate()
+            timer = nil
             resultReturned = true
-            
             DispatchQueue.main.async {
                 result(re)
             }
@@ -106,6 +112,7 @@ class MetaTask: NSObject {
                             returnResult($0)
                         }
                         
+                        /*
                         if let range = $0.range(of: "RESTful API listening at: ") {
                             let addr = String($0[range.upperBound..<$0.endIndex])
                             guard addr.split(separator: ":").count == 2,
@@ -121,6 +128,16 @@ class MetaTask: NSObject {
                                 returnResult(serverResult.jsonString())
                             } else {
                                 returnResult("Check RESTful API pid failed.")
+                            }
+                        }
+                         */
+                        
+                        if $0.contains("RESTful API listening at:") {
+                            if self.testExternalController(serverResult) {
+                                serverResult.log = logs.joined(separator: "\n")
+                                returnResult(serverResult.jsonString())
+                            } else {
+                                returnResult("Check RESTful API failed.")
                             }
                         }
                     }
@@ -140,6 +157,14 @@ class MetaTask: NSObject {
                     let results = string.split(separator: "\n").map(String.init).map(self.formatMsg(_:))
                     
                     returnResult(results.joined(separator: "\n"))
+                }
+                
+                self.timer = .init(timeInterval: 0.5, repeats: true) { timer in
+                    guard self.testExternalController(serverResult) else {
+                        return
+                    }
+                    serverResult.log = logs.joined(separator: "\n")
+                    returnResult(serverResult.jsonString())
                 }
                 
                 DispatchQueue.global().asyncAfter(deadline: .now() + 30) {
@@ -248,6 +273,30 @@ class MetaTask: NSObject {
         return (Int32(pid) ?? 0, addr)
     }
     
+    func testExternalController(_ server: MetaServer) -> Bool {
+        let proc = Process()
+        let pipe = Pipe()
+        proc.standardOutput = pipe
+        proc.executableURL = .init(fileURLWithPath: "/usr/bin/curl")
+        var args = [server.externalController]
+        if server.secret != "" {
+            args.append(contentsOf: [
+                "--header",
+                "Authorization: Bearer \(server.secret)"
+            ])
+        }
+        
+        proc.arguments = args
+        try? proc.run()
+        proc.waitUntilExit()
+        
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        guard let str = try? JSONDecoder().decode(MetaCurl.self, from: data),
+              str.hello == "clash.meta" else {
+            return false
+        }
+        return true
+    }
     
     func formatMsg(_ msg: String) -> String {
         let msgs = msg.split(separator: " ", maxSplits: 2).map(String.init)
