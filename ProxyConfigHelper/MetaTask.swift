@@ -150,6 +150,7 @@ class MetaTask: NSObject {
                 }
                 
                 DispatchQueue.global().asyncAfter(deadline: .now() + 30) {
+                    serverResult.log = logs.joined(separator: "\n")
                     returnResult(serverResult.jsonString())
                 }
                 
