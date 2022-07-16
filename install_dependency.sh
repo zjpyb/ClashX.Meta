@@ -16,9 +16,7 @@ chmod +x com.metacubex.ClashX.ProxyConfigHelper.meta
 cp com.metacubex.ClashX.ProxyConfigHelper.meta ../ClashX/Resources/
 cd ..
 
-
 echo "Pod install"
-brew install cocoapods
 pod install
 echo "delete old files"
 rm -f ./ClashX/Resources/Country.mmdb
