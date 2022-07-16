@@ -163,7 +163,11 @@ class MetaTask: NSObject {
     @objc func stop() {
         DispatchQueue.main.async {
             guard self.proc.isRunning else { return }
-            self.proc.interrupt()
+            let proc = Process()
+            proc.executableURL = .init(fileURLWithPath: "/bin/kill")
+            proc.arguments = ["-9", "\(self.proc.processIdentifier)"]
+            try? proc.run()
+            proc.waitUntilExit()
         }
     }
     

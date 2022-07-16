@@ -27,6 +27,8 @@ typedef void(^dictReplyBlock)(NSDictionary *);
                   ConfFilePath:(NSString *)confFilePath
                         result:(stringReplyBlock)reply;
 
+- (void)stopMeta;
+
 - (void)getVersion:(stringReplyBlock)reply;
 
 - (void)enableProxyWithPort:(int)port
