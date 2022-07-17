@@ -153,4 +153,8 @@ ProxyConfigRemoteProcessProtocol
     reply(re);
 }
 
+- (void)stopMeta {
+    [self.metaTask stop];
+}
+
 @end

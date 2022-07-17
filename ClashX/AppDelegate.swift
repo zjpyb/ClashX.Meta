@@ -128,6 +128,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         let group = DispatchGroup()
         var shouldWait = false
+        
+        PrivilegedHelperManager.shared.helper()?.stopMeta()
 
         if ConfigManager.shared.proxyPortAutoSet && !ConfigManager.shared.isProxySetByOtherVariable.value || NetworkChangeNotifier.isCurrentSystemSetToClash(looser: true) ||
             NetworkChangeNotifier.hasInterfaceProxySetToClash() {
@@ -276,20 +278,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.snifferMenuItem.state = config.sniffing ? .on : .off
             }.disposed(by: disposeBag)
 
-        if !PrivilegedHelperManager.shared.isHelperCheckFinished.value &&
-            ConfigManager.shared.proxyPortAutoSet {
-            PrivilegedHelperManager.shared.isHelperCheckFinished
-                .filter({$0})
-                .take(1)
-                .take(while: {_ in ConfigManager.shared.proxyPortAutoSet})
-                .observe(on: MainScheduler.instance)
-                .bind(onNext: { _ in
-                    SystemProxyManager.shared.enableProxy()
-                }).disposed(by: disposeBag)
-        } else if ConfigManager.shared.proxyPortAutoSet {
-            SystemProxyManager.shared.enableProxy()
-        }
-
         if !PrivilegedHelperManager.shared.isHelperCheckFinished.value {
             proxySettingMenuItem.target = nil
             PrivilegedHelperManager.shared.isHelperCheckFinished
@@ -315,6 +303,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             initMetaCore()
             updateConfig(showNotification: false)
+        }
+    }
+    
+    func setupSystemData() {
+        if !PrivilegedHelperManager.shared.isHelperCheckFinished.value &&
+            ConfigManager.shared.proxyPortAutoSet {
+            PrivilegedHelperManager.shared.isHelperCheckFinished
+                .filter({$0})
+                .take(1)
+                .take(while: {_ in ConfigManager.shared.proxyPortAutoSet})
+                .observe(on: MainScheduler.instance)
+                .bind(onNext: { _ in
+                    SystemProxyManager.shared.enableProxy()
+                }).disposed(by: disposeBag)
+        } else if ConfigManager.shared.proxyPortAutoSet {
+            SystemProxyManager.shared.enableProxy()
         }
     }
 
@@ -548,6 +552,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             ConfigManager.shared.isRunning = true
             proxyModeMenuItem.isEnabled = true
             dashboardMenuItem.isEnabled = true
+            
+            setupSystemData()
         } else {
             ConfigManager.shared.isRunning = false
             proxyModeMenuItem.isEnabled = false
