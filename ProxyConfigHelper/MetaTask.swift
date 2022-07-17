@@ -273,6 +273,38 @@ class MetaTask: NSObject {
         return (Int32(pid) ?? 0, addr)
     }
     
+    func findExternalControllerPort(_ port: Int) -> Int {
+        let proc = Process()
+        let pipe = Pipe()
+        proc.standardOutput = pipe
+        proc.executableURL = .init(fileURLWithPath: "/bin/bash")
+        proc.arguments = ["-c", "lsof -nP -iTCP -sTCP:LISTEN | grep LISTEN"]
+        try? proc.run()
+        proc.waitUntilExit()
+        
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        guard let str = String(data: data, encoding: .utf8) else {
+            return port
+        }
+        
+        let ports = str.split(separator: "\n").map {
+            String($0).split(separator: " ")
+        }.compactMap { re -> Int? in
+            guard re.count == 10,
+                  let range = re[8].range(of: ":", options: .backwards) else { return nil }
+            let s = re[8]
+            let p = s[range.upperBound..<s.endIndex]
+            return Int(p)
+        }
+        guard ports.contains(port) else {
+            return port
+        }
+        
+        var aPorts = Set(port..<65534)
+        aPorts.subtract(ports)
+        return aPorts.min() ?? port
+    }
+    
     func testExternalController(_ server: MetaServer) -> Bool {
         let proc = Process()
         let pipe = Pipe()
