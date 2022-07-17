@@ -28,12 +28,12 @@ class MetaTask: NSObject {
         let hello: String
     }
     
-    
     let proc = Process()
     var uiPath: String?
-    let procQueue = DispatchQueue(label: "com.metacubex.ClashX.ProxyConfigHelper.MetaProcess")
-    var timer: Timer?
+    let procQueue = DispatchQueue(label: Bundle.main.bundleIdentifier! + ".MetaProcess")
     
+    var timer: DispatchSourceTimer?
+    let timerQueue = DispatchQueue(label: Bundle.main.bundleIdentifier! + ".timer")
     
     @objc func setLaunchPath(_ path: String) {
         proc.executableURL = .init(fileURLWithPath: path)
@@ -51,7 +51,7 @@ class MetaTask: NSObject {
         
         func returnResult(_ re: String) {
             guard !resultReturned else { return }
-            timer?.invalidate()
+            timer?.cancel()
             timer = nil
             resultReturned = true
             DispatchQueue.main.async {
@@ -159,7 +159,9 @@ class MetaTask: NSObject {
                     returnResult(results.joined(separator: "\n"))
                 }
                 
-                self.timer = .init(timeInterval: 0.5, repeats: true) { timer in
+                self.timer = DispatchSource.makeTimerSource(queue: self.timerQueue)
+                self.timer?.schedule(deadline: .now(), repeating: .milliseconds(500))
+                self.timer?.setEventHandler {
                     guard self.testExternalController(serverResult) else {
                         return
                     }
@@ -173,6 +175,7 @@ class MetaTask: NSObject {
                 }
                 
                 try self.proc.run()
+                self.timer?.resume()
             } catch let error {
                 returnResult("Start meta error, \(error.localizedDescription).")
             }
@@ -323,6 +326,7 @@ class MetaTask: NSObject {
         proc.waitUntilExit()
         
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        
         guard let str = try? JSONDecoder().decode(MetaCurl.self, from: data),
               str.hello == "clash.meta" else {
             return false
@@ -360,14 +364,20 @@ class MetaTask: NSObject {
               let content = String(data: data, encoding: .utf8) else {
             return nil
         }
-        
         let lines = content.split(separator: "\n").map(String.init)
         
-        let serverAddr = lines.first(where: { $0.starts(with: "external-controller: ") })?.dropFirst("external-controller: ".count) ?? ""
+        func find(_ key: String) -> String {
+            var re = lines.first(where: { $0.starts(with: "\(key): ") })?.dropFirst("\(key): ".count) ?? ""
+            
+            if re.hasPrefix("\"") && re.hasSuffix("\"")
+                || re.hasPrefix("'") && re.hasSuffix("'") {
+                re.removeLast()
+                re.removeFirst()
+            }
+            return String(re)
+        }
         
-        let serverSecret = lines.first(where: { $0.starts(with: "secret: ") })?.dropFirst("secret: ".count) ?? ""
-        
-        return MetaServer(externalController: String(serverAddr),
-                          secret: String(serverSecret))
+        return MetaServer(externalController: find("external-controller"),
+                          secret: find("secret"))
     }
 }
