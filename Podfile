@@ -28,5 +28,6 @@ target 'ClashX Meta' do
   pod 'Starscream','3.1.1'
   pod "FlexibleDiff"
   pod 'GzipSwift'
+  pod 'Yams'
 end
 
