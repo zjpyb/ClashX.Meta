@@ -862,7 +862,6 @@ extension AppDelegate {
     @IBAction func actionUpdateProxyGroupMenu(_ sender: Any) {
         ConfigManager.shared.disableShowCurrentProxyInMenu = !ConfigManager.shared.disableShowCurrentProxyInMenu
         updateExperimentalFeatureStatus()
-        print("211")
         MenuItemFactory.recreateProxyMenuItems()
     }
 
