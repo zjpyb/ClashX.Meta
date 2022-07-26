@@ -514,12 +514,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let secret: String
             let log: String?
         }
-        
-        // setup ui config first
-        if let htmlPath = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "dashboard") {
-            let uiPath = URL(fileURLWithPath: htmlPath).deletingLastPathComponent().path
-            PrivilegedHelperManager.shared.helper()?.metaSetUIPath(uiPath)
-        }
 
         Logger.log("Trying start proxy")
         var string = ""

@@ -140,10 +140,6 @@ ProxyConfigRemoteProcessProtocol
 }
 
 
-- (void)metaSetUIPath:(NSString *)path {
-    [self.metaTask setUIPath:path];
-}
-
 - (void)startMetaWithConfPath:(NSString *)confPath ConfFilePath:(NSString *)confFilePath result:(stringReplyBlock)reply {
     [self.metaTask start:confPath confFilePath:confFilePath result:reply];
 }

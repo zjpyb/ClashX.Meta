@@ -29,7 +29,6 @@ class MetaTask: NSObject {
     }
     
     let proc = Process()
-    var uiPath: String?
     let procQueue = DispatchQueue(label: Bundle.main.bundleIdentifier! + ".MetaProcess")
     
     var timer: DispatchSourceTimer?
@@ -37,10 +36,6 @@ class MetaTask: NSObject {
     
     @objc func setLaunchPath(_ path: String) {
         proc.executableURL = .init(fileURLWithPath: path)
-    }
-    
-    @objc func setUIPath(_ path: String) {
-        uiPath = path
     }
     
     @objc func start(_ confPath: String,
@@ -68,13 +63,6 @@ class MetaTask: NSObject {
             args.append(contentsOf: [
                 "-f",
                 confFilePath
-            ])
-        }
-        
-        if let uiPath = uiPath {
-            args.append(contentsOf: [
-                "-ext-ui",
-                uiPath
             ])
         }
         
