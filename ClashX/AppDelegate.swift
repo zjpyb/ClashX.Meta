@@ -45,7 +45,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var copyExportCommandExternalMenuItem: NSMenuItem!
     @IBOutlet var experimentalMenu: NSMenu!
     @IBOutlet var externalControlSeparator: NSMenuItem!
-    
+
     @IBOutlet var hideUnselecableMenuItem: NSMenuItem!
     @IBOutlet var proxyProvidersMenu: NSMenu!
     @IBOutlet var ruleProvidersMenu: NSMenu!
@@ -53,7 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var ruleProvidersMenuItem: NSMenuItem!
     @IBOutlet var snifferMenuItem: NSMenuItem!
     @IBOutlet var flushFakeipCacheMenuItem: NSMenuItem!
-    
+
     @IBOutlet var useAlphaMetaMenuItem: NSMenuItem!
     @IBOutlet var alphaMetaVersionMenuItem: NSMenuItem!
     @IBOutlet var updateAlphaMetaMenuItem: NSMenuItem!
@@ -65,7 +65,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var runAfterConfigReload: (() -> Void)?
 
     var dashboardWindowController: ClashWebViewWindowController?
-    
+
     func applicationWillFinishLaunching(_ notification: Notification) {
         signal(SIGPIPE, SIG_IGN)
         // crash recorder
@@ -114,7 +114,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         runAfterConfigReload = { [weak self] in
             self?.selectAllowLanWithMenory()
         }
-        
+
         updateLoggingLevel()
 
         // start watch config file change
@@ -128,7 +128,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         let group = DispatchGroup()
         var shouldWait = false
-        
+
         PrivilegedHelperManager.shared.helper()?.stopMeta()
 
         if ConfigManager.shared.proxyPortAutoSet && !ConfigManager.shared.isProxySetByOtherVariable.value || NetworkChangeNotifier.isCurrentSystemSetToClash(looser: true) ||
@@ -211,7 +211,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }).disposed(by: disposeBag)
 
         remoteConfigAutoupdateMenuItem.state = RemoteConfigManager.autoUpdateEnable ? .on : .off
-        
+
         hideUnselecableMenuItem.state = .init(rawValue: MenuItemFactory.hideUnselectable)
         useAlphaMetaMenuItem.state = MenuItemFactory.useAlphaCore ? .on : .off
     }
@@ -289,7 +289,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     self.proxySettingMenuItem.target = self
                 }.disposed(by: disposeBag)
         }
-        
+
         // start proxy
         if !PrivilegedHelperManager.shared.isHelperCheckFinished.value {
             PrivilegedHelperManager.shared.isHelperCheckFinished
@@ -305,7 +305,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             updateConfig(showNotification: false)
         }
     }
-    
+
     func setupSystemData() {
         if !PrivilegedHelperManager.shared.isHelperCheckFinished.value &&
             ConfigManager.shared.proxyPortAutoSet {
@@ -419,10 +419,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         NotificationCenter.default.post(name: .reloadDashboard, object: nil)
     }
-    
+
     func initMetaCore() {
         Logger.log("initClashCore")
-        
+
         let corePath: String = {
             if let path = Paths.alphaCorePath()?.path,
                let v = testMetaCore(path) {
@@ -433,7 +433,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             } else {
                 updateAlphaVersion(nil)
             }
-            
+
             if let path = Paths.defaultCorePath(),
                testMetaCore(path) != nil {
                 return path
@@ -446,13 +446,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: corePath)
         Logger.log("initClashCore finish")
     }
-    
+
     func testMetaCore(_ path: String) -> (version: String, date: Date?)? {
         guard FileManager.default.fileExists(atPath: path),
               chmodX(path) else {
             return nil
         }
-        
+
         let proc = Process()
         proc.executableURL = .init(fileURLWithPath: path)
         proc.arguments = ["-v"]
@@ -466,23 +466,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         proc.waitUntilExit()
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
-        
+
         guard proc.terminationStatus == 0,
               let out = String(data: data, encoding: .utf8) else {
             return nil
         }
-        
+
         let outs = out.replacingOccurrences(of: "\n", with: "").split(separator: " ").map(String.init)
-        
+
         guard outs.count == 13,
               outs[0] == "Clash",
               outs[1] == "Meta",
               outs[3] == "darwin" else {
             return nil
         }
-        
+
         let version = outs[2]
-        
+
         let dateString = [outs[7], outs[8], outs[9], outs[10], outs[12]].joined(separator: "-")
         let f = DateFormatter()
         f.dateFormat = "E-MMM-d-HH:mm:ss-yyyy"
@@ -491,7 +491,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         return (version: version, date: date)
     }
-    
+
     func chmodX(_ path: String) -> Bool {
         let proc = Process()
         proc.executableURL = .init(fileURLWithPath: "/bin/chmod")
@@ -525,19 +525,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var string = ""
         let queue = DispatchGroup()
         queue.enter()
-        
+
         PrivilegedHelperManager.shared.helper {
             string = "Can't connect to helper."
             queue.leave()
         }?.startMeta(withConfPath: kConfigFolderPath,
-                          confFilePath: "")  {
+                          confFilePath: "") {
             string = $0 ?? ""
             queue.leave()
         }
         queue.wait()
         let jsonData = string.data(using: .utf8) ?? Data()
         if let res = try? JSONDecoder().decode(StartProxyResp.self, from: jsonData) {
-            
+
             if let log = res.log {
                 Logger.log("""
 \n########  Clash Meta Start Log  #########
@@ -545,14 +545,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 ########  END  #########
 """, level: .info)
             }
-            
+
             let port = res.externalController.components(separatedBy: ":").last ?? "9090"
             ConfigManager.shared.apiPort = port
             ConfigManager.shared.apiSecret = res.secret
             ConfigManager.shared.isRunning = true
             proxyModeMenuItem.isEnabled = true
             dashboardMenuItem.isEnabled = true
-            
+
             setupSystemData()
         } else {
             ConfigManager.shared.isRunning = false
@@ -912,7 +912,7 @@ extension AppDelegate {
         sender.state = newState
         MenuItemFactory.hideUnselectable = newState.rawValue
     }
-    
+
     @IBAction func checkForUpdate(_ sender: NSMenuItem) {
         let unc = NSUserNotificationCenter.default
         AF.request("https://api.github.com/repos/MetaCubeX/ClashX.Meta/releases/latest").responseString {
@@ -922,7 +922,7 @@ extension AppDelegate {
                 unc.postUpdateNotice(msg: "Some thing failed.")
                 return
             }
-            
+
             if tagName != AppVersionUtil.currentVersion {
                 let alert = NSAlert()
                 alert.messageText = "Open github release page to download \(tagName)"
@@ -936,38 +936,38 @@ extension AppDelegate {
             }
         }
     }
-    
+
     @IBAction func updateGEO(_ sender: NSMenuItem) {
-        ApiRequest.updateGEO() { _ in
+        ApiRequest.updateGEO { _ in
             NSUserNotificationCenter.default.post(title: "Updating GEO Databases...", info: "Good luck to you  🙃")
         }
     }
-    
+
     @IBAction func flushFakeipCache(_ sender: NSMenuItem) {
-        ApiRequest.flushFakeipCache() {
+        ApiRequest.flushFakeipCache {
             NSUserNotificationCenter.default.post(title: "Flush fake-ip cache", info: $0 ? "Success" : "Failed")
         }
     }
-    
+
     @IBAction func updateSniffing(_ sender: NSMenuItem) {
         let enable = sender.state != .on
         ApiRequest.updateSniffing(enable: enable) {
             sender.state = enable ? .on : .off
         }
     }
-    
+
     @IBAction func useAlphaMeta(_ sender: NSMenuItem) {
         let use = sender.state != .on
         MenuItemFactory.useAlphaCore = use
         sender.state = use ? .on : .off
     }
-    
+
     @IBAction func showAlphaInFinder(_ sender: NSMenuItem) {
         guard let u = Paths.alphaCorePath(),
               FileManager.default.fileExists(atPath: u.path) else { return }
         NSWorkspace.shared.activateFileViewerSelecting([u])
     }
-    
+
     @IBAction func updateAlphaMeta(_ sender: NSMenuItem) {
         guard let helperURL = Paths.alphaCorePath() else {
             return
@@ -989,7 +989,7 @@ extension AppDelegate {
                 }
             }
         }
-        
+
         func GetMachineHardwareName() -> String? {
             var sysInfo = utsname()
             let retVal = uname(&sysInfo)
@@ -998,7 +998,7 @@ extension AppDelegate {
 
             return String(cString: &sysInfo.machine.0, encoding: .utf8)
         }
-        
+
         let assetName: String? = {
             switch GetMachineHardwareName() {
             case "x86_64":
@@ -1010,12 +1010,12 @@ extension AppDelegate {
             }
         }()
         let fm = FileManager.default
-        
+
         func dlResult(_ info: String) {
             sender.isEnabled = true
             NSUserNotificationCenter.default.post(title: "Clash Meta Core", info: info)
         }
-        
+
         AF.request("https://api.github.com/repos/MetaCubeX/Clash.Meta/releases/tags/Prerelease-Alpha").responseDecodable(of: ReleasesResp.self) {
             guard let assets = $0.value?.assets,
                   let assetName = assetName,
@@ -1027,16 +1027,16 @@ extension AppDelegate {
                 dlResult("Decode alpha release info failed")
                 return
             }
-            
+
             if let v = self.testMetaCore(helperURL.path),
                asset.name.contains(v.version) {
                 dlResult("Not found update")
                 return
             }
-            
+
             self.updateAlphaVersion(nil)
             try? fm.removeItem(at: helperURL)
-            
+
             AF.download(asset.downloadUrl).response {
                 guard let gzPath = $0.fileURL?.path,
                       let contentData = fm.contents(atPath: gzPath)
@@ -1059,7 +1059,7 @@ extension AppDelegate {
             }
         }
     }
-    
+
     func updateAlphaVersion(_ version: String?) {
         let enable = version != nil
         useAlphaMetaMenuItem.isEnabled = enable

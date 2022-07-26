@@ -209,7 +209,7 @@ class RemoteConfigManager {
         var res: String?
         let path = NSTemporaryDirectory().appending("com.MetaCubeX.ClashX.meta")
         let confPath = path + "/\(UUID().uuidString).yaml"
-        
+
         let fm = FileManager.default
         try? fm.createDirectory(atPath: path, withIntermediateDirectories: true)
         guard fm.createFile(atPath: confPath, contents: string.data(using: .utf8)) else {

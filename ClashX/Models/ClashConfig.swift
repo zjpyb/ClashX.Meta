@@ -39,7 +39,7 @@ class ClashConfig: Codable {
     var mixedPort: Int
     var mode: ClashProxyMode
     var logLevel: ClashLogLevel
-    
+
     var sniffing: Bool
 
     var usedHttpPort: Int {
