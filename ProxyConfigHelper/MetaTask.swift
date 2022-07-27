@@ -8,7 +8,7 @@ import Cocoa
 class MetaTask: NSObject {
     
     struct MetaServer: Encodable {
-        let externalController: String
+        var externalController: String
         let secret: String
         var log: String = ""
         
@@ -80,6 +80,17 @@ class MetaTask: NSObject {
                 guard var serverResult = self.parseConfFile(confPath, confFilePath: confFilePath) else {
                     returnResult("Can't decode config file.")
                     return
+                }
+                
+                let port = serverResult.externalController.components(separatedBy: ":").last ?? "9090"
+                if let p = Int(port) {
+                    let newPort = self.updateExternalControllerPort(p)
+                    let ec = "127.0.0.1:\(newPort)"
+                    args.append(contentsOf: [
+                        "-ext-ctl",
+                        ec
+                    ])
+                    serverResult.externalController = ec
                 }
                 
                 self.proc.arguments = args
@@ -264,7 +275,7 @@ class MetaTask: NSObject {
         return (Int32(pid) ?? 0, addr)
     }
     
-    func findExternalControllerPort(_ port: Int) -> Int {
+    func updateExternalControllerPort(_ port: Int) -> Int {
         let proc = Process()
         let pipe = Pipe()
         proc.standardOutput = pipe
