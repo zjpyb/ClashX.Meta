@@ -29,5 +29,6 @@ target 'ClashX Meta' do
   pod "FlexibleDiff"
   pod 'GzipSwift'
   pod 'Yams'
+  pod "PromiseKit", "~> 6.8"
 end
 
