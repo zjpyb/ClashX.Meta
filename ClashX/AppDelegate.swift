@@ -104,7 +104,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // install proxy helper
         _ = ClashResourceManager.check()
         PrivilegedHelperManager.shared.checkInstall()
-        ConfigFileManager.copySampleConfigIfNeed()
 
         PFMoveToApplicationsFolderIfNecessary()
 

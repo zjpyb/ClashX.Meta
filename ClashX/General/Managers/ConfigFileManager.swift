@@ -53,11 +53,4 @@ class ConfigFileManager {
         }
         return true
     }
-
-    static func copySampleConfigIfNeed() {
-        if !FileManager.default.fileExists(atPath: kDefaultConfigFilePath) {
-            let path = Bundle.main.path(forResource: "sampleConfig", ofType: "yaml")!
-            try? FileManager.default.copyItem(atPath: path, toPath: kDefaultConfigFilePath)
-        }
-    }
 }
