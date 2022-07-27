@@ -16,7 +16,7 @@ class ClashMetaConfig: NSObject {
             return URL(fileURLWithPath: htmlPath).deletingLastPathComponent().path
         }()
 
-        var externalController = "127.0.0.1:9096"
+        var externalController = "127.0.0.1:9090"
         var secret: String?
 
         var port: Int?
