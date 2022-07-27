@@ -26,14 +26,14 @@ class ApiRequest {
     private lazy var logQueue = DispatchQueue(label: "com.ClashX.core.log")
 
     static let clashRequestQueue = DispatchQueue(label: "com.clashx.clashRequestQueue")
-    
+
     @objc enum ProviderType: Int {
         case rule, proxy
-        
+
         func apiString() -> String {
             self == .proxy ? "proxies" : "rules"
         }
-        
+
         func logString() -> String {
             self == .proxy ? "Proxy" : "Rule"
         }
@@ -254,9 +254,9 @@ class ApiRequest {
     static func getRules(completeHandler: @escaping ([ClashRule]) -> Void) {
         req("/rules").responseData { res in
             guard let data = try? res.result.get() else { return }
-            
+
             ClashRuleProviderResp.init()
-            
+
             let rule = ClashRuleResponse.fromData(data)
             completeHandler(rule.rules ?? [])
         }
@@ -304,10 +304,10 @@ extension ApiRequest {
 extension ApiRequest {
     static func updateAllProviders(for type: ProviderType, completeHandler: ((Int) -> Void)? = nil) {
         var failuresCount = 0
-        
+
         let group = DispatchGroup()
         group.enter()
-        
+
         if type == .proxy {
             requestProxyProviderList { resp in
                 resp.allProviders.filter {
@@ -337,15 +337,15 @@ extension ApiRequest {
                 group.leave()
             }
         }
-        
+
         group.notify(queue: .main) {
             completeHandler?(failuresCount)
         }
     }
-    
+
     static func updateProvider(for type: ProviderType, name: String, completeHandler: ((Bool) -> Void)? = nil) {
         let s = "Update \(type.logString()) Provider"
-        
+
         Logger.log("\(s) \(name)")
         req("/providers/\(type.apiString())/\(name)", method: .put).response {
             let re = $0.response?.statusCode == 204
@@ -353,7 +353,7 @@ extension ApiRequest {
             completeHandler?(re)
         }
     }
-    
+
     static func requestRuleProviderList(completeHandler: @escaping (ClashRuleProviderResp) -> Void) {
         req("/providers/rules")
             .responseDecodable(of: ClashRuleProviderResp.self, decoder: ClashProviderResp.decoder) { resp in
@@ -366,18 +366,18 @@ extension ApiRequest {
             }
         }
     }
-    
+
     static func updateGEO(completeHandler: ((Bool) -> Void)? = nil) {
         Logger.log("UpdateGEO")
         req("/configs/geo", method: .post).response {
             let re = $0.response?.statusCode == 204
-            
+
             completeHandler?(re)
 //            Logger.log("UpdateGEO \(re ? "success" : "failed")")
             Logger.log("Updating GEO Databases...")
         }
     }
-    
+
     static func updateSniffing(enable: Bool, completeHandler: (() -> Void)? = nil) {
         Logger.log("update sniffing:\(enable)", level: .debug)
         req("/configs",
@@ -388,7 +388,7 @@ extension ApiRequest {
             completeHandler?()
         }
     }
-    
+
     static func flushFakeipCache(completeHandler: ((Bool) -> Void)? = nil) {
         Logger.log("FlushFakeipCache")
         req("/cache/fakeip/flush",

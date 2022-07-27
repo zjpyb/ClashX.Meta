@@ -18,20 +18,20 @@ class MenuItemFactory {
             UserDefaults.standard.set(useViewToRenderProxy, forKey: "useViewToRenderProxy")
         }
     }
-    
+
     static var hideUnselectable: Int = UserDefaults.standard.object(forKey: "hideUnselectable") as? Int ?? NSControl.StateValue.off.rawValue {
         didSet {
             UserDefaults.standard.set(hideUnselectable, forKey: "hideUnselectable")
             recreateProxyMenuItems()
         }
     }
-    
+
     static var useAlphaCore: Bool = UserDefaults.standard.object(forKey: "useAlphaCore") as? Bool ?? false {
         didSet {
             UserDefaults.standard.set(useAlphaCore, forKey: "useAlphaCore")
         }
     }
-    
+
     static let updateAllProvidersTitle = "Update All Providers"
 
     // MARK: - Public
@@ -58,7 +58,7 @@ class MenuItemFactory {
             refreshMenuItems(mergedData: proxyInfo)
         }
     }
-    
+
     static func recreateRuleProvidersMenuItems() {
         ApiRequest.requestRuleProviderList {
             refreshRuleProviderMenuItems($0.allProviders.map({ $0.value }))
@@ -68,9 +68,9 @@ class MenuItemFactory {
     static func refreshMenuItems(mergedData proxyInfo: ClashProxyResp?) {
         let leftPadding = AppDelegate.shared.hasMenuSelected()
         guard let proxyInfo = proxyInfo else { return }
-        
+
         let hideState = NSControl.StateValue(rawValue: hideUnselectable)
-        
+
         var menuItems = [NSMenuItem]()
         var collapsedItems = [NSMenuItem]()
 
@@ -89,7 +89,7 @@ class MenuItemFactory {
             guard let menu = menu else {
                 continue
             }
-            
+
             switch hideState {
             case .mixed where [.urltest, .fallback, .loadBalance, .relay].contains(proxy.type):
                 collapsedItems.append(menu)
@@ -101,19 +101,19 @@ class MenuItemFactory {
                 menu.isEnabled = true
             }
         }
-        
+
         if hideState == .mixed {
             let collapsedItem = NSMenuItem(title: "Collapsed", action: nil, keyEquivalent: "")
             collapsedItem.isEnabled = true
             collapsedItem.submenu = .init(title: "")
             collapsedItem.submenu?.items = collapsedItems
-            
+
             menuItems.append(collapsedItem)
         }
-        
+
         let items = Array(menuItems.reversed())
         updateProxyList(withMenus: items)
-        
+
         refreshProxyProviderMenuItems(mergedData: proxyInfo)
         recreateRuleProvidersMenuItems()
     }
@@ -301,11 +301,10 @@ extension MenuItemFactory {
     }
 }
 
-
 // MARK: - Meta
 
 extension MenuItemFactory {
-    
+
     static func refreshProxyProviderMenuItems(mergedData proxyInfo: ClashProxyResp?) {
         let app = AppDelegate.shared
         guard let proxyInfo = proxyInfo,
@@ -316,7 +315,7 @@ extension MenuItemFactory {
         let proxyProviders = providers.allProviders.filter {
             $0.value.vehicleType == .HTTP
         }.values.sorted(by: { $0.name < $1.name })
-        
+
         let isEmpty = proxyProviders.count == 0
         app.proxyProvidersMenuItem.isEnabled = !isEmpty
         guard !isEmpty else { return }
@@ -334,16 +333,16 @@ extension MenuItemFactory {
             menu.addItem(item)
         }
     }
-    
+
     static func refreshRuleProviderMenuItems(_ ruleProviders: [ClashRuleProvider]) {
         let app = AppDelegate.shared
         let isEmpty = ruleProviders.count == 0
         app.ruleProvidersMenuItem.isEnabled = !isEmpty
-        
+
         guard !isEmpty,
               let menu = app.ruleProvidersMenu
         else { return }
-        
+
         initUpdateAllProvidersMenuItem(for: menu, type: .rule)
         let maxNameLength = maxProvidersLength(for: ruleProviders.map({ $0.name }))
         ruleProviders.sorted(by: { $0.name < $1.name })
@@ -358,7 +357,7 @@ extension MenuItemFactory {
                 menu.addItem(item)
             }
     }
-    
+
     static func initUpdateAllProvidersMenuItem(for menu: NSMenu, type: ApiRequest.ProviderType) {
         if menu.items.count > 1 {
             menu.items.enumerated().filter {
@@ -374,7 +373,7 @@ extension MenuItemFactory {
             menu.addItem(.separator())
         }
     }
-    
+
     static func maxProvidersLength(for names: [String]) -> CGFloat {
         func getLength(_ string: String) -> CGFloat {
             let rect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: 20)
@@ -385,30 +384,30 @@ extension MenuItemFactory {
                               attributes: attr).width
             return length
         }
-        
+
         var lengths = names.map {
             getLength($0) + 65
         }
         lengths.append(getLength(updateAllProvidersTitle))
         return lengths.max() ?? 0
     }
-    
+
     static func providerUpdateTitle(_ updatedAt: String?) -> String? {
         let dateCF = DateComponentsFormatter()
         dateCF.allowedUnits = [.day, .hour, .minute]
         dateCF.maximumUnitCount = 1
         dateCF.unitsStyle = .abbreviated
         dateCF.zeroFormattingBehavior = .dropAll
-        
+
         guard let dateStr = updatedAt,
               let date = DateFormatter.provider.date(from: dateStr),
               !date.timeIntervalSinceNow.isNaN,
               !date.timeIntervalSinceNow.isInfinite,
               let re = dateCF.string(from: abs(date.timeIntervalSinceNow)) else { return nil }
-        
+
         return "\(re) ago"
     }
-    
+
     @objc static func actionUpdateAllProviders(sender: NSMenuItem) {
         let type = ApiRequest.ProviderType(rawValue: sender.tag)!
         let s = "Update All \(type.logString()) Providers"
@@ -420,11 +419,11 @@ extension MenuItemFactory {
             recreateProxyMenuItems()
         }
     }
-    
+
     @objc static func actionUpdateSelectProvider(sender: DualTitleMenuItem) {
         let name = sender.originTitle
         let type = ApiRequest.ProviderType(rawValue: sender.tag)!
-        
+
         let log = "Update \(type.logString()) Provider \(name)"
         Logger.log(log)
         ApiRequest.updateProvider(for: type, name: name) {

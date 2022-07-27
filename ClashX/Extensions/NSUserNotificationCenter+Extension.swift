@@ -136,7 +136,7 @@ extension NSUserNotificationCenter {
         post(title: NSLocalizedString("System Proxy Changed", comment: ""),
              info: NSLocalizedString("Proxy settings are changed by another process. ClashX is no longer the default system proxy.", comment: ""), notiOnly: true)
     }
-    
+
     func postUpdateNotice(msg: String) {
         postNotificationAlert(title: "Update ClashX Meta", info: msg)
     }

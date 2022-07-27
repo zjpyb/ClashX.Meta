@@ -19,11 +19,11 @@ struct Paths {
     static func configFileName(for name: String) -> String {
         return "\(name).yaml"
     }
-    
+
     static func defaultCorePath() -> String? {
         Bundle.main.path(forResource: "com.metacubex.ClashX.ProxyConfigHelper.meta", ofType: nil)
     }
-    
+
     static func alphaCorePath() -> URL? {
         FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
             .first?

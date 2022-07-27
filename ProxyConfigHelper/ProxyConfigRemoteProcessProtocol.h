@@ -17,8 +17,6 @@ typedef void(^dictReplyBlock)(NSDictionary *);
 
 - (void)initMetaCoreWithPath:(NSString *)path;
 
-- (void)metaSetUIPath:(NSString *)path;
-
 - (void)startMetaWithConfPath:(NSString *)confPath
                  ConfFilePath:(NSString *)confFilePath
                        result:(stringReplyBlock)reply;

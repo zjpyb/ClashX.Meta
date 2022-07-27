@@ -9,7 +9,7 @@ class ClashResourceManager {
         case geosite = "geosite.dat"
         case geoip = "geoip.dat"
     }
-    
+
     static func check() -> Bool {
         checkConfigDir()
         checkMMDB()
@@ -34,7 +34,7 @@ class ClashResourceManager {
         checkRule(.geoip)
         checkRule(.geosite)
     }
-    
+
     static func checkRule(_ file: RuleFiles) {
         let fileManage = FileManager.default
         let destPath = "\(kConfigFolderPath)/\(file.rawValue)"
