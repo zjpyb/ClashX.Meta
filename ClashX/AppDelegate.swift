@@ -12,6 +12,8 @@ import LetsMove
 import RxCocoa
 import RxSwift
 import SwiftyJSON
+import Yams
+import PromiseKit
 
 private let statusItemLengthWithSpeed: CGFloat = 72
 
@@ -297,11 +299,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 .observe(on: MainScheduler.instance)
                 .bind(onNext: { _ in
                     self.initMetaCore()
-                    self.updateConfig(showNotification: false)
+                    self.startProxy()
                 }).disposed(by: disposeBag)
         } else {
             initMetaCore()
-            updateConfig(showNotification: false)
+            startProxy()
         }
     }
 
@@ -442,6 +444,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }()
 
+        RemoteConfigManager.shared.verifyConfigTask.setLaunchPath(corePath)
         PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: corePath)
         Logger.log("initClashCore finish")
     }
@@ -514,22 +517,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let log: String?
         }
 
-        Logger.log("Trying start proxy")
-        var string = ""
-        let queue = DispatchGroup()
-        queue.enter()
+        let config = ClashMetaConfig.generateInitConfig()
 
-        PrivilegedHelperManager.shared.helper {
-            string = "Can't connect to helper."
-            queue.leave()
-        }?.startMeta(withConfPath: kConfigFolderPath,
-                          confFilePath: "") {
-            string = $0 ?? ""
-            queue.leave()
-        }
-        queue.wait()
-        let jsonData = string.data(using: .utf8) ?? Data()
-        if let res = try? JSONDecoder().decode(StartProxyResp.self, from: jsonData) {
+        Logger.log("Trying start meta core")
+        startMeta(config).map { string -> String in
+            guard let jsonData = string.data(using: .utf8),
+                  let res = try? JSONDecoder().decode(StartProxyResp.self, from: jsonData) else {
+                return string == "" ? "unknown error" : string
+            }
 
             if let log = res.log {
                 Logger.log("""
@@ -543,17 +538,59 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             ConfigManager.shared.apiPort = port
             ConfigManager.shared.apiSecret = res.secret
             ConfigManager.shared.isRunning = true
-            proxyModeMenuItem.isEnabled = true
-            dashboardMenuItem.isEnabled = true
+            self.proxyModeMenuItem.isEnabled = true
+            self.dashboardMenuItem.isEnabled = true
+            return ""
+        }.then {
+            self.pushInitConfig($0)
+        }.done { s in
+            if s != "" {
+                ConfigManager.shared.isRunning = false
+                self.proxyModeMenuItem.isEnabled = false
+                Logger.log(s, level: .error)
+                NSUserNotificationCenter.default.postConfigErrorNotice(msg: s)
+            } else {
+                Logger.log("Init config file success.")
+            }
+        }.catch { _ in }
+    }
 
-            setupSystemData()
-        } else {
-            ConfigManager.shared.isRunning = false
-            proxyModeMenuItem.isEnabled = false
-            Logger.log(string, level: .error)
-            NSUserNotificationCenter.default.postConfigErrorNotice(msg: string)
+    func startMeta(_ config: ClashMetaConfig.Config) -> Promise<String> {
+        .init { resolver in
+            PrivilegedHelperManager.shared.helper {
+                resolver.fulfill("Can't connect to helper.")
+            }?.startMeta(withConfPath: kConfigFolderPath,
+                         confFilePath: config.path) {
+                resolver.fulfill($0 ?? "")
+            }
         }
-        Logger.log("Start proxy done")
+    }
+
+    func pushInitConfig(_ s: String) -> Promise<String> {
+        .init { resolver in
+            guard s == "" else {
+                resolver.fulfill(s)
+                return
+            }
+            ClashProxy.cleanCache()
+            let configName = ConfigManager.selectConfigName
+            Logger.log("Push init config file: \(configName)")
+            ApiRequest.requestConfigUpdate(configName: configName) { err in
+                if let error = err {
+                    resolver.fulfill(error)
+                } else {
+                    self.syncConfig()
+                    self.resetStreamApi()
+                    self.runAfterConfigReload?()
+                    self.runAfterConfigReload = nil
+                    self.selectProxyGroupWithMemory()
+                    self.selectOutBoundModeWithMenory()
+                    MenuItemFactory.recreateProxyMenuItems()
+                    NotificationCenter.default.post(name: .reloadDashboard, object: nil)
+                    resolver.fulfill("")
+                }
+            }
+        }
     }
 
     func syncConfig(completeHandler: (() -> Void)? = nil) {
