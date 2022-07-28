@@ -240,7 +240,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .bind { [weak self] status in
                 guard let self = self else { return }
                 self.proxySettingMenuItem.state = status
-                self.statusItemView.updateViewStatus(enableProxy: status == .on)
+            }.disposed(by: disposeBag)
+
+        Observable
+            .merge([ConfigManager.shared.proxyPortAutoSetObservable,
+                    ConfigManager.shared.isTunModeVariable.asObservable(),
+                    ConfigManager.shared.isProxySetByOtherVariable.asObservable()])
+            .map { _ -> Bool in
+                var status = NSControl.StateValue.mixed
+                if ConfigManager.shared.isProxySetByOtherVariable.value && ConfigManager.shared.proxyPortAutoSet {
+
+                } else {
+                    status = ConfigManager.shared.proxyPortAutoSet ? .on : .off
+                }
+                return status == .on || ConfigManager.shared.isTunModeVariable.value
+            }.distinctUntilChanged()
+            .bind { [weak self] enable in
+                guard let self = self else { return }
+                self.statusItemView.updateViewStatus(enableProxy: enable)
             }.disposed(by: disposeBag)
 
         let configObservable = ConfigManager.shared
@@ -281,6 +298,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
                 self.snifferMenuItem.state = config.sniffing ? .on : .off
                 self.tunModeMenuItem.state = config.tun.enable ? .on : .off
+                ConfigManager.shared.isTunModeVariable.accept(config.tun.enable)
             }.disposed(by: disposeBag)
 
         if !PrivilegedHelperManager.shared.isHelperCheckFinished.value {
