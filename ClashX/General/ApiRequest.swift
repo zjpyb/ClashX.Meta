@@ -23,6 +23,8 @@ class ApiRequest {
 
     private var proxyRespCache: ClashProxyResp?
 
+    var currentConfigContent: Data?
+
     private lazy var logQueue = DispatchQueue(label: "com.ClashX.core.log")
 
     static let clashRequestQueue = DispatchQueue(label: "com.clashx.clashRequestQueue")
@@ -120,6 +122,7 @@ class ApiRequest {
         req("/configs", method: .put, parameters: ["Path": configPath], encoding: JSONEncoding.default).responseJSON { res in
             if res.response?.statusCode == 204 {
                 ConfigManager.shared.isRunning = true
+                ApiRequest.shared.currentConfigContent = FileManager.default.contents(atPath: configPath)
                 callback(nil)
             } else {
                 let errorJson = try? res.result.get()

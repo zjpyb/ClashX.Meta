@@ -86,4 +86,30 @@ class ClashMetaConfig: NSObject {
         return config
     }
 
+    static func updateConfigTun(_ config: Data, enable: Bool) -> String? {
+        guard let s = String(data: config, encoding: .utf8),
+              var yaml = try? Yams.compose(yaml: s) else {
+            return nil
+        }
+
+        if yaml["tun"] != nil {
+            yaml["tun"]!["enable"] = .init("\(enable)")
+        } else {
+            yaml["tun"] = [
+                "enable": .init("\(enable)"),
+                "stack": "system",
+                "auto-route": "true",
+                "auto-detect-interface": "true",
+                "dns-hijack": [
+                    "any:53"
+                ]
+            ]
+        }
+
+        guard let ss = try? Yams.serialize(node: yaml),
+              let path = RemoteConfigManager.createCacheConfig(string: ss) else {
+            return nil
+        }
+        return path
+    }
 }
