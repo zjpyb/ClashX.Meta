@@ -106,6 +106,17 @@ class ClashMetaConfig: NSObject {
             port = update(port)
             socksPort = update(socksPort)
             mixedPort = update(mixedPort)
+
+            let ecPort: Int = {
+                if let port = externalController.components(separatedBy: ":").last,
+                   let p = Int(port) {
+                    return p
+                } else {
+                    return 9090
+                }
+            }()
+
+            externalController = "127.0.0.1:\(update(ecPort) ?? 9090)"
         }
     }
 
