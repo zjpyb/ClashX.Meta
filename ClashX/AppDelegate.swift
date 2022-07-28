@@ -539,10 +539,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let log: String?
         }
 
-        let config = ClashMetaConfig.generateInitConfig()
-
         Logger.log("Trying start meta core")
-        startMeta(config).map { string -> String in
+
+        generateInitConfig().then {
+            self.startMeta($0)
+        }.map { string -> String in
             guard let jsonData = string.data(using: .utf8),
                   let res = try? JSONDecoder().decode(StartProxyResp.self, from: jsonData) else {
                 return string == "" ? "unknown error" : string
@@ -575,6 +576,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 Logger.log("Init config file success.")
             }
         }.catch { _ in }
+    }
+
+    func generateInitConfig() -> Promise<ClashMetaConfig.Config> {
+        var config = ClashMetaConfig.generateInitConfig()
+        return Promise { resolver in
+            PrivilegedHelperManager.shared.helper {
+                resolver.fulfill(config)
+            }?.getUsedPorts {
+                config.updatePorts($0 ?? "")
+                resolver.fulfill(config)
+            }
+        }
     }
 
     func startMeta(_ config: ClashMetaConfig.Config) -> Promise<String> {

@@ -78,6 +78,35 @@ class ClashMetaConfig: NSObject {
                 mixedPort = 7890
             }
         }
+
+        mutating func updatePorts(_ usedPorts: String) {
+            let usedPorts = usedPorts.split(separator: ",").compactMap {
+                Int($0)
+            }
+
+            var availablePorts = Set(1..<65534)
+            availablePorts.subtract(usedPorts)
+
+            func update(_ port: Int?) -> Int? {
+                guard let p = port, p != 0 else {
+                    return port
+                }
+
+                if availablePorts.contains(p) {
+                    availablePorts.remove(p)
+                    return p
+                } else if let p = Set(p..<65534).intersection(availablePorts).min() {
+                    availablePorts.remove(p)
+                    return p
+                } else {
+                    return nil
+                }
+            }
+
+            port = update(port)
+            socksPort = update(socksPort)
+            mixedPort = update(mixedPort)
+        }
     }
 
     static func generateInitConfig() -> Config {

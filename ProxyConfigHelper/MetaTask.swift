@@ -82,17 +82,6 @@ class MetaTask: NSObject {
                     return
                 }
                 
-                let port = serverResult.externalController.components(separatedBy: ":").last ?? "9090"
-                if let p = Int(port) {
-                    let newPort = self.updateExternalControllerPort(p)
-                    let ec = "127.0.0.1:\(newPort)"
-                    args.append(contentsOf: [
-                        "-ext-ctl",
-                        ec
-                    ])
-                    serverResult.externalController = ec
-                }
-                
                 self.proc.arguments = args
                 let pipe = Pipe()
                 var logs = [String]()
@@ -253,6 +242,31 @@ class MetaTask: NSObject {
         proc.waitUntilExit()
     }
     
+    @objc func getUsedPorts(_ result: @escaping stringReplyBlock) {
+        let proc = Process()
+        let pipe = Pipe()
+        proc.standardOutput = pipe
+        proc.executableURL = .init(fileURLWithPath: "/bin/bash")
+        proc.arguments = ["-c", "lsof -nP -iTCP -sTCP:LISTEN | grep LISTEN"]
+        try? proc.run()
+        proc.waitUntilExit()
+        
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        guard let str = String(data: data, encoding: .utf8) else {
+            result("")
+            return
+        }
+        
+        let usedPorts = str.split(separator: "\n").compactMap { str -> Int? in
+            let line = str.split(separator: " ").map(String.init)
+            guard line.count == 10,
+            let port = line[8].components(separatedBy: ":").last else { return nil }
+            return Int(port)
+        }.map(String.init).joined(separator: ",")
+        
+        result(usedPorts)
+    }
+    
     func testListenPort(_ port: Int) -> (pid: Int32, addr: String) {
         let proc = Process()
         let pipe = Pipe()
@@ -273,38 +287,6 @@ class MetaTask: NSObject {
         let addr = re[8]
         
         return (Int32(pid) ?? 0, addr)
-    }
-    
-    func updateExternalControllerPort(_ port: Int) -> Int {
-        let proc = Process()
-        let pipe = Pipe()
-        proc.standardOutput = pipe
-        proc.executableURL = .init(fileURLWithPath: "/bin/bash")
-        proc.arguments = ["-c", "lsof -nP -iTCP -sTCP:LISTEN | grep LISTEN"]
-        try? proc.run()
-        proc.waitUntilExit()
-        
-        let data = pipe.fileHandleForReading.readDataToEndOfFile()
-        guard let str = String(data: data, encoding: .utf8) else {
-            return port
-        }
-        
-        let ports = str.split(separator: "\n").map {
-            String($0).split(separator: " ")
-        }.compactMap { re -> Int? in
-            guard re.count == 10,
-                  let range = re[8].range(of: ":", options: .backwards) else { return nil }
-            let s = re[8]
-            let p = s[range.upperBound..<s.endIndex]
-            return Int(p)
-        }
-        guard ports.contains(port) else {
-            return port
-        }
-        
-        var aPorts = Set(port..<65534)
-        aPorts.subtract(ports)
-        return aPorts.min() ?? port
     }
     
     func testExternalController(_ server: MetaServer) -> Bool {

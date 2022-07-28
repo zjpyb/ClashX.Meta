@@ -154,4 +154,8 @@ ProxyConfigRemoteProcessProtocol
     [self.metaTask stop];
 }
 
+- (void)getUsedPorts:(stringReplyBlock)reply {
+    [self.metaTask getUsedPorts:reply];
+}
+
 @end
