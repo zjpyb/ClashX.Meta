@@ -619,7 +619,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     self.runAfterConfigReload?()
                     self.runAfterConfigReload = nil
                     self.selectProxyGroupWithMemory()
-                    self.selectOutBoundModeWithMenory()
                     MenuItemFactory.recreateProxyMenuItems()
                     NotificationCenter.default.post(name: .reloadDashboard, object: nil)
                     resolver.fulfill("")
