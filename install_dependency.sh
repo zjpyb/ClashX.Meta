@@ -18,7 +18,7 @@ cd ..
 
 echo "Update meta core md5 to code"
 sed -i '' "s/WOSHIZIDONGSHENGCHENGDEA/$(md5 -q ClashX/Resources/com.metacubex.ClashX.ProxyConfigHelper.meta)/g" ClashX/AppDelegate.swift
-
+sed -n '20p' ClashX/AppDelegate.swift
 
 echo "Pod install"
 pod install
