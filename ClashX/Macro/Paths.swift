@@ -11,6 +11,8 @@ let kConfigFolderPath = "\(NSHomeDirectory())/.config/clash/"
 
 let kDefaultConfigFilePath = "\(kConfigFolderPath)config.yaml"
 
+let kDefauleMetaCoreName = "com.metacubex.ClashX.ProxyConfigHelper.meta"
+
 struct Paths {
     static func localConfigPath(for name: String) -> String {
         return "\(kConfigFolderPath)\(configFileName(for: name))"
@@ -21,13 +23,21 @@ struct Paths {
     }
 
     static func defaultCorePath() -> String? {
-        Bundle.main.path(forResource: "com.metacubex.ClashX.ProxyConfigHelper.meta", ofType: nil)
+        guard var path = Bundle.main.resourcePath else {
+            return nil
+        }
+        path += "/\(kDefauleMetaCoreName)"
+        return FileManager.default.fileExists(atPath: path) ? path : nil
+    }
+
+    static func defaultCoreGzPath() -> String? {
+        Bundle.main.path(forResource: kDefauleMetaCoreName, ofType: "gz")
     }
 
     static func alphaCorePath() -> URL? {
         FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
             .first?
             .appendingPathComponent("com.metacubex.ClashX.meta")
-            .appendingPathComponent("com.metacubex.ClashX.ProxyConfigHelper.meta")
+            .appendingPathComponent(kDefauleMetaCoreName)
     }
 }
