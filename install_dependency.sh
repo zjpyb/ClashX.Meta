@@ -16,6 +16,10 @@ chmod +x com.metacubex.ClashX.ProxyConfigHelper.meta
 cp com.metacubex.ClashX.ProxyConfigHelper.meta ../ClashX/Resources/
 cd ..
 
+echo "Update meta core md5 to code"
+sed -i '' "s/WOSHIZIDONGSHENGCHENGDEA/$(md5 -q ClashX/Resources/com.metacubex.ClashX.ProxyConfigHelper.meta)/g" ClashX/AppDelegate.swift
+
+
 echo "Pod install"
 pod install
 echo "delete old files"

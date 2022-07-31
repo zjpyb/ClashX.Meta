@@ -17,6 +17,8 @@ import PromiseKit
 
 private let statusItemLengthWithSpeed: CGFloat = 72
 
+private let MetaCoreMd5 = "WOSHIZIDONGSHENGCHENGDEA"
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem!
@@ -458,17 +460,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
 
             if let path = Paths.defaultCorePath(),
-               testMetaCore(path) != nil {
+               testMetaCore(path) != nil,
+               validateDefaultCore() {
                 return path
             } else {
-                assertionFailure("Meta Core file losted.")
-                return ""
+                return "ERROR"
             }
         }()
 
-        RemoteConfigManager.shared.verifyConfigTask.setLaunchPath(corePath)
-        PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: corePath)
-        Logger.log("initClashCore finish")
+        if corePath == "ERROR" {
+            let alert = NSAlert()
+            alert.messageText = "Failure to verify the internal Meta Core.\nDo NOT replace core file in the resources folder."
+            alert.alertStyle = .warning
+            alert.addButton(withTitle: NSLocalizedString("Quit", comment: ""))
+            alert.runModal()
+
+            DispatchQueue.main.async {
+                NSApplication.shared.terminate(nil)
+            }
+        } else {
+            RemoteConfigManager.shared.verifyConfigTask.setLaunchPath(corePath)
+            PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: corePath)
+            Logger.log("initClashCore finish")
+        }
     }
 
     func testMetaCore(_ path: String) -> (version: String, date: Date?)? {
@@ -514,6 +528,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let date = f.date(from: dateString)
 
         return (version: version, date: date)
+    }
+
+    func validateDefaultCore() -> Bool {
+        guard let path = Paths.defaultCorePath() else { return false }
+        #if DEBUG
+            return true
+        #endif
+        let proc = Process()
+        proc.executableURL = .init(fileURLWithPath: "/sbin/md5")
+        proc.arguments = ["-q", path]
+        let pipe = Pipe()
+        proc.standardOutput = pipe
+
+        try? proc.run()
+        proc.waitUntilExit()
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        guard proc.terminationStatus == 0,
+              let out = String(data: data, encoding: .utf8) else {
+            return false
+        }
+
+        let md5 = out.replacingOccurrences(of: "\n", with: "")
+        return md5 == MetaCoreMd5
     }
 
     func chmodX(_ path: String) -> Bool {
