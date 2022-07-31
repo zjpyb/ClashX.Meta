@@ -459,6 +459,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 updateAlphaVersion(nil)
             }
 
+            if Paths.defaultCorePath() == nil {
+                if let p = Paths.defaultCoreGzPath(),
+                   let data = try? Data(contentsOf: .init(fileURLWithPath: p)).gunzipped(),
+                   var path = Bundle.main.resourcePath {
+                    path += "/\(kDefauleMetaCoreName)"
+                    do {
+                        try data.write(to: URL(fileURLWithPath: path))
+                    } catch let error {
+                        Logger.log("\(error)", level: .error)
+                        return "ERROR"
+                    }
+                } else {
+                    return "ERROR"
+                }
+            }
+
             if let path = Paths.defaultCorePath(),
                testMetaCore(path) != nil,
                validateDefaultCore() {
