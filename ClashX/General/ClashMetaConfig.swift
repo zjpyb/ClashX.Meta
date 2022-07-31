@@ -46,9 +46,9 @@ class ClashMetaConfig: NSObject {
                  secret
         }
 
-        mutating func loadDefaultConfigFile() {
+        mutating func loadDefaultConfigFile(_ path: String) {
             let fm = FileManager.default
-            guard let data = fm.contents(atPath: kDefaultConfigFilePath),
+            guard let data = fm.contents(atPath: path),
                   let string = String(data: data, encoding: .utf8),
                   let yaml = try? Yams.load(yaml: string) as? [String: Any] else {
                 return
@@ -120,10 +120,12 @@ class ClashMetaConfig: NSObject {
         }
     }
 
-    static func generateInitConfig() -> Config {
+    static func generateInitConfig(_ callback: @escaping ((Config) -> Void)) {
         var config = Config()
-        config.loadDefaultConfigFile()
-        return config
+        ApiRequest.findConfigPath(configName: ConfigManager.selectConfigName) {
+            config.loadDefaultConfigFile($0 ?? "")
+            callback(config)
+        }
     }
 
     static func updateConfigTun(_ config: Data, enable: Bool) -> String? {

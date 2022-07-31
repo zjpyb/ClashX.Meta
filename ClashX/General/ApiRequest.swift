@@ -100,19 +100,29 @@ class ApiRequest {
         }
     }
 
-    static func requestConfigUpdate(configName: String, callback: @escaping ((ErrorString?) -> Void)) {
+    static func findConfigPath(configName: String, callback: @escaping ((String?) -> Void)) {
         if ICloudManager.shared.isICloudEnable() {
             ICloudManager.shared.getUrl { url in
                 guard let url = url else {
-                    callback("icloud error")
+                    callback(nil)
                     return
                 }
                 let configPath = url.appendingPathComponent(Paths.configFileName(for: configName)).path
-                requestConfigUpdate(configPath: configPath, callback: callback)
+                callback(configPath)
             }
         } else {
             let filePath = Paths.localConfigPath(for: configName)
-            requestConfigUpdate(configPath: filePath, callback: callback)
+            callback(filePath)
+        }
+    }
+
+    static func requestConfigUpdate(configName: String, callback: @escaping ((ErrorString?) -> Void)) {
+        findConfigPath(configName: configName) { path in
+            guard let path = path else {
+                callback("icloud error")
+                return
+            }
+            requestConfigUpdate(configPath: path, callback: callback)
         }
     }
 

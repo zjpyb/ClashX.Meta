@@ -109,6 +109,11 @@ extension NSUserNotificationCenter {
              info: NSLocalizedString("Use reload config to try reconnect.", comment: ""))
     }
 
+    func postMetaErrorNotice(msg: String) {
+        let message = "Meta Core: \(msg)"
+        postNotificationAlert(title: NSLocalizedString("Start Meta Fail!", comment: ""), info: message)
+    }
+
     func postConfigErrorNotice(msg: String) {
         let configName = ConfigManager.selectConfigName.count > 0 ?
         Paths.configFileName(for: ConfigManager.selectConfigName) : ""

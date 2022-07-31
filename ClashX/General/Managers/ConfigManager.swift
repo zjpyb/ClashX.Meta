@@ -43,10 +43,7 @@ class ConfigManager {
 
     static var selectConfigName: String {
         get {
-            if shared.isRunning {
-                return UserDefaults.standard.string(forKey: "selectConfigName") ?? "config"
-            }
-            return "config"
+            return UserDefaults.standard.string(forKey: "selectConfigName") ?? "config"
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "selectConfigName")
