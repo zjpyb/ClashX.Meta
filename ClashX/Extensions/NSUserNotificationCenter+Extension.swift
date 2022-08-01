@@ -109,6 +109,11 @@ extension NSUserNotificationCenter {
              info: NSLocalizedString("Use reload config to try reconnect.", comment: ""))
     }
 
+    func postMetaErrorNotice(msg: String) {
+        let message = "Meta Core: \(msg)"
+        postNotificationAlert(title: NSLocalizedString("Start Meta Fail!", comment: ""), info: message)
+    }
+
     func postConfigErrorNotice(msg: String) {
         let configName = ConfigManager.selectConfigName.count > 0 ?
         Paths.configFileName(for: ConfigManager.selectConfigName) : ""
@@ -136,7 +141,7 @@ extension NSUserNotificationCenter {
         post(title: NSLocalizedString("System Proxy Changed", comment: ""),
              info: NSLocalizedString("Proxy settings are changed by another process. ClashX is no longer the default system proxy.", comment: ""), notiOnly: true)
     }
-    
+
     func postUpdateNotice(msg: String) {
         postNotificationAlert(title: "Update ClashX Meta", info: msg)
     }

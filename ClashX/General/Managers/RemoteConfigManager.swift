@@ -13,6 +13,8 @@ class RemoteConfigManager {
     var configs: [RemoteConfigModel] = []
     var refreshActivity: NSBackgroundActivityScheduler?
 
+    let verifyConfigTask = MetaTask()
+
     static let shared = RemoteConfigManager()
 
     private init() {
@@ -205,29 +207,28 @@ class RemoteConfigManager {
         }
     }
 
-    static func verifyConfig(string: String) -> ErrorString? {
-        var res: String?
-        let path = NSTemporaryDirectory().appending("com.MetaCubeX.ClashX.meta")
+    static func createCacheConfig(string: String) -> String? {
+        let path = NSTemporaryDirectory().appending("com.MetaCubeX.ClashX.meta") + "/cacheConfigs"
         let confPath = path + "/\(UUID().uuidString).yaml"
-        
+
         let fm = FileManager.default
         try? fm.createDirectory(atPath: path, withIntermediateDirectories: true)
+
+        if fm.fileExists(atPath: confPath) {
+            try? fm.removeItem(atPath: confPath)
+        }
+
         guard fm.createFile(atPath: confPath, contents: string.data(using: .utf8)) else {
+            return nil
+        }
+        return confPath
+    }
+
+    static func verifyConfig(string: String) -> ErrorString? {
+        guard let confPath = createCacheConfig(string: string) else {
             return "Create verify config file failed"
         }
-        
-        let queue = DispatchGroup()
-        queue.enter()
-        PrivilegedHelperManager.shared.helper {
-            res = "unknown error"
-            queue.leave()
-        }?.verifyMeta(withConfPath: kConfigFolderPath, confFilePath: "", result: {
-            res = $0
-            queue.leave()
-        })
-        
-        queue.wait()
-        return res
+        return RemoteConfigManager.shared.verifyConfigTask.test(kConfigFolderPath, confFilePath: confPath)
     }
 
     static func showAdd() {

@@ -43,10 +43,7 @@ class ConfigManager {
 
     static var selectConfigName: String {
         get {
-            if shared.isRunning {
-                return UserDefaults.standard.string(forKey: "selectConfigName") ?? "config"
-            }
-            return "config"
+            return UserDefaults.standard.string(forKey: "selectConfigName") ?? "config"
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "selectConfigName")
@@ -80,6 +77,8 @@ class ConfigManager {
     let proxyPortAutoSetObservable = UserDefaults.standard.rx.observe(Bool.self, "proxyPortAutoSet").map({ $0 ?? false })
 
     var isProxySetByOtherVariable = BehaviorRelay<Bool>(value: false)
+
+    var isTunModeVariable = BehaviorRelay<Bool>(value: false)
 
     var showNetSpeedIndicator: Bool {
         get {

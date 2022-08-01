@@ -205,6 +205,7 @@
                         <outlet property="snifferMenuItem" destination="mk5-fI-KvW" id="wy5-NG-fu9"/>
                         <outlet property="socksPortMenuItem" destination="Uy1-g8-r6Q" id="NiI-Gy-9Sa"/>
                         <outlet property="statusMenu" destination="Afa-lD-EbR" id="cov-E9-WrO"/>
+                        <outlet property="tunModeMenuItem" destination="ZoW-Ax-rde" id="ep1-C4-irW"/>
                         <outlet property="updateAlphaMetaMenuItem" destination="MWh-yg-3Yk" id="jJi-h8-7T2"/>
                         <outlet property="useAlphaMetaMenuItem" destination="sk5-MZ-XB1" id="Ijq-xa-vVc"/>
                     </connections>
@@ -240,6 +241,11 @@
                         <menuItem title="Set as system proxy" keyEquivalent="s" id="8se-yr-wmp">
                             <connections>
                                 <action selector="actionSetSystemProxy:" target="Voe-Tx-rLC" id="jrp-iz-ljC"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Tun mode" keyEquivalent="e" id="ZoW-Ax-rde">
+                            <connections>
+                                <action selector="tunMode:" target="Voe-Tx-rLC" id="iYh-34-ynf"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Copy shell command" keyEquivalent="c" id="Jmb-PK-rMW">

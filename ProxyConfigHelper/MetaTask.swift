@@ -8,7 +8,7 @@ import Cocoa
 class MetaTask: NSObject {
     
     struct MetaServer: Encodable {
-        let externalController: String
+        var externalController: String
         let secret: String
         var log: String = ""
         
@@ -29,7 +29,6 @@ class MetaTask: NSObject {
     }
     
     let proc = Process()
-    var uiPath: String?
     let procQueue = DispatchQueue(label: Bundle.main.bundleIdentifier! + ".MetaProcess")
     
     var timer: DispatchSourceTimer?
@@ -37,10 +36,6 @@ class MetaTask: NSObject {
     
     @objc func setLaunchPath(_ path: String) {
         proc.executableURL = .init(fileURLWithPath: path)
-    }
-    
-    @objc func setUIPath(_ path: String) {
-        uiPath = path
     }
     
     @objc func start(_ confPath: String,
@@ -68,13 +63,6 @@ class MetaTask: NSObject {
             args.append(contentsOf: [
                 "-f",
                 confFilePath
-            ])
-        }
-        
-        if let uiPath = uiPath {
-            args.append(contentsOf: [
-                "-ext-ui",
-                uiPath
             ])
         }
         
@@ -254,6 +242,31 @@ class MetaTask: NSObject {
         proc.waitUntilExit()
     }
     
+    @objc func getUsedPorts(_ result: @escaping stringReplyBlock) {
+        let proc = Process()
+        let pipe = Pipe()
+        proc.standardOutput = pipe
+        proc.executableURL = .init(fileURLWithPath: "/bin/bash")
+        proc.arguments = ["-c", "lsof -nP -iTCP -sTCP:LISTEN | grep LISTEN"]
+        try? proc.run()
+        proc.waitUntilExit()
+        
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        guard let str = String(data: data, encoding: .utf8) else {
+            result("")
+            return
+        }
+        
+        let usedPorts = str.split(separator: "\n").compactMap { str -> Int? in
+            let line = str.split(separator: " ").map(String.init)
+            guard line.count == 10,
+            let port = line[8].components(separatedBy: ":").last else { return nil }
+            return Int(port)
+        }.map(String.init).joined(separator: ",")
+        
+        result(usedPorts)
+    }
+    
     func testListenPort(_ port: Int) -> (pid: Int32, addr: String) {
         let proc = Process()
         let pipe = Pipe()
@@ -274,38 +287,6 @@ class MetaTask: NSObject {
         let addr = re[8]
         
         return (Int32(pid) ?? 0, addr)
-    }
-    
-    func findExternalControllerPort(_ port: Int) -> Int {
-        let proc = Process()
-        let pipe = Pipe()
-        proc.standardOutput = pipe
-        proc.executableURL = .init(fileURLWithPath: "/bin/bash")
-        proc.arguments = ["-c", "lsof -nP -iTCP -sTCP:LISTEN | grep LISTEN"]
-        try? proc.run()
-        proc.waitUntilExit()
-        
-        let data = pipe.fileHandleForReading.readDataToEndOfFile()
-        guard let str = String(data: data, encoding: .utf8) else {
-            return port
-        }
-        
-        let ports = str.split(separator: "\n").map {
-            String($0).split(separator: " ")
-        }.compactMap { re -> Int? in
-            guard re.count == 10,
-                  let range = re[8].range(of: ":", options: .backwards) else { return nil }
-            let s = re[8]
-            let p = s[range.upperBound..<s.endIndex]
-            return Int(p)
-        }
-        guard ports.contains(port) else {
-            return port
-        }
-        
-        var aPorts = Set(port..<65534)
-        aPorts.subtract(ports)
-        return aPorts.min() ?? port
     }
     
     func testExternalController(_ server: MetaServer) -> Bool {

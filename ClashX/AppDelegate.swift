@@ -12,8 +12,12 @@ import LetsMove
 import RxCocoa
 import RxSwift
 import SwiftyJSON
+import Yams
+import PromiseKit
 
 private let statusItemLengthWithSpeed: CGFloat = 72
+
+private let MetaCoreMd5 = "WOSHIZIDONGSHENGCHENGDEA"
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -45,7 +49,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var copyExportCommandExternalMenuItem: NSMenuItem!
     @IBOutlet var experimentalMenu: NSMenu!
     @IBOutlet var externalControlSeparator: NSMenuItem!
-    
+
+    @IBOutlet var tunModeMenuItem: NSMenuItem!
+
     @IBOutlet var hideUnselecableMenuItem: NSMenuItem!
     @IBOutlet var proxyProvidersMenu: NSMenu!
     @IBOutlet var ruleProvidersMenu: NSMenu!
@@ -53,7 +59,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var ruleProvidersMenuItem: NSMenuItem!
     @IBOutlet var snifferMenuItem: NSMenuItem!
     @IBOutlet var flushFakeipCacheMenuItem: NSMenuItem!
-    
+
     @IBOutlet var useAlphaMetaMenuItem: NSMenuItem!
     @IBOutlet var alphaMetaVersionMenuItem: NSMenuItem!
     @IBOutlet var updateAlphaMetaMenuItem: NSMenuItem!
@@ -65,7 +71,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var runAfterConfigReload: (() -> Void)?
 
     var dashboardWindowController: ClashWebViewWindowController?
-    
+
     func applicationWillFinishLaunching(_ notification: Notification) {
         signal(SIGPIPE, SIG_IGN)
         // crash recorder
@@ -114,7 +120,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         runAfterConfigReload = { [weak self] in
             self?.selectAllowLanWithMenory()
         }
-        
+
         updateLoggingLevel()
 
         // start watch config file change
@@ -128,7 +134,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         let group = DispatchGroup()
         var shouldWait = false
-        
+
         PrivilegedHelperManager.shared.helper()?.stopMeta()
 
         if ConfigManager.shared.proxyPortAutoSet && !ConfigManager.shared.isProxySetByOtherVariable.value || NetworkChangeNotifier.isCurrentSystemSetToClash(looser: true) ||
@@ -211,7 +217,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }).disposed(by: disposeBag)
 
         remoteConfigAutoupdateMenuItem.state = RemoteConfigManager.autoUpdateEnable ? .on : .off
-        
+
         hideUnselecableMenuItem.state = .init(rawValue: MenuItemFactory.hideUnselectable)
         useAlphaMetaMenuItem.state = MenuItemFactory.useAlphaCore ? .on : .off
     }
@@ -236,7 +242,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .bind { [weak self] status in
                 guard let self = self else { return }
                 self.proxySettingMenuItem.state = status
-                self.statusItemView.updateViewStatus(enableProxy: status == .on)
+            }.disposed(by: disposeBag)
+
+        Observable
+            .merge([ConfigManager.shared.proxyPortAutoSetObservable,
+                    ConfigManager.shared.isTunModeVariable.asObservable(),
+                    ConfigManager.shared.isProxySetByOtherVariable.asObservable()])
+            .map { _ -> Bool in
+                var status = NSControl.StateValue.mixed
+                if ConfigManager.shared.isProxySetByOtherVariable.value && ConfigManager.shared.proxyPortAutoSet {
+
+                } else {
+                    status = ConfigManager.shared.proxyPortAutoSet ? .on : .off
+                }
+                return status == .on || ConfigManager.shared.isTunModeVariable.value
+            }.distinctUntilChanged()
+            .bind { [weak self] enable in
+                guard let self = self else { return }
+                self.statusItemView.updateViewStatus(enableProxy: enable)
             }.disposed(by: disposeBag)
 
         let configObservable = ConfigManager.shared
@@ -276,6 +299,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
 
                 self.snifferMenuItem.state = config.sniffing ? .on : .off
+                self.tunModeMenuItem.state = config.tun.enable ? .on : .off
+                ConfigManager.shared.isTunModeVariable.accept(config.tun.enable)
             }.disposed(by: disposeBag)
 
         if !PrivilegedHelperManager.shared.isHelperCheckFinished.value {
@@ -289,7 +314,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     self.proxySettingMenuItem.target = self
                 }.disposed(by: disposeBag)
         }
-        
+
         // start proxy
         if !PrivilegedHelperManager.shared.isHelperCheckFinished.value {
             PrivilegedHelperManager.shared.isHelperCheckFinished
@@ -298,14 +323,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 .observe(on: MainScheduler.instance)
                 .bind(onNext: { _ in
                     self.initMetaCore()
-                    self.updateConfig(showNotification: false)
+                    self.startProxy()
                 }).disposed(by: disposeBag)
         } else {
             initMetaCore()
-            updateConfig(showNotification: false)
+            startProxy()
         }
     }
-    
+
     func setupSystemData() {
         if !PrivilegedHelperManager.shared.isHelperCheckFinished.value &&
             ConfigManager.shared.proxyPortAutoSet {
@@ -419,10 +444,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         NotificationCenter.default.post(name: .reloadDashboard, object: nil)
     }
-    
+
     func initMetaCore() {
         Logger.log("initClashCore")
-        
+
         let corePath: String = {
             if let path = Paths.alphaCorePath()?.path,
                let v = testMetaCore(path) {
@@ -433,26 +458,55 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             } else {
                 updateAlphaVersion(nil)
             }
-            
+
+            if Paths.defaultCorePath() == nil {
+                if let p = Paths.defaultCoreGzPath(),
+                   let data = try? Data(contentsOf: .init(fileURLWithPath: p)).gunzipped(),
+                   var path = Bundle.main.resourcePath {
+                    path += "/\(kDefauleMetaCoreName)"
+                    do {
+                        try data.write(to: URL(fileURLWithPath: path))
+                    } catch let error {
+                        Logger.log("\(error)", level: .error)
+                        return "ERROR"
+                    }
+                } else {
+                    return "ERROR"
+                }
+            }
+
             if let path = Paths.defaultCorePath(),
-               testMetaCore(path) != nil {
+               testMetaCore(path) != nil,
+               validateDefaultCore() {
                 return path
             } else {
-                assertionFailure("Meta Core file losted.")
-                return ""
+                return "ERROR"
             }
         }()
 
-        PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: corePath)
-        Logger.log("initClashCore finish")
+        if corePath == "ERROR" {
+            let alert = NSAlert()
+            alert.messageText = "Failure to verify the internal Meta Core.\nDo NOT replace core file in the resources folder."
+            alert.alertStyle = .warning
+            alert.addButton(withTitle: NSLocalizedString("Quit", comment: ""))
+            alert.runModal()
+
+            DispatchQueue.main.async {
+                NSApplication.shared.terminate(nil)
+            }
+        } else {
+            RemoteConfigManager.shared.verifyConfigTask.setLaunchPath(corePath)
+            PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: corePath)
+            Logger.log("initClashCore finish")
+        }
     }
-    
+
     func testMetaCore(_ path: String) -> (version: String, date: Date?)? {
         guard FileManager.default.fileExists(atPath: path),
               chmodX(path) else {
             return nil
         }
-        
+
         let proc = Process()
         proc.executableURL = .init(fileURLWithPath: path)
         proc.arguments = ["-v"]
@@ -466,23 +520,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         proc.waitUntilExit()
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
-        
+
         guard proc.terminationStatus == 0,
               let out = String(data: data, encoding: .utf8) else {
             return nil
         }
-        
+
         let outs = out.replacingOccurrences(of: "\n", with: "").split(separator: " ").map(String.init)
-        
+
         guard outs.count == 13,
               outs[0] == "Clash",
               outs[1] == "Meta",
               outs[3] == "darwin" else {
             return nil
         }
-        
+
         let version = outs[2]
-        
+
         let dateString = [outs[7], outs[8], outs[9], outs[10], outs[12]].joined(separator: "-")
         let f = DateFormatter()
         f.dateFormat = "E-MMM-d-HH:mm:ss-yyyy"
@@ -491,7 +545,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         return (version: version, date: date)
     }
-    
+
+    func validateDefaultCore() -> Bool {
+        guard let path = Paths.defaultCorePath() else { return false }
+        #if DEBUG
+            return true
+        #endif
+        let proc = Process()
+        proc.executableURL = .init(fileURLWithPath: "/sbin/md5")
+        proc.arguments = ["-q", path]
+        let pipe = Pipe()
+        proc.standardOutput = pipe
+
+        try? proc.run()
+        proc.waitUntilExit()
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        guard proc.terminationStatus == 0,
+              let out = String(data: data, encoding: .utf8) else {
+            return false
+        }
+
+        let md5 = out.replacingOccurrences(of: "\n", with: "")
+        return md5 == MetaCoreMd5
+    }
+
     func chmodX(_ path: String) -> Bool {
         let proc = Process()
         proc.executableURL = .init(fileURLWithPath: "/bin/chmod")
@@ -504,63 +581,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         proc.waitUntilExit()
         return proc.terminationStatus == 0
-    }
-
-    func startProxy() {
-        if ConfigManager.shared.isRunning { return }
-
-        struct StartProxyResp: Codable {
-            let externalController: String
-            let secret: String
-            let log: String?
-        }
-        
-        // setup ui config first
-        if let htmlPath = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "dashboard") {
-            let uiPath = URL(fileURLWithPath: htmlPath).deletingLastPathComponent().path
-            PrivilegedHelperManager.shared.helper()?.metaSetUIPath(uiPath)
-        }
-
-        Logger.log("Trying start proxy")
-        var string = ""
-        let queue = DispatchGroup()
-        queue.enter()
-        
-        PrivilegedHelperManager.shared.helper {
-            string = "Can't connect to helper."
-            queue.leave()
-        }?.startMeta(withConfPath: kConfigFolderPath,
-                          confFilePath: "")  {
-            string = $0 ?? ""
-            queue.leave()
-        }
-        queue.wait()
-        let jsonData = string.data(using: .utf8) ?? Data()
-        if let res = try? JSONDecoder().decode(StartProxyResp.self, from: jsonData) {
-            
-            if let log = res.log {
-                Logger.log("""
-\n########  Clash Meta Start Log  #########
-\(log)
-########  END  #########
-""", level: .info)
-            }
-            
-            let port = res.externalController.components(separatedBy: ":").last ?? "9090"
-            ConfigManager.shared.apiPort = port
-            ConfigManager.shared.apiSecret = res.secret
-            ConfigManager.shared.isRunning = true
-            proxyModeMenuItem.isEnabled = true
-            dashboardMenuItem.isEnabled = true
-            
-            setupSystemData()
-        } else {
-            ConfigManager.shared.isRunning = false
-            proxyModeMenuItem.isEnabled = false
-            Logger.log(string, level: .error)
-            NSUserNotificationCenter.default.postConfigErrorNotice(msg: string)
-        }
-        Logger.log("Start proxy done")
     }
 
     func syncConfig(completeHandler: (() -> Void)? = nil) {
@@ -676,6 +696,163 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             for provider in providers {
                 Logger.log("Start auto health check for provider \(provider)")
                 ApiRequest.healthCheck(proxy: provider)
+            }
+        }
+    }
+}
+
+// MARK: Meta Core
+
+extension AppDelegate {
+
+    enum StartMetaError: Error {
+        case configMissing
+        case remoteConfigMissing
+        case startMetaFailed(String)
+        case helperNotFound
+        case pushConfigFailed(String)
+    }
+
+    struct StartProxyResp: Codable {
+        let externalController: String
+        let secret: String
+        let log: String?
+    }
+
+    func startProxy() {
+        if ConfigManager.shared.isRunning { return }
+
+        Logger.log("Trying start meta core")
+
+        prepareConfigFile().then {
+            self.generateInitConfig()
+        }.then {
+            self.startMeta($0)
+        }.get { res in
+            if let log = res.log {
+                Logger.log("""
+\n########  Clash Meta Start Log  #########
+\(log)
+########  END  #########
+""", level: .info)
+            }
+
+            let port = res.externalController.components(separatedBy: ":").last ?? "9090"
+            ConfigManager.shared.apiPort = port
+            ConfigManager.shared.apiSecret = res.secret
+            ConfigManager.shared.isRunning = true
+            self.proxyModeMenuItem.isEnabled = true
+            self.dashboardMenuItem.isEnabled = true
+        }.then { _ in
+            self.pushInitConfig()
+        }.done {
+            Logger.log("Init config file success.")
+        }.catch { error in
+            ConfigManager.shared.isRunning = false
+            self.proxyModeMenuItem.isEnabled = false
+            Logger.log("\(error)", level: .error)
+
+            let unc = NSUserNotificationCenter.default
+
+            switch error {
+            case StartMetaError.configMissing:
+                unc.postConfigErrorNotice(msg: "Can't find config.")
+            case StartMetaError.remoteConfigMissing:
+                unc.postConfigErrorNotice(msg: "Can't find remote config.")
+            case StartMetaError.helperNotFound:
+                unc.postMetaErrorNotice(msg: "Can't connect to helper.")
+            case StartMetaError.startMetaFailed(let s):
+                unc.postConfigErrorNotice(msg: s)
+            case StartMetaError.pushConfigFailed(let s):
+                unc.postConfigErrorNotice(msg: s)
+            default:
+                unc.postMetaErrorNotice(msg: "Unknown Error.")
+            }
+        }
+    }
+
+    func prepareConfigFile() -> Promise<()> {
+        .init { resolver in
+            let configName = ConfigManager.selectConfigName
+            ApiRequest.findConfigPath(configName: configName) { path in
+                guard let path = path else {
+                    resolver.reject(StartMetaError.configMissing)
+                    return
+                }
+                if !FileManager.default.fileExists(atPath: path) {
+                    if let config = RemoteConfigManager.shared.configs.first(where: { $0.name == configName }) {
+                        RemoteConfigManager.updateConfig(config: config) {
+                            if let error = $0 {
+                                resolver.reject(StartMetaError.remoteConfigMissing)
+                            } else {
+                                resolver.fulfill_()
+                            }
+                        }
+                    } else {
+                        ICloudManager.shared.setup()
+                        ConfigFileManager.copySampleConfigIfNeed()
+                        resolver.fulfill_()
+                    }
+                } else {
+                    resolver.fulfill_()
+                }
+            }
+        }
+    }
+
+    func generateInitConfig() -> Promise<ClashMetaConfig.Config> {
+        Promise { resolver in
+            ClashMetaConfig.generateInitConfig {
+                var config = $0
+                PrivilegedHelperManager.shared.helper {
+                    resolver.reject(StartMetaError.helperNotFound)
+                }?.getUsedPorts {
+                    config.updatePorts($0 ?? "")
+                    resolver.fulfill(config)
+                }
+            }
+        }
+    }
+
+    func startMeta(_ config: ClashMetaConfig.Config) -> Promise<StartProxyResp> {
+        .init { resolver in
+            PrivilegedHelperManager.shared.helper {
+                resolver.reject(StartMetaError.helperNotFound)
+            }?.startMeta(withConfPath: kConfigFolderPath,
+                         confFilePath: config.path) {
+                if let string = $0 {
+                    guard let jsonData = string.data(using: .utf8),
+                          let res = try? JSONDecoder().decode(StartProxyResp.self, from: jsonData) else {
+                        resolver.reject(StartMetaError.startMetaFailed(string))
+                        return
+                    }
+
+                    resolver.fulfill(res)
+                } else {
+                    resolver.reject(StartMetaError.startMetaFailed($0 ?? "unknown error"))
+                }
+            }
+        }
+    }
+
+    func pushInitConfig() -> Promise<()> {
+        .init { resolver in
+            ClashProxy.cleanCache()
+            let configName = ConfigManager.selectConfigName
+            Logger.log("Push init config file: \(configName)")
+            ApiRequest.requestConfigUpdate(configName: configName) { err in
+                if let error = err {
+                    resolver.reject(StartMetaError.pushConfigFailed(error))
+                } else {
+                    self.syncConfig()
+                    self.resetStreamApi()
+                    self.runAfterConfigReload?()
+                    self.runAfterConfigReload = nil
+                    self.selectProxyGroupWithMemory()
+                    MenuItemFactory.recreateProxyMenuItems()
+                    NotificationCenter.default.post(name: .reloadDashboard, object: nil)
+                    resolver.fulfill_()
+                }
             }
         }
     }
@@ -868,7 +1045,6 @@ extension AppDelegate {
     @IBAction func actionUpdateProxyGroupMenu(_ sender: Any) {
         ConfigManager.shared.disableShowCurrentProxyInMenu = !ConfigManager.shared.disableShowCurrentProxyInMenu
         updateExperimentalFeatureStatus()
-        print("211")
         MenuItemFactory.recreateProxyMenuItems()
     }
 
@@ -896,6 +1072,38 @@ extension AppDelegate {
 // MARK: Meta Menu
 
 extension AppDelegate {
+    @IBAction func tunMode(_ sender: NSMenuItem) {
+        let nc = NSUserNotificationCenter.default
+        guard let config = ApiRequest.shared.currentConfigContent else {
+            nc.post(title: "Tun Mode", info: "Not found current config.")
+            return
+        }
+
+        sender.isEnabled = false
+        ApiRequest.requestConfig {
+            guard let path = ClashMetaConfig.updateConfigTun(config, enable: !$0.tun.enable) else {
+                sender.isEnabled = true
+                nc.post(title: "Tun Mode", info: "Decode current config failed.")
+                return
+            }
+
+            ApiRequest.requestConfigUpdate(configPath: path) { err in
+                if let error = err {
+                    nc.postNotificationAlert(title: NSLocalizedString("Reload Config Fail", comment: ""),
+                              info: error)
+                } else {
+                    self.syncConfig()
+                    self.resetStreamApi()
+                    self.selectProxyGroupWithMemory()
+                    self.selectOutBoundModeWithMenory()
+                    MenuItemFactory.recreateProxyMenuItems()
+                    NotificationCenter.default.post(name: .reloadDashboard, object: nil)
+                }
+                sender.isEnabled = true
+            }
+        }
+    }
+
     @IBAction func hideUnselectable(_ sender: NSMenuItem) {
         var newState = NSControl.StateValue.off
         switch sender.state {
@@ -912,7 +1120,7 @@ extension AppDelegate {
         sender.state = newState
         MenuItemFactory.hideUnselectable = newState.rawValue
     }
-    
+
     @IBAction func checkForUpdate(_ sender: NSMenuItem) {
         let unc = NSUserNotificationCenter.default
         AF.request("https://api.github.com/repos/MetaCubeX/ClashX.Meta/releases/latest").responseString {
@@ -922,7 +1130,7 @@ extension AppDelegate {
                 unc.postUpdateNotice(msg: "Some thing failed.")
                 return
             }
-            
+
             if tagName != AppVersionUtil.currentVersion {
                 let alert = NSAlert()
                 alert.messageText = "Open github release page to download \(tagName)"
@@ -936,38 +1144,54 @@ extension AppDelegate {
             }
         }
     }
-    
+
     @IBAction func updateGEO(_ sender: NSMenuItem) {
-        ApiRequest.updateGEO() { _ in
+        ApiRequest.updateGEO { _ in
             NSUserNotificationCenter.default.post(title: "Updating GEO Databases...", info: "Good luck to you  🙃")
         }
     }
-    
+
     @IBAction func flushFakeipCache(_ sender: NSMenuItem) {
-        ApiRequest.flushFakeipCache() {
+        ApiRequest.flushFakeipCache {
             NSUserNotificationCenter.default.post(title: "Flush fake-ip cache", info: $0 ? "Success" : "Failed")
         }
     }
-    
+
     @IBAction func updateSniffing(_ sender: NSMenuItem) {
         let enable = sender.state != .on
         ApiRequest.updateSniffing(enable: enable) {
             sender.state = enable ? .on : .off
         }
     }
-    
+
     @IBAction func useAlphaMeta(_ sender: NSMenuItem) {
+        if UserDefaults.standard.object(forKey: "useAlphaCore") as? Bool == nil {
+            let alert = NSAlert()
+            alert.messageText = """
+If you don't know what you're doing, never turn this switch on.
+如果你不知道你在做什么, 请绝对不要打开这个开关.
+Running Meta Core without any authentication under sudo privileges can have devastating consequences.
+在sudo 权限下运行未经验证的 Meta 核心, 可能造成严重后果.
+"""
+            alert.alertStyle = .warning
+            alert.addButton(withTitle: NSLocalizedString("Continue", comment: ""))
+            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+            if alert.runModal() != .alertFirstButtonReturn {
+                return
+            }
+        }
+
         let use = sender.state != .on
         MenuItemFactory.useAlphaCore = use
         sender.state = use ? .on : .off
     }
-    
+
     @IBAction func showAlphaInFinder(_ sender: NSMenuItem) {
         guard let u = Paths.alphaCorePath(),
               FileManager.default.fileExists(atPath: u.path) else { return }
         NSWorkspace.shared.activateFileViewerSelecting([u])
     }
-    
+
     @IBAction func updateAlphaMeta(_ sender: NSMenuItem) {
         guard let helperURL = Paths.alphaCorePath() else {
             return
@@ -989,7 +1213,7 @@ extension AppDelegate {
                 }
             }
         }
-        
+
         func GetMachineHardwareName() -> String? {
             var sysInfo = utsname()
             let retVal = uname(&sysInfo)
@@ -998,7 +1222,7 @@ extension AppDelegate {
 
             return String(cString: &sysInfo.machine.0, encoding: .utf8)
         }
-        
+
         let assetName: String? = {
             switch GetMachineHardwareName() {
             case "x86_64":
@@ -1010,12 +1234,12 @@ extension AppDelegate {
             }
         }()
         let fm = FileManager.default
-        
+
         func dlResult(_ info: String) {
             sender.isEnabled = true
             NSUserNotificationCenter.default.post(title: "Clash Meta Core", info: info)
         }
-        
+
         AF.request("https://api.github.com/repos/MetaCubeX/Clash.Meta/releases/tags/Prerelease-Alpha").responseDecodable(of: ReleasesResp.self) {
             guard let assets = $0.value?.assets,
                   let assetName = assetName,
@@ -1027,16 +1251,16 @@ extension AppDelegate {
                 dlResult("Decode alpha release info failed")
                 return
             }
-            
+
             if let v = self.testMetaCore(helperURL.path),
                asset.name.contains(v.version) {
                 dlResult("Not found update")
                 return
             }
-            
+
             self.updateAlphaVersion(nil)
             try? fm.removeItem(at: helperURL)
-            
+
             AF.download(asset.downloadUrl).response {
                 guard let gzPath = $0.fileURL?.path,
                       let contentData = fm.contents(atPath: gzPath)
@@ -1059,7 +1283,7 @@ extension AppDelegate {
             }
         }
     }
-    
+
     func updateAlphaVersion(_ version: String?) {
         let enable = version != nil
         useAlphaMetaMenuItem.isEnabled = enable

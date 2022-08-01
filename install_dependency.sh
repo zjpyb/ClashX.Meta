@@ -13,7 +13,14 @@ gzip -d *.gz
 echo "Create Universal core"
 lipo -create -output com.metacubex.ClashX.ProxyConfigHelper.meta Clash.Meta-darwin-amd64* Clash.Meta-darwin-arm64*
 chmod +x com.metacubex.ClashX.ProxyConfigHelper.meta
-cp com.metacubex.ClashX.ProxyConfigHelper.meta ../ClashX/Resources/
+
+echo "Update meta core md5 to code"
+sed -i '' "s/WOSHIZIDONGSHENGCHENGDEA/$(md5 -q com.metacubex.ClashX.ProxyConfigHelper.meta)/g" ../ClashX/AppDelegate.swift
+sed -n '20p' ../ClashX/AppDelegate.swift
+
+echo "Gzip Universal core"
+gzip com.metacubex.ClashX.ProxyConfigHelper.meta
+cp com.metacubex.ClashX.ProxyConfigHelper.meta.gz ../ClashX/Resources/
 cd ..
 
 echo "Pod install"

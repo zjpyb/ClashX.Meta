@@ -14,7 +14,7 @@ import RxCocoa
 class PrivilegedHelperManager {
     let isHelperCheckFinished = BehaviorRelay<Bool>(value: false)
     private var cancelInstallCheck = false
-    
+
     private let useLegacyInstall = true
 
     private var authRef: AuthorizationRef?

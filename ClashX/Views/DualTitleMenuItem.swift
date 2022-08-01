@@ -2,11 +2,10 @@
 //  DualTitleMenuItem.swift
 //  ClashX
 
-
 import Cocoa
 
 class DualTitleMenuItem: NSMenuItem {
-    
+
     var originTitle: String = ""
 
     convenience init(_ title: String,
@@ -17,7 +16,7 @@ class DualTitleMenuItem: NSMenuItem {
         originTitle = title
         setAttributedTitle(name: title, secondLabel: subTitle, maxLength: maxLength)
     }
-    
+
     func setAttributedTitle(name: String, secondLabel: String?, maxLength: CGFloat = 0) {
         let paragraph = NSMutableParagraphStyle()
         paragraph.tabStops = [

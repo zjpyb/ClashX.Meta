@@ -79,6 +79,7 @@ ProxyConfigRemoteProcessProtocol
         [weakSelf.connections removeObject:weakConnection];
         if (weakSelf.connections.count == 0) {
             weakSelf.shouldQuit = YES;
+            [weakSelf.metaTask stop];
         }
     };
     [self.connections addObject:newConnection];
@@ -140,10 +141,6 @@ ProxyConfigRemoteProcessProtocol
 }
 
 
-- (void)metaSetUIPath:(NSString *)path {
-    [self.metaTask setUIPath:path];
-}
-
 - (void)startMetaWithConfPath:(NSString *)confPath ConfFilePath:(NSString *)confFilePath result:(stringReplyBlock)reply {
     [self.metaTask start:confPath confFilePath:confFilePath result:reply];
 }
@@ -155,6 +152,10 @@ ProxyConfigRemoteProcessProtocol
 
 - (void)stopMeta {
     [self.metaTask stop];
+}
+
+- (void)getUsedPorts:(stringReplyBlock)reply {
+    [self.metaTask getUsedPorts:reply];
 }
 
 @end
