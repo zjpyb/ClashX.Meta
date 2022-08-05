@@ -192,3 +192,27 @@
 
 /* Class = "NSMenuItem"; title = "Set update Interval"; ObjectID = "h1H-7k-9HS"; */
 "h1H-7k-9HS.title" = "设置更新间隔";
+
+/* Class = "NSMenuItem"; title = "Tun mode"; ObjectID = "ZoW-Ax-rde"; */
+"ZoW-Ax-rde.title" = "增强模式";
+
+/* Class = "NSMenuItem"; title = "Sniffer"; ObjectID = "mk5-fI-KvW"; */
+"mk5-fI-KvW.title" = "域名嗅探";
+
+/* Class = "NSMenuItem"; title = "Update GEO databases"; ObjectID = "WZu-fm-nxd"; */
+"WZu-fm-nxd.title" = "更新 Geo 数据库";
+
+/* Class = "NSMenuItem"; title = "Flush fake-ip cache"; ObjectID = "WZT-AH-ria"; */
+"WZT-AH-ria.title" = "清空 Fake-IP 缓存";
+
+/* Class = "NSMenuItem"; title = "Proxy providers"; ObjectID = "4Jz-gx-7X9"; */
+"4Jz-gx-7X9.title" = "代理提供商";
+
+/* Class = "NSMenuItem"; title = "Rule providers"; ObjectID = "cJg-BS-yk2"; */
+"cJg-BS-yk2.title" = "规则提供商";
+
+/* Class = "NSMenuItem"; title = "Alpha Core"; ObjectID = "WNb-4C-MWu"; */
+"WNb-4C-MWu.title" = "Alpha Core";
+
+/* Class = "NSMenuItem"; title = "Hide unselectable"; ObjectID = "C3l-5G-vzB"; */
+"C3l-5G-vzB.title" = "隐藏不可选择的策略组";
