@@ -5,9 +5,6 @@
 "Add a remote control config" = "Add a remote control config";
 
 /* No comment provided by engineer. */
-"Apply and Quit" = "Apply and Quit";
-
-/* No comment provided by engineer. */
 "Auto Close Connection" = "Auto Close Connection";
 
 /* No comment provided by engineer. */
@@ -82,11 +79,6 @@
 /* No comment provided by engineer. */
 "Load Balance" = "Load Balance";
 
-"Mode" = "Mode";
-
-/* No comment provided by engineer. */
-"Need to Restart the ClashX to Take effect, Please start clashX manually" = "Need to Restart the ClashX to Take effect, Please start clashX manually";
-
 /* No comment provided by engineer. */
 "Never" = "Never";
 
@@ -130,13 +122,7 @@
 "Rule" = "Rule";
 
 /* No comment provided by engineer. */
-"Script" = "Script";
-
-/* No comment provided by engineer. */
 "Should be a least 1 hour" = "Should be a least 1 hour";
-
-/* No comment provided by engineer. */
-"Show speedTest at top" = "Show speedTest at top";
 
 /* No comment provided by engineer. */
 "Stable" = "Stable";
@@ -185,3 +171,24 @@
 
 /* No comment provided by engineer. */
 "Use reload config to try reconnect." = "Use reload config to try reconnect.";
+
+/* No comment provided by engineer. */
+"Alpha Meta core Warning" = """
+If you don't know what you're doing, never turn this switch on.
+Running Meta Core without any authentication under sudo privileges may damage your mac.
+""";
+
+/* No comment provided by engineer. */
+"Continue" = "Continue";
+
+/* No comment provided by engineer. */
+"Download Meta core" = "Download Meta core";
+
+/* No comment provided by engineer. */
+"Start Meta Fail!" = "Start Meta Fail!";
+
+/* No comment provided by engineer. */
+"Update Meta core" = "Update Meta core";
+
+/* No comment provided by engineer. */
+"Version: " = "Version: ";

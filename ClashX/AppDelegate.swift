@@ -1176,12 +1176,7 @@ extension AppDelegate {
     @IBAction func useAlphaMeta(_ sender: NSMenuItem) {
         if UserDefaults.standard.object(forKey: "useAlphaCore") as? Bool == nil {
             let alert = NSAlert()
-            alert.messageText = """
-If you don't know what you're doing, never turn this switch on.
-如果你不知道你在做什么, 请绝对不要打开这个开关.
-Running Meta Core without any authentication under sudo privileges can have devastating consequences.
-在sudo 权限下运行未经验证的 Meta 核心, 可能造成严重后果.
-"""
+            alert.messageText = NSLocalizedString("Alpha Meta core Warning", comment: "")
             alert.alertStyle = .warning
             alert.addButton(withTitle: NSLocalizedString("Continue", comment: ""))
             alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
@@ -1298,12 +1293,12 @@ Running Meta Core without any authentication under sudo privileges can have deva
         useAlphaMetaMenuItem.isEnabled = enable
         alphaMetaVersionMenuItem.isEnabled = enable
         if let v = version {
-            let info = "Version: \(v)"
+            let info = NSLocalizedString("Version: ", comment: "") + "\(v)"
             alphaMetaVersionMenuItem.title = info
-            updateAlphaMetaMenuItem.title = "Update Meta core"
+            updateAlphaMetaMenuItem.title = NSLocalizedString("Update Meta core", comment: "")
         } else {
-            alphaMetaVersionMenuItem.title = "Version: none"
-            updateAlphaMetaMenuItem.title = "Download Meta core"
+            alphaMetaVersionMenuItem.title = NSLocalizedString("Version: ", comment: "") + "none"
+            updateAlphaMetaMenuItem.title = NSLocalizedString("Download Meta core", comment: "")
         }
     }
 }
