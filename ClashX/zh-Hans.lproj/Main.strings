@@ -11,7 +11,7 @@
 "3Da-fL-Mzr.title" = "日志等级";
 
 /* Class = "NSMenuItem"; title = "Proxy providers"; ObjectID = "4Jz-gx-7X9"; */
-"4Jz-gx-7X9.title" = "代理提供商";
+"4Jz-gx-7X9.title" = "代理 Prividers";
 
 /* Class = "NSButtonCell"; title = "Add"; ObjectID = "51K-nB-xLS"; */
 "51K-nB-xLS.title" = "添加";
@@ -62,7 +62,7 @@
 "C79-J5-30z.headerCell.title" = "链接";
 
 /* Class = "NSMenuItem"; title = "Rule providers"; ObjectID = "cJg-BS-yk2"; */
-"cJg-BS-yk2.title" = "规则提供商";
+"cJg-BS-yk2.title" = "规则 Prividers";
 
 /* Class = "NSMenuItem"; title = "Benchmark"; ObjectID = "COu-UX-bww"; */
 "COu-UX-bww.title" = "延迟测速";
@@ -172,6 +172,9 @@
 /* Class = "NSMenuItem"; title = "Use alpha meta"; ObjectID = "sk5-MZ-XB1"; */
 "sk5-MZ-XB1.title" = "使用 alpha meta";
 
+/* Class = "NSMenuItem"; title = "Version: none"; ObjectID = "Stq-Vy-QaD"; */
+"Stq-Vy-QaD.title" = "版本: 未知";
+
 /* Class = "NSMenu"; title = "Config"; ObjectID = "tck-zU-JKQ"; */
 "tck-zU-JKQ.title" = "配置";
 
@@ -233,10 +236,7 @@
 "ZcF-10-jsl.title" = "添加";
 
 /* Class = "NSMenuItem"; title = "Tun mode"; ObjectID = "ZoW-Ax-rde"; */
-"ZoW-Ax-rde.title" = "增强模式";
+"ZoW-Ax-rde.title" = "Tun 模式";
 
 /* Class = "NSTextFieldCell"; title = "Core Version"; ObjectID = "zwo-q5-k5N"; */
 "zwo-q5-k5N.title" = "内核版本";
-
-/* Class = "NSMenuItem"; title = "Version: none"; ObjectID = "Stq-Vy-QaD"; */
-"Stq-Vy-QaD.title" = "";

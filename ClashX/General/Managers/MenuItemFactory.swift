@@ -32,7 +32,7 @@ class MenuItemFactory {
         }
     }
 
-    static let updateAllProvidersTitle = "Update All Providers"
+    static let updateAllProvidersTitle = NSLocalizedString("Update All Providers", comment: "")
 
     // MARK: - Public
 
@@ -405,7 +405,7 @@ extension MenuItemFactory {
               !date.timeIntervalSinceNow.isInfinite,
               let re = dateCF.string(from: abs(date.timeIntervalSinceNow)) else { return nil }
 
-        return "\(re) ago"
+        return re + NSLocalizedString(" ago", comment: "Provider update time title")
     }
 
     @objc static func actionUpdateAllProviders(sender: NSMenuItem) {

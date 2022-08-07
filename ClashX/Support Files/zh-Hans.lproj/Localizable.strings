@@ -1,8 +1,14 @@
+/* Provider update time title */
+" ago" = "前";
+
 /* No comment provided by engineer. */
 "Add a remote config" = "添加托管配置文件";
 
 /* No comment provided by engineer. */
 "Add a remote control config" = "添加远程控制器配置";
+
+/* No comment provided by engineer. */
+"Alpha Meta core Warning" = "如果你不知道你在做什么, 请绝对不要打开这个开关.\n在 'su' 权限下运行未经验证的 Meta 核心, 可能损坏你的 mac.";
 
 /* No comment provided by engineer. */
 "Auto Close Connection" = "切换代理时中断连接";
@@ -38,7 +44,13 @@
 "Config loading Fail!" = "配置文件加载失败";
 
 /* No comment provided by engineer. */
+"Continue" = "继续";
+
+/* No comment provided by engineer. */
 "Custom your GEOIP MMDB download address." = "自定义下载地址";
+
+/* No comment provided by engineer. */
+"Decode current config failed." = "无法解析当前的配置文件.";
 
 /* No comment provided by engineer. */
 "Details" = "查看详情";
@@ -53,6 +65,9 @@
 "Download fail" = "下载失败";
 
 /* No comment provided by engineer. */
+"Download Meta core" = "下载 Meta 内核";
+
+/* No comment provided by engineer. */
 "Enhance proxy list render" = "增强渲染代理列表";
 
 /* No comment provided by engineer. */
@@ -62,7 +77,13 @@
 "Fail:" = "失败：";
 
 /* No comment provided by engineer. */
+"Flush fake-ip cache" = "清空 fake-ip 缓存";
+
+/* No comment provided by engineer. */
 "Global" = "全局";
+
+/* No comment provided by engineer. */
+"Good luck to you  🙃" = "祝你好运  🙃";
 
 /* No comment provided by engineer. */
 "hours" = "小时";
@@ -83,7 +104,16 @@
 "Never" = "从未";
 
 /* No comment provided by engineer. */
+"No new release found." = "未找到更新.";
+
+/* No comment provided by engineer. */
+"Not found current config." = "未找到当前的配置文件.";
+
+/* No comment provided by engineer. */
 "OK" = "确定";
+
+/* No comment provided by engineer. */
+"Open github release page to download " = "打开 GitHub Release 下载 ";
 
 /* No comment provided by engineer. */
 "Ports Open Fail, Please try to restart ClashX" = "端口打开失败，请尝试重启ClashX";
@@ -125,7 +155,13 @@
 "Should be a least 1 hour" = "至少需要1小时间隔";
 
 /* No comment provided by engineer. */
+"Some thing failed." = "发生了一些错误.";
+
+/* No comment provided by engineer. */
 "Stable" = "Stable";
+
+/* No comment provided by engineer. */
+"Start Meta Fail!" = "打开Meta 失败!";
 
 /* No comment provided by engineer. */
 "Succeed!" = "成功！";
@@ -152,13 +188,22 @@
 "This version of ClashX contains a break change due to clash core 1.0 released. Check if your config is not working properly." = "由于Clash Core发布1.0版本，使用此版本的 ClashX 可能需要更新配置内容\n前往 https://github.com/Dreamacro/clash/wiki/breaking-changes-in-1.0.0 查看详情";
 
 /* No comment provided by engineer. */
-"Update GEOIP Database" = "更新IP数据库";
+"Update All Providers" = "更新所有 Providers";
+
+/* No comment provided by engineer. */
+"Update Alpha Meta core" = "更新 Alpha Meta 内核";
+
+/* No comment provided by engineer. */
+"Update GEOIP Database" = "更新 GEOIP 数据库";
 
 /* No comment provided by engineer. */
 "Update remote config update interval" = "远程配置自动更新间隔";
 
 /* No comment provided by engineer. */
 "Updating" = "更新中";
+
+/* No comment provided by engineer. */
+"Updating GEO Databases..." = "更新 GEO 数据库...";
 
 /* No comment provided by engineer. */
 "Upgrade Channel" = "更新通道";
@@ -171,24 +216,6 @@
 
 /* No comment provided by engineer. */
 "Use reload config to try reconnect." = "使用重载配置文件按钮尝试重新连接";
-
-/* No comment provided by engineer. */
-"Alpha Meta core Warning" = """
-如果你不知道你在做什么, 请绝对不要打开这个开关.
-在sudo 权限下运行未经验证的 Meta 核心, 可能损坏你的mac.
-""";
-
-/* No comment provided by engineer. */
-"Continue" = "继续";
-
-/* No comment provided by engineer. */
-"Download Meta core" = "下载Meta 内核";
-
-/* No comment provided by engineer. */
-"Start Meta Fail!" = "打开Meta 失败!";
-
-/* No comment provided by engineer. */
-"Update Meta core" = "更新Meta 内核";
 
 /* No comment provided by engineer. */
 "Version: " = "版本: ";
