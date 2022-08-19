@@ -25,7 +25,7 @@ class StatusItemView: NSView {
         if let image = NSImage(contentsOfFile: customImagePath) {
             return image
         }
-        if let imagePath = Bundle.main.path(forResource: "menu_icon@2x", ofType: "png"),
+        if let imagePath = Bundle.main.path(forResource: "menu_icon", ofType: "icns"),
            let image = NSImage(contentsOfFile: imagePath) {
             return image
         }
@@ -54,9 +54,6 @@ class StatusItemView: NSView {
         }
         uploadSpeedLabel.font = font
         downloadSpeedLabel.font = font
-
-        uploadSpeedLabel.textColor = NSColor.black
-        downloadSpeedLabel.textColor = NSColor.black
     }
 
     func updateViewStatus(enableProxy: Bool) {
@@ -68,6 +65,8 @@ class StatusItemView: NSView {
             unselectedColor = selectedColor.withAlphaComponent(0.5)
         }
 
+        uploadSpeedLabel.textColor = enableProxy ? NSColor.black : NSColor.init(white: 1.0, alpha: 0.5)
+        downloadSpeedLabel.textColor = enableProxy ? NSColor.black : NSColor.init(white: 1.0, alpha: 0.5)
         imageView.image = menuImage.tint(color: enableProxy ? selectedColor : unselectedColor)
         updateStatusItemView()
     }
