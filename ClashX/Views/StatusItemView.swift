@@ -54,9 +54,6 @@ class StatusItemView: NSView {
         }
         uploadSpeedLabel.font = font
         downloadSpeedLabel.font = font
-
-        uploadSpeedLabel.textColor = NSColor.black
-        downloadSpeedLabel.textColor = NSColor.black
     }
 
     func updateViewStatus(enableProxy: Bool) {
@@ -68,6 +65,8 @@ class StatusItemView: NSView {
             unselectedColor = selectedColor.withAlphaComponent(0.5)
         }
 
+        uploadSpeedLabel.textColor = enableProxy ? NSColor.black : NSColor.init(white: 1.0, alpha: 0.5)
+        downloadSpeedLabel.textColor = enableProxy ? NSColor.black : NSColor.init(white: 1.0, alpha: 0.5)
         imageView.image = menuImage.tint(color: enableProxy ? selectedColor : unselectedColor)
         updateStatusItemView()
     }
