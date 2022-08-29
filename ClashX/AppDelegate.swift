@@ -1084,7 +1084,7 @@ extension AppDelegate {
     @IBAction func tunMode(_ sender: NSMenuItem) {
         let nc = NSUserNotificationCenter.default
         guard let config = ApiRequest.shared.currentConfigContent else {
-            nc.post(title: "Tun Mode", info: "Not found current config.")
+            nc.post(title: "Tun Mode", info: NSLocalizedString("Not found current config.", comment: ""))
             return
         }
 
@@ -1092,7 +1092,7 @@ extension AppDelegate {
         ApiRequest.requestConfig {
             guard let path = ClashMetaConfig.updateConfigTun(config, enable: !$0.tun.enable) else {
                 sender.isEnabled = true
-                nc.post(title: "Tun Mode", info: "Decode current config failed.")
+                nc.post(title: "Tun Mode", info: NSLocalizedString("Decode current config failed.", comment: ""))
                 return
             }
 
@@ -1136,33 +1136,33 @@ extension AppDelegate {
             guard $0.error == nil,
                   let data = $0.data,
                   let tagName = try? JSON(data: data)["tag_name"].string else {
-                unc.postUpdateNotice(msg: "Some thing failed.")
+                unc.postUpdateNotice(msg: NSLocalizedString("Some thing failed.", comment: ""))
                 return
             }
 
             if tagName != AppVersionUtil.currentVersion {
                 let alert = NSAlert()
-                alert.messageText = "Open github release page to download \(tagName)"
+                alert.messageText = NSLocalizedString("Open github release page to download ", comment: "") + "\(tagName)"
                 alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
                 alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
                 if alert.runModal() == .alertFirstButtonReturn {
                     NSWorkspace.shared.open(.init(string: "https://github.com/MetaCubeX/ClashX.Meta/releases/latest")!)
                 }
             } else {
-                unc.postUpdateNotice(msg: "No new release found.")
+                unc.postUpdateNotice(msg: NSLocalizedString("No new release found.", comment: ""))
             }
         }
     }
 
     @IBAction func updateGEO(_ sender: NSMenuItem) {
         ApiRequest.updateGEO { _ in
-            NSUserNotificationCenter.default.post(title: "Updating GEO Databases...", info: "Good luck to you  🙃")
+            NSUserNotificationCenter.default.post(title: NSLocalizedString("Updating GEO Databases...", comment: ""), info: NSLocalizedString("Good luck to you  🙃", comment: ""))
         }
     }
 
     @IBAction func flushFakeipCache(_ sender: NSMenuItem) {
         ApiRequest.flushFakeipCache {
-            NSUserNotificationCenter.default.post(title: "Flush fake-ip cache", info: $0 ? "Success" : "Failed")
+            NSUserNotificationCenter.default.post(title: NSLocalizedString("Flush fake-ip cache", comment: ""), info: $0 ? "Success" : "Failed")
         }
     }
 
@@ -1176,12 +1176,7 @@ extension AppDelegate {
     @IBAction func useAlphaMeta(_ sender: NSMenuItem) {
         if UserDefaults.standard.object(forKey: "useAlphaCore") as? Bool == nil {
             let alert = NSAlert()
-            alert.messageText = """
-If you don't know what you're doing, never turn this switch on.
-如果你不知道你在做什么, 请绝对不要打开这个开关.
-Running Meta Core without any authentication under sudo privileges can have devastating consequences.
-在sudo 权限下运行未经验证的 Meta 核心, 可能造成严重后果.
-"""
+            alert.messageText = NSLocalizedString("Alpha Meta core Warning", comment: "")
             alert.alertStyle = .warning
             alert.addButton(withTitle: NSLocalizedString("Continue", comment: ""))
             alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
@@ -1285,7 +1280,7 @@ Running Meta Core without any authentication under sudo privileges can have deva
                         return
                     }
                     self.updateAlphaVersion(version)
-                    dlResult("Version: \(version)")
+                    dlResult(NSLocalizedString("Version: ", comment: "") + version)
                 } catch let error {
                     dlResult("Something error \(error.localizedDescription)")
                 }
@@ -1298,12 +1293,12 @@ Running Meta Core without any authentication under sudo privileges can have deva
         useAlphaMetaMenuItem.isEnabled = enable
         alphaMetaVersionMenuItem.isEnabled = enable
         if let v = version {
-            let info = "Version: \(v)"
+            let info = NSLocalizedString("Version: ", comment: "") + v
             alphaMetaVersionMenuItem.title = info
-            updateAlphaMetaMenuItem.title = "Update Meta core"
+            updateAlphaMetaMenuItem.title = NSLocalizedString("Update Alpha Meta core", comment: "")
         } else {
-            alphaMetaVersionMenuItem.title = "Version: none"
-            updateAlphaMetaMenuItem.title = "Download Meta core"
+            alphaMetaVersionMenuItem.title = NSLocalizedString("Version: ", comment: "") + "none"
+            updateAlphaMetaMenuItem.title = NSLocalizedString("Download Meta core", comment: "")
         }
     }
 }
