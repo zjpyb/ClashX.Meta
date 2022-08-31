@@ -149,7 +149,21 @@ class ClashWebViewContoller: NSViewController {
 
     func loadWebRecourses() {
         // defaults write com.west2online.ClashX webviewUrl "your url"
-        let defaultUrl = "http://127.0.0.1:\(ConfigManager.shared.apiPort)/ui/"
+        var defaultUrl = "http://127.0.0.1:\(ConfigManager.shared.apiPort)/ui/"
+
+        var params = [String]()
+        let cm = ConfigManager.shared
+        if cm.apiPort != "9090" {
+            params.append("port=\(cm.apiPort)")
+        }
+        if cm.apiSecret != "" {
+            params.append("secret=\(cm.apiSecret)")
+        }
+        if params.count > 0 {
+            defaultUrl += "?"
+            defaultUrl += params.joined(separator: "&")
+        }
+
         let url = UserDefaults.standard.string(forKey: "webviewUrl") ?? defaultUrl
         if let url = URL(string: url) {
             webview.load(URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 0))
