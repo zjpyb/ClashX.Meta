@@ -26,6 +26,7 @@ enum ClashProxyType: String, Codable {
 
     case vless = "Vless"
     case hysteria = "Hysteria"
+    case pass = "Pass"
 
     case unknown = "Unknown"
 
@@ -49,7 +50,7 @@ enum ClashProxyType: String, Codable {
 
     static func isBuiltInProxy(_ proxy: ClashProxy) -> Bool {
         switch proxy.name {
-        case "DIRECT", "REJECT": return true
+        case "DIRECT", "REJECT", "PASS": return true
         default: return false
         }
     }
