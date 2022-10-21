@@ -3,6 +3,7 @@ set -e
 
 echo "Unzip core files"
 cd clash.meta
+ls
 gzip -d *.gz
 echo "Create Universal core"
 lipo -create -output com.metacubex.ClashX.ProxyConfigHelper.meta Clash.Meta-darwin-amd64* Clash.Meta-darwin-arm64*
