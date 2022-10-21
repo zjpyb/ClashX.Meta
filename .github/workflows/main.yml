@@ -31,7 +31,7 @@ jobs:
       with:
         repository: 'MetaCubeX/Clash.Meta'
         latest: true
-        fileName: "darwin.*.gz"
+        fileName: ".*darwin.*.gz"
         out-file-path: "clash.meta"
         token: ${{ secrets.GITHUB_TOKEN }}
 
