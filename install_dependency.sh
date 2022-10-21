@@ -1,14 +1,8 @@
 #!/bin/bash
 set -e
 
-echo "Download meta core"
-rm -rf clash.meta
-mkdir clash.meta
-cd clash.meta
-curl -s https://api.github.com/repos/MetaCubeX/Clash.Meta/releases/latest | grep -wo "https.*darwin.*.gz" > meta.txt
-cat meta.txt
-wget -i meta.txt
 echo "Unzip core files"
+cd clash.meta
 gzip -d *.gz
 echo "Create Universal core"
 lipo -create -output com.metacubex.ClashX.ProxyConfigHelper.meta Clash.Meta-darwin-amd64* Clash.Meta-darwin-arm64*
