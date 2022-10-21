@@ -98,6 +98,7 @@ class ClashProxy: Codable {
     enum SpeedtestAbleItem {
         case proxy(name: ClashProxyName)
         case provider(name: ClashProxyName, provider: ClashProviderName)
+        case group(name: ClashProxyName)
     }
 
     private static var nameLengthCachedMap = [ClashProxyName: CGFloat]()
@@ -109,11 +110,15 @@ class ClashProxy: Codable {
         guard let resp = enclosingResp, let allProxys = all else { return [] }
         var proxys = [SpeedtestAbleItem]()
         for proxy in allProxys {
-            if let p = resp.proxiesMap[proxy], !ClashProxyType.isProxyGroup(p) {
-                if let provider = p.enclosingProvider {
-                    proxys.append(.provider(name: p.name, provider: provider.name))
+            if let p = resp.proxiesMap[proxy] {
+                if !ClashProxyType.isProxyGroup(p) {
+                    if let provider = p.enclosingProvider {
+                        proxys.append(.provider(name: p.name, provider: provider.name))
+                    } else {
+                        proxys.append(.proxy(name: p.name))
+                    }
                 } else {
-                    proxys.append(.proxy(name: p.name))
+                    proxys.append(.group(name: p.name))
                 }
             }
         }

@@ -109,6 +109,8 @@ private class ProxyGroupSpeedTestMenuItemView: MenuItemBaseView {
                 providers.insert(provider)
             case let .proxy(name):
                 proxies.append(name)
+            case let .group(name):
+                proxies.append(name)
             }
         }
 
