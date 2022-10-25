@@ -26,6 +26,15 @@ jobs:
       with:
         go-version: 1.19.x
     
+    - name: download meta core
+      uses: robinraju/release-downloader@v1.5
+      with:
+        repository: 'MetaCubeX/Clash.Meta'
+        latest: true
+        fileName: ".*darwin.*.gz"
+        out-file-path: "clash.meta"
+        token: ${{ secrets.GITHUB_TOKEN }}
+
     - name: install deps
       run: bash install_dependency.sh
 
