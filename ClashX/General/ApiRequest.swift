@@ -23,8 +23,6 @@ class ApiRequest {
 
     private var proxyRespCache: ClashProxyResp?
 
-    var currentConfigContent: Data?
-
     private lazy var logQueue = DispatchQueue(label: "com.ClashX.core.log")
 
     static let clashRequestQueue = DispatchQueue(label: "com.clashx.clashRequestQueue")
@@ -132,7 +130,6 @@ class ApiRequest {
         req("/configs", method: .put, parameters: ["Path": configPath], encoding: JSONEncoding.default).responseJSON { res in
             if res.response?.statusCode == 204 {
                 ConfigManager.shared.isRunning = true
-                ApiRequest.shared.currentConfigContent = FileManager.default.contents(atPath: configPath)
                 callback(nil)
             } else {
                 let errorJson = try? res.result.get()
@@ -388,6 +385,17 @@ extension ApiRequest {
             completeHandler?(re)
 //            Logger.log("UpdateGEO \(re ? "success" : "failed")")
             Logger.log("Updating GEO Databases...")
+        }
+    }
+
+    static func updateTun(enable: Bool, completeHandler: (() -> Void)? = nil) {
+        Logger.log("update tun:\(enable)", level: .debug)
+        req("/configs",
+            method: .patch,
+            parameters: ["tun": ["enable": enable]],
+            encoding: JSONEncoding.default).response {
+            _ in
+            completeHandler?()
         }
     }
 

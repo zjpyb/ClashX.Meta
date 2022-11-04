@@ -1082,34 +1082,12 @@ extension AppDelegate {
 
 extension AppDelegate {
     @IBAction func tunMode(_ sender: NSMenuItem) {
-        let nc = NSUserNotificationCenter.default
-        guard let config = ApiRequest.shared.currentConfigContent else {
-            nc.post(title: "Tun Mode", info: NSLocalizedString("Not found current config.", comment: ""))
-            return
-        }
-
+        let enable = sender.state != .on
         sender.isEnabled = false
-        ApiRequest.requestConfig {
-            guard let path = ClashMetaConfig.updateConfigTun(config, enable: !$0.tun.enable) else {
-                sender.isEnabled = true
-                nc.post(title: "Tun Mode", info: NSLocalizedString("Decode current config failed.", comment: ""))
-                return
-            }
-
-            ApiRequest.requestConfigUpdate(configPath: path) { err in
-                if let error = err {
-                    nc.postNotificationAlert(title: NSLocalizedString("Reload Config Fail", comment: ""),
-                              info: error)
-                } else {
-                    self.syncConfig()
-                    self.resetStreamApi()
-                    self.selectProxyGroupWithMemory()
-                    self.selectOutBoundModeWithMenory()
-                    MenuItemFactory.recreateProxyMenuItems()
-                    NotificationCenter.default.post(name: .reloadDashboard, object: nil)
-                }
-                sender.isEnabled = true
-            }
+        ApiRequest.updateTun(enable: enable) { [weak self] in
+            sender.state = enable ? .on : .off
+            self?.syncConfig()
+            sender.isEnabled = true
         }
     }
 
