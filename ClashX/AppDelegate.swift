@@ -458,21 +458,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             } else {
                 updateAlphaVersion(nil)
             }
-
-            if Paths.defaultCorePath() == nil {
-                if let p = Paths.defaultCoreGzPath(),
-                   let data = try? Data(contentsOf: .init(fileURLWithPath: p)).gunzipped(),
-                   var path = Bundle.main.resourcePath {
-                    path += "/\(kDefauleMetaCoreName)"
-                    do {
-                        try data.write(to: URL(fileURLWithPath: path))
-                    } catch let error {
-                        Logger.log("\(error)", level: .error)
-                        return "ERROR"
-                    }
-                } else {
-                    return "ERROR"
-                }
+            
+            if let re = unzipMetaCore() {
+                return re
             }
 
             if let path = Paths.defaultCorePath(),
@@ -499,6 +487,40 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: corePath)
             Logger.log("initClashCore finish")
         }
+    }
+
+    func unzipMetaCore() -> String? {
+        guard Paths.defaultCorePath() == nil,
+              var path = Bundle.main.resourcePath,
+              let p = Paths.defaultCoreGzPath() else { return "ERROR" }
+        path += "/\(kDefauleMetaCoreName)"
+
+        do {
+            let data = try Data(contentsOf: .init(fileURLWithPath: p)).gunzipped()
+            try data.write(to: URL(fileURLWithPath: path))
+            return nil
+        } catch let error {
+            Logger.log("Unzip Meta failed: \(error)", level: .error)
+            Logger.log("Fallback gunzip", level: .error)
+        }
+        
+        let proc = Process()
+        proc.executableURL = .init(fileURLWithPath: "/usr/bin/gunzip")
+        proc.arguments = ["-dk", p]
+        
+        do {
+            try proc.run()
+        } catch let error {
+            Logger.log("Unzip Meta failed: \(error)", level: .error)
+            return "ERROR"
+        }
+        
+        proc.waitUntilExit()
+        guard proc.terminationStatus == 0 else {
+            Logger.log("Unzip Meta failed with terminationStatus: \(proc.terminationStatus)", level: .error)
+            return "ERROR"
+        }
+        return nil
     }
 
     func testMetaCore(_ path: String) -> (version: String, date: Date?)? {
