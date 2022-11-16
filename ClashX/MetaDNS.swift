@@ -84,7 +84,6 @@ class MetaDNS: NSObject {
             out.removeLast()
         }
 
-        print("test123", out)
         return out
     }
 }
