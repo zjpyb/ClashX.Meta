@@ -1224,7 +1224,12 @@ extension AppDelegate {
 
             guard retVal == EXIT_SUCCESS else { return nil }
 
-            return String(cString: &sysInfo.machine.0, encoding: .utf8)
+            let machineMirror = Mirror(reflecting: sysInfo.machine)
+            let identifier = machineMirror.children.reduce("") { identifier, element in
+                guard let value = element.value as? Int8, value != 0 else { return identifier }
+                return identifier + String(UnicodeScalar(UInt8(value)))
+            }
+            return identifier
         }
 
         let assetName: String? = {
