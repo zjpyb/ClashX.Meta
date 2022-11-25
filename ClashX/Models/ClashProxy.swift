@@ -27,6 +27,8 @@ enum ClashProxyType: String, Codable {
     case vless = "Vless"
     case hysteria = "Hysteria"
     case wireguard = "WireGuard"
+    case tuic = "Tuic"
+    
     case pass = "Pass"
 
     case unknown = "Unknown"
