@@ -231,17 +231,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 ApiRequest.shared.resetTrafficStreamApi()
             }.disposed(by: disposeBag)
 
-        ConfigManager.shared
-            .isTunModeVariable
-            .asObservable()
-            .skip(1)
-            .distinctUntilChanged()
-            .bind { _ in
-                let isTunMode = ConfigManager.shared.isTunModeVariable.value
-                PrivilegedHelperManager.shared.helper()?.updateTun(with: isTunMode)
-                Logger.log("tun state updated,new: \(isTunMode)")
-        }.disposed(by: disposeBag)
-
         Observable
             .merge([ConfigManager.shared.proxyPortAutoSetObservable,
                     ConfigManager.shared.isProxySetByOtherVariable.asObservable()])
@@ -626,6 +615,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    func syncConfigWithTun(_ isInit: Bool = false,
+                           _ completeHandler: (() -> Void)? = nil) {
+        syncConfig {
+            defer {
+                completeHandler?()
+            }
+
+            guard let config = ConfigManager.shared.currentConfig else { return }
+
+            let enable = config.tun.enable
+
+            if isInit, !enable {
+                Logger.log("tun didn't set")
+                return
+            }
+
+            PrivilegedHelperManager.shared.helper()?.updateTun(with: enable)
+            Logger.log("tun state updated, new: \(enable)")
+        }
+    }
+
     func resetStreamApi() {
         ApiRequest.shared.delegate = self
         ApiRequest.shared.resetStreamApis()
@@ -889,7 +899,7 @@ extension AppDelegate {
                 if let error = err {
                     resolver.reject(StartMetaError.pushConfigFailed(error))
                 } else {
-                    self.syncConfig()
+                    self.syncConfigWithTun(true)
                     self.resetStreamApi()
                     self.runAfterConfigReload?()
                     self.runAfterConfigReload = nil
@@ -1120,10 +1130,11 @@ extension AppDelegate {
     @IBAction func tunMode(_ sender: NSMenuItem) {
         let enable = sender.state != .on
         sender.isEnabled = false
-        ApiRequest.updateTun(enable: enable) { [weak self] in
-            sender.state = enable ? .on : .off
-            self?.syncConfig()
-            sender.isEnabled = true
+        ApiRequest.updateTun(enable: enable) {
+            self.syncConfigWithTun {
+                sender.state = enable ? .on : .off
+                sender.isEnabled = true
+            }
         }
     }
 
