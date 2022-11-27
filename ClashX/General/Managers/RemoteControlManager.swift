@@ -127,7 +127,7 @@ class RemoteControlManager {
         let d = AppDelegate.shared
         let enable = selectConfig == nil
         d.statusMenu.autoenablesItems = enable
-        [d.copyExportCommandMenuItem, d.copyExportCommandExternalMenuItem, d.proxySettingMenuItem].forEach {
+        [d.copyExportCommandMenuItem, d.copyExportCommandExternalMenuItem, d.proxySettingMenuItem, d.tunModeMenuItem].forEach {
             $0?.isEnabled = enable
         }
     }
