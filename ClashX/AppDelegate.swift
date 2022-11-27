@@ -470,7 +470,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             } else {
                 updateAlphaVersion(nil)
             }
-            
+
             if let re = unzipMetaCore() {
                 return re
             }
@@ -515,18 +515,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             Logger.log("Unzip Meta failed: \(error)", level: .error)
             Logger.log("Fallback gunzip", level: .error)
         }
-        
+
         let proc = Process()
         proc.executableURL = .init(fileURLWithPath: "/usr/bin/gunzip")
         proc.arguments = ["-dk", p]
-        
+
         do {
             try proc.run()
         } catch let error {
             Logger.log("Unzip Meta failed: \(error)", level: .error)
             return "ERROR"
         }
-        
+
         proc.waitUntilExit()
         guard proc.terminationStatus == 0 else {
             Logger.log("Unzip Meta failed with terminationStatus: \(proc.terminationStatus)", level: .error)
@@ -679,7 +679,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if WebPortalManager.hasWebProtal {
             WebPortalManager.shared.addWebProtalMenuItem(&statusMenu)
         }
-        ICloudManager.shared.addEnableMenuItem(&experimentalMenu)
+
 //        AutoUpgardeManager.shared.setup()
 //        AutoUpgardeManager.shared.addChanelMenuItem(&experimentalMenu)
         updateExperimentalFeatureStatus()

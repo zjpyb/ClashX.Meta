@@ -99,7 +99,7 @@ class ApiRequest {
     }
 
     static func findConfigPath(configName: String, callback: @escaping ((String?) -> Void)) {
-        if ICloudManager.shared.isICloudEnable() {
+        if ICloudManager.shared.useiCloud.value {
             ICloudManager.shared.getUrl { url in
                 guard let url = url else {
                     callback(nil)
@@ -305,11 +305,7 @@ extension ApiRequest {
     }
 
     static func closeAllConnection() {
-        if useDirectApi() {
-            clash_closeAllConnections()
-        } else {
-            req("/connections", method: .delete).response { _ in }
-        }
+        req("/connections", method: .delete).response { _ in }
     }
 }
 

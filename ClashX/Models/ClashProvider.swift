@@ -47,7 +47,7 @@ class ClashProvider: Codable {
     let type: ProviderType
     let vehicleType: ProviderVehicleType
     let updatedAt: String?
-    
+
     let subscriptionInfo: ClashProviderSubInfo?
 }
 
@@ -56,7 +56,7 @@ class ClashProviderSubInfo: Codable {
     let download: Int
     let total: Int
     let expire: Int
-    
+
     private enum CodingKeys: String, CodingKey {
         case upload = "Upload",
              download = "Download",
