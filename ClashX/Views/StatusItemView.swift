@@ -118,7 +118,7 @@ extension NSStatusItem {
             let img = NSImage(size: view.bounds.size)
             img.addRepresentation(rep)
             img.isTemplate = true
-            image = img
+            button?.image = img
         }
     }
 }

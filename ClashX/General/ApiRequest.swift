@@ -11,7 +11,7 @@ import Cocoa
 import Starscream
 import SwiftyJSON
 
-protocol ApiRequestStreamDelegate: class {
+protocol ApiRequestStreamDelegate: AnyObject {
     func didUpdateTraffic(up: Int, down: Int)
     func didGetLog(log: String, level: String)
 }
@@ -142,7 +142,7 @@ class ApiRequest {
 
     static func updateOutBoundMode(mode: ClashProxyMode, callback: ((Bool) -> Void)? = nil) {
         req("/configs", method: .patch, parameters: ["mode": mode.rawValue], encoding: JSONEncoding.default)
-            .responseJSON { response in
+            .responseData { response in
                 switch response.result {
                 case .success:
                     callback?(true)
@@ -153,7 +153,7 @@ class ApiRequest {
     }
 
     static func updateLogLevel(level: ClashLogLevel, callback: ((Bool) -> Void)? = nil) {
-        req("/configs", method: .patch, parameters: ["log-level": level.rawValue], encoding: JSONEncoding.default).responseJSON(completionHandler: { response in
+        req("/configs", method: .patch, parameters: ["log-level": level.rawValue], encoding: JSONEncoding.default).responseData(completionHandler: { response in
             switch response.result {
             case .success:
                 callback?(true)
@@ -164,7 +164,7 @@ class ApiRequest {
     }
 
     static func requestProxyGroupList(completeHandler: ((ClashProxyResp) -> Void)? = nil) {
-        req("/proxies").responseJSON {
+        req("/proxies").responseData {
             res in
             let proxies = ClashProxyResp(try? res.result.get())
             ApiRequest.shared.proxyRespCache = proxies
@@ -202,7 +202,7 @@ class ApiRequest {
             method: .put,
             parameters: ["name": selectProxy],
             encoding: JSONEncoding.default)
-            .responseJSON { response in
+            .responseData { response in
                 callback(response.response?.statusCode == 204)
             }
     }
@@ -250,7 +250,7 @@ class ApiRequest {
         req("/proxies/\(proxyName.encoded)/delay",
             method: .get,
             parameters: ["timeout": 5000, "url": ConfigManager.shared.benchMarkUrl])
-            .responseJSON { res in
+            .responseData { res in
                 switch res.result {
                 case let .success(value):
                     let json = JSON(value)
@@ -305,7 +305,11 @@ extension ApiRequest {
     }
 
     static func closeAllConnection() {
-        req("/connections", method: .delete).response { _ in }
+        if useDirectApi() {
+            clash_closeAllConnections()
+        } else {
+            req("/connections", method: .delete).response { _ in }
+        }
     }
 }
 

@@ -212,8 +212,6 @@ extension ClashWebViewContoller: WKUIDelegate, WKNavigationDelegate {
     }
 }
 
-extension ClashWebViewContoller: WebResourceLoadDelegate {}
-
 class CustomWKWebView: WKWebView {
     var dragableAreaHeight: CGFloat = 30
     let alwaysDragableLeftAreaWidth: CGFloat = 150
