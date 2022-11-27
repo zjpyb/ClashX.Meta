@@ -27,6 +27,8 @@ typedef void(^dictReplyBlock)(NSDictionary *);
 
 - (void)getUsedPorts:(stringReplyBlock)reply;
 
+- (void)updateTunWith:(BOOL)state;
+
 - (void)stopMeta;
 
 - (void)getVersion:(stringReplyBlock)reply;
