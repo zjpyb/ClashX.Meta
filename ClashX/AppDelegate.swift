@@ -317,6 +317,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         if !PrivilegedHelperManager.shared.isHelperCheckFinished.value {
             proxySettingMenuItem.target = nil
+            tunModeMenuItem.target = nil
             PrivilegedHelperManager.shared.isHelperCheckFinished
                 .filter({$0})
                 .take(1)
@@ -324,6 +325,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 .subscribe { [weak self] _ in
                     guard let self = self else { return }
                     self.proxySettingMenuItem.target = self
+                    self.tunModeMenuItem.target = self
                 }.disposed(by: disposeBag)
         }
 
