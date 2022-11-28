@@ -662,7 +662,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     .postNotificationAlert(title: NSLocalizedString("Reload Config Fail", comment: ""),
                           info: error)
             } else {
-                self.syncConfig()
+                self.syncConfigWithTun()
                 self.resetStreamApi()
                 self.runAfterConfigReload?()
                 self.runAfterConfigReload = nil
