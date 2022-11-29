@@ -13,7 +13,6 @@
 		018F88F9286DD0CB004DD0F7 /* DualTitleMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018F88F8286DD0CB004DD0F7 /* DualTitleMenuItem.swift */; };
 		01943259287D19BC008CC51A /* ClashRuleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01943258287D19BC008CC51A /* ClashRuleProvider.swift */; };
 		019A239628657A7A00AE5698 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019A239528657A7A00AE5698 /* main.swift */; };
-		01A645D3292C769D00B37FA2 /* DNSConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A645D2292C759100B37FA2 /* DNSConfiguration.swift */; };
 		01B009AE2854533300B93618 /* geoip.dat.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B009AC2854533200B93618 /* geoip.dat.gz */; };
 		01B009AF2854533300B93618 /* geosite.dat.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B009AD2854533300B93618 /* geosite.dat.gz */; };
 		01BC9ABE2928EB5A00F9B177 /* MetaDNS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC9ABD2928E5C600F9B177 /* MetaDNS.swift */; };
@@ -143,7 +142,6 @@
 		018F88F8286DD0CB004DD0F7 /* DualTitleMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DualTitleMenuItem.swift; sourceTree = "<group>"; };
 		01943258287D19BC008CC51A /* ClashRuleProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashRuleProvider.swift; sourceTree = "<group>"; };
 		019A239528657A7A00AE5698 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		01A645D2292C759100B37FA2 /* DNSConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNSConfiguration.swift; sourceTree = "<group>"; };
 		01B009AC2854533200B93618 /* geoip.dat.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = geoip.dat.gz; sourceTree = "<group>"; };
 		01B009AD2854533300B93618 /* geosite.dat.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = geosite.dat.gz; sourceTree = "<group>"; };
 		01BC9ABD2928E5C600F9B177 /* MetaDNS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaDNS.swift; sourceTree = "<group>"; };
@@ -545,7 +543,6 @@
 				019A239528657A7A00AE5698 /* main.swift */,
 				0162E74E2864B819007218A6 /* MetaTask.swift */,
 				01BC9ABD2928E5C600F9B177 /* MetaDNS.swift */,
-				01A645D2292C759100B37FA2 /* DNSConfiguration.swift */,
 				F935B2F12307C802009E4D33 /* Helper-Launchd.plist */,
 				F935B2EA2307B6BA009E4D33 /* Helper-Info.plist */,
 				F935B2F22307CD32009E4D33 /* ProxyConfigHelper.h */,
@@ -792,7 +789,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F935B2F42307CD32009E4D33 /* ProxyConfigHelper.m in Sources */,
-				01A645D3292C769D00B37FA2 /* DNSConfiguration.swift in Sources */,
 				0162E74F2864B819007218A6 /* MetaTask.swift in Sources */,
 				019A239628657A7A00AE5698 /* main.swift in Sources */,
 				491E6203258A424D00313AEF /* CommonUtils.m in Sources */,
