@@ -84,7 +84,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        Logger.log("applicationDidFinishLaunching")
+        Logger.log("———————————————————————————————————————————————————————————")
+        Logger.log("———————————————applicationDidFinishLaunching———————————————")
+        Logger.log("———————————————————————————————————————————————————————————")
         Logger.log("Appversion: \(AppVersionUtil.currentVersion) \(AppVersionUtil.currentBuild)")
         ProcessInfo.processInfo.disableSuddenTermination()
         // setup menu item first
