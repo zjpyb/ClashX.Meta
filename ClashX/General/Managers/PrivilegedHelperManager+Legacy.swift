@@ -55,12 +55,7 @@ extension PrivilegedHelperManager {
         return bash
     }
 
-    func legacyInstallHelper() {
-        defer {
-            resetConnection()
-            Thread.sleep(forTimeInterval: 1)
-        }
-        let script = getInstallScript()
+    func runScriptWithRootPermission(script: String) {
         let tmpPath = FileManager.default.temporaryDirectory.appendingPathComponent(NSUUID().uuidString).appendingPathExtension("sh")
         do {
             try script.write(to: tmpPath, atomically: true, encoding: .utf8)
@@ -76,5 +71,27 @@ extension PrivilegedHelperManager {
             Logger.log("legacyInstallHelper create script fail: \(err)")
         }
         try? FileManager.default.removeItem(at: tmpPath)
+    }
+
+    func legacyInstallHelper() {
+        defer {
+            resetConnection()
+            Thread.sleep(forTimeInterval: 1)
+        }
+        let script = getInstallScript()
+        runScriptWithRootPermission(script: script)
+    }
+
+    func removeInstallHelper() {
+        defer {
+            resetConnection()
+            Thread.sleep(forTimeInterval: 5)
+        }
+        let script = """
+        launchctl remove \(PrivilegedHelperManager.machServiceName) || true
+        rm -rf /Library/LaunchDaemons/\(PrivilegedHelperManager.machServiceName).plist
+        rm -rf /Library/PrivilegedHelperTools/\(PrivilegedHelperManager.machServiceName)
+        """
+        runScriptWithRootPermission(script: script)
     }
 }
