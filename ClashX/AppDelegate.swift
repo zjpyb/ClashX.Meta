@@ -495,8 +495,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func unzipMetaCore() -> String? {
-        guard Paths.defaultCorePath() == nil,
-              var path = Bundle.main.resourcePath,
+        guard var path = Bundle.main.resourcePath,
               let p = Paths.defaultCoreGzPath() else { return "ERROR" }
         path += "/\(kDefauleMetaCoreName)"
 
