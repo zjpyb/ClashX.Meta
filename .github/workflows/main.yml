@@ -8,7 +8,7 @@ on:
       logLevel:
 
 env:
-  DEVELOPER_DIR: /Applications/Xcode_14.1.app/Contents/Developer
+  DEVELOPER_DIR: /Applications/Xcode_14.2.app/Contents/Developer
 
 jobs:
   build:
@@ -22,10 +22,10 @@ jobs:
       run: git rev-list --count origin/master..origin/meta
     
     - name: download meta core
-      uses: robinraju/release-downloader@v1.5
+      uses: robinraju/release-downloader@v1.7
       with:
         repository: 'MetaCubeX/Clash.Meta'
-        latest: true
+        tag: "v1.14.0"
         fileName: ".*darwin.*.gz"
         out-file-path: "clash.meta"
         token: ${{ secrets.GITHUB_TOKEN }}
