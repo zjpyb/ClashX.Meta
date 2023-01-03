@@ -27,15 +27,18 @@ typedef void(^dictReplyBlock)(NSDictionary *);
 
 - (void)getUsedPorts:(stringReplyBlock)reply;
 
+- (void)updateTunWith:(BOOL)state;
+
 - (void)stopMeta;
 
 - (void)getVersion:(stringReplyBlock)reply;
 
 - (void)enableProxyWithPort:(int)port
-          socksPort:(int)socksPort
-            pac:(NSString *)pac
+                  socksPort:(int)socksPort
+                        pac:(NSString *)pac
             filterInterface:(BOOL)filterInterface
-            error:(stringReplyBlock)reply;
+                 ignoreList:(NSArray<NSString *>*)ignoreList
+                      error:(stringReplyBlock)reply;
 
 - (void)disableProxyWithFilterInterface:(BOOL)filterInterface
                                   reply:(stringReplyBlock)reply;

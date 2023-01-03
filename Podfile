@@ -8,9 +8,7 @@ post_install do |installer|
           config.build_settings['SWIFT_VERSION'] = '5'
         end
       end
-      if config.build_settings['MACOSX_DEPLOYMENT_TARGET'] == ''
-        config.build_settings['MACOSX_DEPLOYMENT_TARGET'] = '10.10'
-      end
+      config.build_settings['MACOSX_DEPLOYMENT_TARGET'] = '10.13'
     end
   end
 end

@@ -132,7 +132,7 @@ class MenuItemFactory {
             return
         }
 
-        if ICloudManager.shared.isICloudEnable() {
+        if ICloudManager.shared.useiCloud.value {
             ICloudManager.shared.getConfigFilesList {
                 complete($0.map { generateMenuItem($0) })
             }

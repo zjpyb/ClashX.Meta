@@ -38,6 +38,9 @@
 "ClashX Start Error!" = "ClashX Start Error!";
 
 /* No comment provided by engineer. */
+"ClashX use a daemon helper to setup your system proxy. Please enable ClashX in the Login Items under the Allow in the Background section and relaunch the app" = "ClashX use a daemon helper to setup your system proxy. Please enable ClashX in the Login Items under the Allow in the Background section and relaunch the app";
+
+/* No comment provided by engineer. */
 "Config file have been changed" = "Config file have been changed";
 
 /* No comment provided by engineer. */
@@ -77,6 +80,9 @@
 "Fail:" = "Fail:";
 
 /* No comment provided by engineer. */
+"fails: %@" = "fails: %@";
+
+/* No comment provided by engineer. */
 "Flush fake-ip cache" = "Flush fake-ip cache";
 
 /* No comment provided by engineer. */
@@ -87,6 +93,9 @@
 
 /* No comment provided by engineer. */
 "hours" = "hours";
+
+/* No comment provided by engineer. */
+"If you can not find ClashX in the settings, you can try reset daemon" = "If you can not find ClashX in the settings, you can try reset daemon";
 
 /* No comment provided by engineer. */
 "Install" = "Install";
@@ -113,6 +122,9 @@
 "OK" = "OK";
 
 /* No comment provided by engineer. */
+"Open System Login Item Setting" = "Open System Login Item Setting";
+
+/* No comment provided by engineer. */
 "Open github release page to download " = "Open github release page to download ";
 
 /* No comment provided by engineer. */
@@ -131,6 +143,9 @@
 "Quit" = "Quit";
 
 /* No comment provided by engineer. */
+"Reduce alerts if notification permission is disabled" = "Reduce alerts if notification permission is disabled";
+
+/* No comment provided by engineer. */
 "Reload Config Fail" = "Reload Config Fail";
 
 /* No comment provided by engineer. */
@@ -144,6 +159,9 @@
 
 /* No comment provided by engineer. */
 "Remote Config Update Fail" = "Remote Config Update Fail";
+
+/* No comment provided by engineer. */
+"Reset Daemon" = "Reset Daemon";
 
 /* No comment provided by engineer. */
 "ReTest" = "ReTest";

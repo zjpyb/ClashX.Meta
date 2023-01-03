@@ -38,7 +38,7 @@ class AboutViewController: NSViewController {
         let isBeta = AppVersionUtil.isBeta ? " Beta" : ""
 
         versionLabel.stringValue = "Version: \(version) (\(build))\(isBeta)"
-        coreVersionLabel.stringValue = clashCoreVersion
+        coreVersionLabel.stringValue = "Meta Core: \(clashCoreVersion)"
         buildTimeLabel.stringValue = "\(commit)-\(branch) \(buildTime)"
     }
 

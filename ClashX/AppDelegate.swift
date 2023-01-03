@@ -84,7 +84,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        Logger.log("applicationDidFinishLaunching")
+        Logger.log("———————————————————————————————————————————————————————————")
+        Logger.log("———————————————applicationDidFinishLaunching———————————————")
+        Logger.log("———————————————————————————————————————————————————————————")
         Logger.log("Appversion: \(AppVersionUtil.currentVersion) \(AppVersionUtil.currentBuild)")
         ProcessInfo.processInfo.disableSuddenTermination()
         // setup menu item first
@@ -136,6 +138,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var shouldWait = false
 
         PrivilegedHelperManager.shared.helper()?.stopMeta()
+        PrivilegedHelperManager.shared.helper()?.updateTun(with: false)
 
         if ConfigManager.shared.proxyPortAutoSet && !ConfigManager.shared.isProxySetByOtherVariable.value || NetworkChangeNotifier.isCurrentSystemSetToClash(looser: true) ||
             NetworkChangeNotifier.hasInterfaceProxySetToClash() {
@@ -305,6 +308,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         if !PrivilegedHelperManager.shared.isHelperCheckFinished.value {
             proxySettingMenuItem.target = nil
+            tunModeMenuItem.target = nil
             PrivilegedHelperManager.shared.isHelperCheckFinished
                 .filter({$0})
                 .take(1)
@@ -312,6 +316,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 .subscribe { [weak self] _ in
                     guard let self = self else { return }
                     self.proxySettingMenuItem.target = self
+                    self.tunModeMenuItem.target = self
                 }.disposed(by: disposeBag)
         }
 
@@ -459,20 +464,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 updateAlphaVersion(nil)
             }
 
-            if Paths.defaultCorePath() == nil {
-                if let p = Paths.defaultCoreGzPath(),
-                   let data = try? Data(contentsOf: .init(fileURLWithPath: p)).gunzipped(),
-                   var path = Bundle.main.resourcePath {
-                    path += "/\(kDefauleMetaCoreName)"
-                    do {
-                        try data.write(to: URL(fileURLWithPath: path))
-                    } catch let error {
-                        Logger.log("\(error)", level: .error)
-                        return "ERROR"
-                    }
-                } else {
-                    return "ERROR"
-                }
+            if let re = unzipMetaCore() {
+                return re
             }
 
             if let path = Paths.defaultCorePath(),
@@ -499,6 +492,39 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: corePath)
             Logger.log("initClashCore finish")
         }
+    }
+
+    func unzipMetaCore() -> String? {
+        guard var path = Bundle.main.resourcePath,
+              let p = Paths.defaultCoreGzPath() else { return "ERROR" }
+        path += "/\(kDefauleMetaCoreName)"
+
+        do {
+            let data = try Data(contentsOf: .init(fileURLWithPath: p)).gunzipped()
+            try data.write(to: URL(fileURLWithPath: path))
+            return nil
+        } catch let error {
+            Logger.log("Unzip Meta failed: \(error)", level: .error)
+            Logger.log("Fallback gunzip", level: .error)
+        }
+
+        let proc = Process()
+        proc.executableURL = .init(fileURLWithPath: "/usr/bin/gunzip")
+        proc.arguments = ["-dk", p]
+
+        do {
+            try proc.run()
+        } catch let error {
+            Logger.log("Unzip Meta failed: \(error)", level: .error)
+            return "ERROR"
+        }
+
+        proc.waitUntilExit()
+        guard proc.terminationStatus == 0 else {
+            Logger.log("Unzip Meta failed with terminationStatus: \(proc.terminationStatus)", level: .error)
+            return "ERROR"
+        }
+        return nil
     }
 
     func testMetaCore(_ path: String) -> (version: String, date: Date?)? {
@@ -590,6 +616,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    func syncConfigWithTun(_ isInit: Bool = false,
+                           _ completeHandler: (() -> Void)? = nil) {
+        syncConfig {
+            defer {
+                completeHandler?()
+            }
+
+            guard let config = ConfigManager.shared.currentConfig else { return }
+
+            let enable = config.tun.enable
+
+            if isInit, !enable {
+                Logger.log("tun didn't set")
+                return
+            }
+
+            PrivilegedHelperManager.shared.helper()?.updateTun(with: enable)
+            Logger.log("tun state updated, new: \(enable)")
+        }
+    }
+
     func resetStreamApi() {
         ApiRequest.shared.delegate = self
         ApiRequest.shared.resetStreamApis()
@@ -616,7 +663,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     .postNotificationAlert(title: NSLocalizedString("Reload Config Fail", comment: ""),
                           info: error)
             } else {
-                self.syncConfig()
+                self.syncConfigWithTun()
                 self.resetStreamApi()
                 self.runAfterConfigReload?()
                 self.runAfterConfigReload = nil
@@ -645,7 +692,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if WebPortalManager.hasWebProtal {
             WebPortalManager.shared.addWebProtalMenuItem(&statusMenu)
         }
-        ICloudManager.shared.addEnableMenuItem(&experimentalMenu)
+
 //        AutoUpgardeManager.shared.setup()
 //        AutoUpgardeManager.shared.addChanelMenuItem(&experimentalMenu)
         updateExperimentalFeatureStatus()
@@ -853,7 +900,7 @@ extension AppDelegate {
                 if let error = err {
                     resolver.reject(StartMetaError.pushConfigFailed(error))
                 } else {
-                    self.syncConfig()
+                    self.syncConfigWithTun(true)
                     self.resetStreamApi()
                     self.runAfterConfigReload?()
                     self.runAfterConfigReload = nil
@@ -1015,7 +1062,7 @@ extension AppDelegate {
 
 extension AppDelegate {
     @IBAction func openConfigFolder(_ sender: Any) {
-        if ICloudManager.shared.isICloudEnable() {
+        if ICloudManager.shared.useiCloud.value {
             ICloudManager.shared.getUrl {
                 url in
                 if let url = url {
@@ -1082,32 +1129,11 @@ extension AppDelegate {
 
 extension AppDelegate {
     @IBAction func tunMode(_ sender: NSMenuItem) {
-        let nc = NSUserNotificationCenter.default
-        guard let config = ApiRequest.shared.currentConfigContent else {
-            nc.post(title: "Tun Mode", info: NSLocalizedString("Not found current config.", comment: ""))
-            return
-        }
-
+        let enable = sender.state != .on
         sender.isEnabled = false
-        ApiRequest.requestConfig {
-            guard let path = ClashMetaConfig.updateConfigTun(config, enable: !$0.tun.enable) else {
-                sender.isEnabled = true
-                nc.post(title: "Tun Mode", info: NSLocalizedString("Decode current config failed.", comment: ""))
-                return
-            }
-
-            ApiRequest.requestConfigUpdate(configPath: path) { err in
-                if let error = err {
-                    nc.postNotificationAlert(title: NSLocalizedString("Reload Config Fail", comment: ""),
-                              info: error)
-                } else {
-                    self.syncConfig()
-                    self.resetStreamApi()
-                    self.selectProxyGroupWithMemory()
-                    self.selectOutBoundModeWithMenory()
-                    MenuItemFactory.recreateProxyMenuItems()
-                    NotificationCenter.default.post(name: .reloadDashboard, object: nil)
-                }
+        ApiRequest.updateTun(enable: enable) {
+            self.syncConfigWithTun {
+                sender.state = enable ? .on : .off
                 sender.isEnabled = true
             }
         }
@@ -1224,7 +1250,12 @@ extension AppDelegate {
 
             guard retVal == EXIT_SUCCESS else { return nil }
 
-            return String(cString: &sysInfo.machine.0, encoding: .utf8)
+            let machineMirror = Mirror(reflecting: sysInfo.machine)
+            let identifier = machineMirror.children.reduce("") { identifier, element in
+                guard let value = element.value as? Int8, value != 0 else { return identifier }
+                return identifier + String(UnicodeScalar(UInt8(value)))
+            }
+            return identifier
         }
 
         let assetName: String? = {
@@ -1376,7 +1407,7 @@ extension AppDelegate {
             }
         }
 
-        if ICloudManager.shared.isICloudEnable() {
+        if ICloudManager.shared.useiCloud.value {
             ICloudManager.shared.getConfigFilesList { list in
                 action(list)
             }

@@ -26,6 +26,7 @@ ProxyConfigRemoteProcessProtocol
 @property (nonatomic, assign) BOOL shouldQuit;
 
 @property (nonatomic, strong) MetaTask *metaTask;
+@property (nonatomic, strong) MetaDNS *metaDNS;
 
 @end
 
@@ -38,6 +39,7 @@ ProxyConfigRemoteProcessProtocol
         self.listener = [[NSXPCListener alloc] initWithMachServiceName:@"com.metacubex.ClashX.ProxyConfigHelper"];
         self.listener.delegate = self;
         self.metaTask = [MetaTask new];
+        self.metaDNS = [MetaDNS new];
     }
     return self;
 }
@@ -100,10 +102,11 @@ ProxyConfigRemoteProcessProtocol
           socksPort:(int)socksPort
             pac:(NSString *)pac
             filterInterface:(BOOL)filterInterface
+                 ignoreList:(NSArray<NSString *>*)ignoreList
             error:(stringReplyBlock)reply {
     dispatch_async(dispatch_get_main_queue(), ^{
         ProxySettingTool *tool = [ProxySettingTool new];
-        [tool enableProxyWithport:port socksPort:socksPort pacUrl:pac filterInterface:filterInterface];
+        [tool enableProxyWithport:port socksPort:socksPort pacUrl:pac filterInterface:filterInterface ignoreList:ignoreList];
         reply(nil);
     });
 }
@@ -137,25 +140,46 @@ ProxyConfigRemoteProcessProtocol
 }
 
 - (void)initMetaCoreWithPath:(NSString *)path {
-    [self.metaTask setLaunchPath:path];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.metaTask setLaunchPath:path];
+    });
 }
 
 
 - (void)startMetaWithConfPath:(NSString *)confPath ConfFilePath:(NSString *)confFilePath result:(stringReplyBlock)reply {
-    [self.metaTask start:confPath confFilePath:confFilePath result:reply];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.metaTask start:confPath confFilePath:confFilePath result:reply];
+    });
 }
 
 - (void)verifyMetaWithConfPath:(NSString *)confPath ConfFilePath:(NSString *)confFilePath result:(stringReplyBlock)reply {
-    NSString* re = [self.metaTask test:confPath confFilePath:confFilePath];
-    reply(re);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString* re = [self.metaTask test:confPath confFilePath:confFilePath];
+        reply(re);
+    });
 }
 
 - (void)stopMeta {
-    [self.metaTask stop];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.metaTask stop];
+    });
 }
 
 - (void)getUsedPorts:(stringReplyBlock)reply {
-    [self.metaTask getUsedPorts:reply];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.metaTask getUsedPorts:reply];
+    });
+}
+
+- (void)updateTunWith:(BOOL)state {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (state) {
+            [self.metaDNS updateDns];
+        } else {
+            [self.metaDNS revertDns];
+        }
+        [self.metaDNS flushDnsCache];
+    });
 }
 
 @end

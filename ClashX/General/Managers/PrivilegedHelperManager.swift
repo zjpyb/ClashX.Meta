@@ -31,10 +31,30 @@ class PrivilegedHelperManager {
 
     func checkInstall() {
         Logger.log("checkInstall", level: .debug)
-
-        getHelperStatus { [weak self] installed in
+        getHelperStatus { [weak self] status in
+            Logger.log("check result: \(status)", level: .debug)
             guard let self = self else {return}
-            if !installed {
+            switch status {
+            case .noFound:
+                if #available(macOS 13, *) {
+                    let url = URL(string: "/Library/LaunchDaemons/\(PrivilegedHelperManager.machServiceName).plist")!
+                    let status = SMAppService.statusForLegacyPlist(at: url)
+                    if status == .requiresApproval {
+                        let alert = NSAlert()
+                        let notice = NSLocalizedString("ClashX use a daemon helper to setup your system proxy. Please enable ClashX in the Login Items under the Allow in the Background section and relaunch the app", comment: "")
+                        let addition = NSLocalizedString("If you can not find ClashX in the settings, you can try reset daemon", comment: "")
+                        alert.messageText = notice + "\n" + addition
+                        alert.addButton(withTitle: NSLocalizedString("Open System Login Item Setting", comment: ""))
+                        alert.addButton(withTitle: NSLocalizedString("Reset Daemon", comment: ""))
+                        if alert.runModal() == .alertFirstButtonReturn {
+                            SMAppService.openSystemSettingsLoginItems()
+                        } else {
+                            self.removeInstallHelper()
+                        }
+                    }
+                }
+                fallthrough
+            case .needUpdate:
                 Logger.log("need to install helper", level: .debug)
                 if Thread.isMainThread {
                     self.notifyInstall()
@@ -43,7 +63,7 @@ class PrivilegedHelperManager {
                         self.notifyInstall()
                     }
                 }
-            } else {
+            case .installed:
                 self.isHelperCheckFinished.accept(true)
             }
         }
@@ -102,7 +122,6 @@ class PrivilegedHelperManager {
 
         // Launch the privileged helper using SMJobBless tool
         var error: Unmanaged<CFError>?
-
         if SMJobBless(kSMDomainSystemLaunchd, PrivilegedHelperManager.machServiceName as CFString, authRef, &error) == false {
             let blessError = error!.takeRetainedValue() as Error
             Logger.log("Bless Error: \(blessError)", level: .error)
@@ -128,13 +147,20 @@ class PrivilegedHelperManager {
     }
 
     var timer: Timer?
-    private func getHelperStatus(callback:@escaping ((Bool) -> Void)) {
+
+    enum HelperStatus {
+        case installed
+        case noFound
+        case needUpdate
+    }
+
+    private func getHelperStatus(callback:@escaping ((HelperStatus) -> Void)) {
         var called = false
-        let reply: ((Bool) -> Void) = {
-            installed in
+        let reply: ((HelperStatus) -> Void) = {
+            status in
             if called {return}
             called = true
-            callback(installed)
+            callback(status)
         }
 
         let helperURL = Bundle.main.bundleURL.appendingPathComponent("Contents/Library/LaunchServices/" + PrivilegedHelperManager.machServiceName)
@@ -142,12 +168,12 @@ class PrivilegedHelperManager {
             let helperBundleInfo = CFBundleCopyInfoDictionaryForURL(helperURL as CFURL) as? [String: Any],
             let helperVersion = helperBundleInfo["CFBundleShortVersionString"] as? String else {
             Logger.log("check helper status fail")
-            reply(false)
+            reply(.noFound)
             return
         }
         let helperFileExists = FileManager.default.fileExists(atPath: "/Library/PrivilegedHelperTools/\(PrivilegedHelperManager.machServiceName)")
         if !helperFileExists {
-            reply(false)
+            reply(.noFound)
             return
         }
         let timeout: TimeInterval = helperFileExists ? 15 : 5
@@ -155,17 +181,17 @@ class PrivilegedHelperManager {
 
         timer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { _ in
             Logger.log("check helper timeout time: \(timeout)")
-            reply(false)
+            reply(.noFound)
         }
 
         helper()?.getVersion { [weak timer] installedHelperVersion in
             timer?.invalidate()
             timer = nil
             Logger.log("helper version \(installedHelperVersion ?? "") require version \(helperVersion)", level: .debug)
-            let installed = installedHelperVersion == helperVersion
+            let versionMatch = installedHelperVersion == helperVersion
             let interval = Date().timeIntervalSince(time)
             Logger.log("check helper using time: \(interval)")
-            reply(installed)
+            reply(versionMatch ? .installed : .needUpdate)
         }
     }
 }

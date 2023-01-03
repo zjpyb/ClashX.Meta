@@ -11,7 +11,7 @@ import Cocoa
 import Starscream
 import SwiftyJSON
 
-protocol ApiRequestStreamDelegate: class {
+protocol ApiRequestStreamDelegate: AnyObject {
     func didUpdateTraffic(up: Int, down: Int)
     func didGetLog(log: String, level: String)
 }
@@ -22,8 +22,6 @@ class ApiRequest {
     static let shared = ApiRequest()
 
     private var proxyRespCache: ClashProxyResp?
-
-    var currentConfigContent: Data?
 
     private lazy var logQueue = DispatchQueue(label: "com.ClashX.core.log")
 
@@ -101,7 +99,7 @@ class ApiRequest {
     }
 
     static func findConfigPath(configName: String, callback: @escaping ((String?) -> Void)) {
-        if ICloudManager.shared.isICloudEnable() {
+        if ICloudManager.shared.useiCloud.value {
             ICloudManager.shared.getUrl { url in
                 guard let url = url else {
                     callback(nil)
@@ -132,7 +130,6 @@ class ApiRequest {
         req("/configs", method: .put, parameters: ["Path": configPath], encoding: JSONEncoding.default).responseJSON { res in
             if res.response?.statusCode == 204 {
                 ConfigManager.shared.isRunning = true
-                ApiRequest.shared.currentConfigContent = FileManager.default.contents(atPath: configPath)
                 callback(nil)
             } else {
                 let errorJson = try? res.result.get()
@@ -145,7 +142,7 @@ class ApiRequest {
 
     static func updateOutBoundMode(mode: ClashProxyMode, callback: ((Bool) -> Void)? = nil) {
         req("/configs", method: .patch, parameters: ["mode": mode.rawValue], encoding: JSONEncoding.default)
-            .responseJSON { response in
+            .responseData { response in
                 switch response.result {
                 case .success:
                     callback?(true)
@@ -156,7 +153,7 @@ class ApiRequest {
     }
 
     static func updateLogLevel(level: ClashLogLevel, callback: ((Bool) -> Void)? = nil) {
-        req("/configs", method: .patch, parameters: ["log-level": level.rawValue], encoding: JSONEncoding.default).responseJSON(completionHandler: { response in
+        req("/configs", method: .patch, parameters: ["log-level": level.rawValue], encoding: JSONEncoding.default).responseData(completionHandler: { response in
             switch response.result {
             case .success:
                 callback?(true)
@@ -167,7 +164,7 @@ class ApiRequest {
     }
 
     static func requestProxyGroupList(completeHandler: ((ClashProxyResp) -> Void)? = nil) {
-        req("/proxies").responseJSON {
+        req("/proxies").responseData {
             res in
             let proxies = ClashProxyResp(try? res.result.get())
             ApiRequest.shared.proxyRespCache = proxies
@@ -182,9 +179,8 @@ class ApiRequest {
                 case let .success(providerResp):
                     completeHandler?(providerResp)
                 case let .failure(err):
-                    print(err)
+                    Logger.log("requestProxyProviderList error \(err.localizedDescription)")
                     completeHandler?(ClashProviderResp())
-                    assertionFailure()
                 }
             }
     }
@@ -205,7 +201,7 @@ class ApiRequest {
             method: .put,
             parameters: ["name": selectProxy],
             encoding: JSONEncoding.default)
-            .responseJSON { response in
+            .responseData { response in
                 callback(response.response?.statusCode == 204)
             }
     }
@@ -253,7 +249,7 @@ class ApiRequest {
         req("/proxies/\(proxyName.encoded)/delay",
             method: .get,
             parameters: ["timeout": 5000, "url": ConfigManager.shared.benchMarkUrl])
-            .responseJSON { res in
+            .responseData { res in
                 switch res.result {
                 case let .success(value):
                     let json = JSON(value)
@@ -388,6 +384,17 @@ extension ApiRequest {
             completeHandler?(re)
 //            Logger.log("UpdateGEO \(re ? "success" : "failed")")
             Logger.log("Updating GEO Databases...")
+        }
+    }
+
+    static func updateTun(enable: Bool, completeHandler: (() -> Void)? = nil) {
+        Logger.log("update tun:\(enable)", level: .debug)
+        req("/configs",
+            method: .patch,
+            parameters: ["tun": ["enable": enable]],
+            encoding: JSONEncoding.default).response {
+            _ in
+            completeHandler?()
         }
     }
 
