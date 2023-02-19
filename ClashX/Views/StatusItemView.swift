@@ -118,7 +118,9 @@ extension NSStatusItem {
             let img = NSImage(size: view.bounds.size)
             img.addRepresentation(rep)
             img.isTemplate = true
-            image = img
+            button?.image = img
+        } else {
+            Logger.log("generate status menu icon fail", level: .error)
         }
     }
 }
