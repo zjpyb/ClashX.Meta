@@ -26,7 +26,7 @@ jobs:
       with:
         repository: 'MetaCubeX/Clash.Meta'
         tag: "v1.14.2"
-        fileName: ".*darwin.*.gz"
+        fileName: ".*darwin.*64-v.*.gz"
         out-file-path: "clash.meta"
         token: ${{ secrets.GITHUB_TOKEN }}
 
