@@ -101,41 +101,34 @@ private class ProxyGroupSpeedTestMenuItemView: MenuItemBaseView {
         else { return }
         let testGroup = DispatchGroup()
 
-        var proxies = [ClashProxyName]()
+//        var proxies = [ClashProxyName]()
         var providers = Set<ClashProviderName>()
-        for testable in group.speedtestAble {
-            switch testable {
-            case let .provider(_, provider):
-                providers.insert(provider)
-            case let .proxy(name):
-                proxies.append(name)
-            case let .group(name):
-                proxies.append(name)
-            }
-        }
 
-        for proxyName in proxies {
-            testGroup.enter()
-            ApiRequest.getProxyDelay(proxyName: proxyName) { delay in
-                let delayStr = delay == 0 ? NSLocalizedString("fail", comment: "") : "\(delay) ms"
-                NotificationCenter.default.post(name: .speedTestFinishForProxy,
-                                                object: nil,
-                                                userInfo: ["proxyName": proxyName, "delay": delayStr, "rawValue": delay])
-                testGroup.leave()
+        testGroup.enter()
+        ApiRequest.getGroupDelay(groupName: group.name) { delays in
+            group.speedtestAble.forEach {
+                switch $0 {
+                case .proxy(name: let proxyName):
+                    let delay = delays[proxyName] ?? 0
+                    let delayStr = delay == 0 ? NSLocalizedString("fail", comment: "") : "\(delay) ms"
+                    NotificationCenter.default.post(
+                        name: .speedTestFinishForProxy,
+                        object: nil,
+                        userInfo: ["proxyName": proxyName,
+                                   "delay": delayStr,
+                                   "rawValue": delay])
+                case let .provider(_, provider):
+                    providers.insert(provider)
+                default:
+                    break
+                }
             }
+            testGroup.leave()
         }
 
         label.stringValue = NSLocalizedString("Testing", comment: "")
         enclosingMenuItem?.isEnabled = false
         setNeedsDisplay()
-
-        for provider in providers {
-            testGroup.enter()
-
-            ApiRequest.healthCheck(proxy: provider) {
-                testGroup.leave()
-            }
-        }
 
         testGroup.notify(queue: .main) {
             [weak self] in
