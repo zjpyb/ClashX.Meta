@@ -6,7 +6,7 @@ cd clash.meta
 ls
 gzip -d *.gz
 echo "Create Universal core"
-lipo -create -output com.metacubex.ClashX.ProxyConfigHelper.meta Clash.Meta-darwin-amd64* Clash.Meta-darwin-arm64*
+lipo -create -output com.metacubex.ClashX.ProxyConfigHelper.meta clash.meta-darwin-amd64* clash.meta-darwin-arm64*
 chmod +x com.metacubex.ClashX.ProxyConfigHelper.meta
 
 echo "Update meta core md5 to code"
