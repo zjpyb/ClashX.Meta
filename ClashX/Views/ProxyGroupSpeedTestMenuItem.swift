@@ -99,46 +99,18 @@ private class ProxyGroupSpeedTestMenuItemView: MenuItemBaseView {
     private func startBenchmark() {
         guard let group = (enclosingMenuItem as? ProxyGroupSpeedTestMenuItem)?.proxyGroup
         else { return }
-        let testGroup = DispatchGroup()
-
-//        var proxies = [ClashProxyName]()
-        var providers = Set<ClashProviderName>()
-
-        testGroup.enter()
-        ApiRequest.getGroupDelay(groupName: group.name) { delays in
-            group.speedtestAble.forEach {
-                switch $0 {
-                case .proxy(name: let proxyName):
-                    let delay = delays[proxyName] ?? 0
-                    let delayStr = delay == 0 ? NSLocalizedString("fail", comment: "") : "\(delay) ms"
-                    NotificationCenter.default.post(
-                        name: .speedTestFinishForProxy,
-                        object: nil,
-                        userInfo: ["proxyName": proxyName,
-                                   "delay": delayStr,
-                                   "rawValue": delay])
-                case let .provider(_, provider):
-                    providers.insert(provider)
-                default:
-                    break
-                }
-            }
-            testGroup.leave()
-        }
 
         label.stringValue = NSLocalizedString("Testing", comment: "")
         enclosingMenuItem?.isEnabled = false
         setNeedsDisplay()
 
-        testGroup.notify(queue: .main) {
-            [weak self] in
+        ApiRequest.getGroupDelay(groupName: group.name) {
+            [weak self] _ in
             guard let self = self, let menu = self.enclosingMenuItem else { return }
             self.label.stringValue = menu.title
             menu.isEnabled = true
             self.setNeedsDisplay()
-            if providers.count > 0 {
-                MenuItemFactory.refreshExistingMenuItems()
-            }
+            MenuItemFactory.refreshExistingMenuItems()
         }
     }
 }
