@@ -80,11 +80,6 @@ class ClashMetaConfig: NSObject {
             if port == nil && mixedPort == nil {
                 mixedPort = 7890
             }
-
-            // fix initGeoIP
-            if let gm = yaml[keys.geodataMode.rawValue] as? Bool {
-                geodataMode = gm
-            }
         }
 
         mutating func updatePorts(_ usedPorts: String) {
