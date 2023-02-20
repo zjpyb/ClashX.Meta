@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Settings-->
         <scene sceneID="7zJ-aQ-tNg">
             <objects>
-                <tabViewController title="Settings" showSeguePresentationStyle="single" selectedTabViewItemIndex="0" id="LAj-p8-9gd" customClass="SettingTabViewController" customModule="ClashX_Pro" customModuleProvider="target" sceneMemberID="viewController">
+                <tabViewController title="Settings" showSeguePresentationStyle="single" selectedTabViewItemIndex="0" id="LAj-p8-9gd" customClass="SettingTabViewController" customModule="ClashX_Meta" customModuleProvider="target" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem label="General" identifier="general" image="gearshape" catalog="system" id="Ltt-Vq-Hh1"/>
                     </tabViewItems>
@@ -33,7 +33,7 @@
         <!--General-->
         <scene sceneID="XxM-Ti-kkw">
             <objects>
-                <viewController title="General" showSeguePresentationStyle="single" id="kma-mp-ncL" customClass="GeneralSettingViewController" customModule="ClashX_Pro" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="General" showSeguePresentationStyle="single" id="kma-mp-ncL" customClass="GeneralSettingViewController" customModule="ClashX_Meta" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="dpe-v8-fF7">
                         <rect key="frame" x="0.0" y="0.0" width="400" height="299"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -125,7 +125,7 @@
                                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                 <size key="minSize" width="305" height="100"/>
-                                                                <size key="maxSize" width="305" height="10000000"/>
+                                                                <size key="maxSize" width="320" height="10000000"/>
                                                                 <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                             </textView>
                                                         </subviews>
@@ -733,7 +733,6 @@
                     </items>
                 </menu>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
-                <customObject id="fth-rt-saN" customClass="SUUpdater"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="dwS-am-r7H"/>
             </objects>
@@ -1149,7 +1148,7 @@
             <objects>
                 <viewController title="External Manager" identifier="ExternalControlViewController" storyboardIdentifier="ExternalControlViewController" showSeguePresentationStyle="single" id="s6y-wL-pnr" userLabel="External Control" customClass="ExternalControlViewController" customModule="ClashX_Meta" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Gao-fa-Dwr">
-                        <rect key="frame" x="0.0" y="0.0" width="515" height="256"/>
+                        <rect key="frame" x="0.0" y="0.0" width="515" height="268"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="30" horizontalPageScroll="10" verticalLineScroll="30" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h2z-Vu-j5M">
@@ -1319,7 +1318,7 @@
                                 </tableHeaderView>
                             </scrollView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Apx-gL-RAm">
-                                <rect key="frame" x="18" y="220" width="108" height="16"/>
+                                <rect key="frame" x="18" y="232" width="108" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="External Controls" id="9gE-NX-2wJ">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
