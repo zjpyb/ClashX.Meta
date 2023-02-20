@@ -33,7 +33,6 @@ class GeneralSettingViewController: NSViewController {
             .string.debounce(.milliseconds(500), scheduler: MainScheduler.instance)
             .map { $0.components(separatedBy: ",").filter {!$0.isEmpty} }
             .subscribe { arr in
-                print(arr)
                 Settings.proxyIgnoreList = arr
             }.disposed(by: disposeBag)
 
@@ -114,4 +113,13 @@ class GeneralSettingViewController: NSViewController {
 		allowApiLanUsageSwitcher.isEnabled = false
     }
 
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        view.window?.makeFirstResponder(nil)
+    }
+
+    @IBAction func actionResetIgnoreList(_ sender: Any) {
+        ignoreListTextView.string = Settings.proxyIgnoreListDefaultValue.joined(separator: ",")
+        Settings.proxyIgnoreList = Settings.proxyIgnoreListDefaultValue
+    }
 }
