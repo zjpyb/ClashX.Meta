@@ -260,6 +260,21 @@ class ApiRequest {
             }
     }
 
+    static func getGroupDelay(groupName: String, callback: @escaping (([String: Int]) -> Void)) {
+        req("/group/\(groupName.encoded)/delay",
+            method: .get,
+            parameters: ["timeout": 5000, "url": ConfigManager.shared.benchMarkUrl])
+            .responseData { res in
+                switch res.result {
+                case let .success(value):
+                    let dic = try? JSONDecoder().decode([String: Int].self, from: value)
+                    callback(dic ?? [:])
+                case .failure:
+                    callback([:])
+                }
+            }
+    }
+
     static func getRules(completeHandler: @escaping ([ClashRule]) -> Void) {
         req("/rules").responseData { res in
             guard let data = try? res.result.get() else { return }

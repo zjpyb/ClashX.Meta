@@ -6,8 +6,8 @@ import Gzip
 class ClashResourceManager {
     enum RuleFiles: String {
         case mmdb = "Country.mmdb"
-        case geosite = "geosite.dat"
-        case geoip = "geoip.dat"
+        case geosite = "Geosite.dat"
+        case geoip = "Geoip.dat"
     }
 
     static func check() -> Bool {

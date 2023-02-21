@@ -59,7 +59,7 @@ Checkout [Clash Meta](https://docs.metacubex.one) or [Clash](https://github.com/
 
 ### Change default system ignore list.
 
-- Change by menu -> Config -> Setting -> Bypass proxy settings for there Hosts & Domains
+- Change by menu -> Config -> Setting -> Bypass proxy settings for these Hosts & Domains
 
 ### URL Schemes (May not work).
 

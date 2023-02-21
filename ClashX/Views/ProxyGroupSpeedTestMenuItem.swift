@@ -99,53 +99,18 @@ private class ProxyGroupSpeedTestMenuItemView: MenuItemBaseView {
     private func startBenchmark() {
         guard let group = (enclosingMenuItem as? ProxyGroupSpeedTestMenuItem)?.proxyGroup
         else { return }
-        let testGroup = DispatchGroup()
-
-        var proxies = [ClashProxyName]()
-        var providers = Set<ClashProviderName>()
-        for testable in group.speedtestAble {
-            switch testable {
-            case let .provider(_, provider):
-                providers.insert(provider)
-            case let .proxy(name):
-                proxies.append(name)
-            case let .group(name):
-                proxies.append(name)
-            }
-        }
-
-        for proxyName in proxies {
-            testGroup.enter()
-            ApiRequest.getProxyDelay(proxyName: proxyName) { delay in
-                let delayStr = delay == 0 ? NSLocalizedString("fail", comment: "") : "\(delay) ms"
-                NotificationCenter.default.post(name: .speedTestFinishForProxy,
-                                                object: nil,
-                                                userInfo: ["proxyName": proxyName, "delay": delayStr, "rawValue": delay])
-                testGroup.leave()
-            }
-        }
 
         label.stringValue = NSLocalizedString("Testing", comment: "")
         enclosingMenuItem?.isEnabled = false
         setNeedsDisplay()
 
-        for provider in providers {
-            testGroup.enter()
-
-            ApiRequest.healthCheck(proxy: provider) {
-                testGroup.leave()
-            }
-        }
-
-        testGroup.notify(queue: .main) {
-            [weak self] in
+        ApiRequest.getGroupDelay(groupName: group.name) {
+            [weak self] _ in
             guard let self = self, let menu = self.enclosingMenuItem else { return }
             self.label.stringValue = menu.title
             menu.isEnabled = true
             self.setNeedsDisplay()
-            if providers.count > 0 {
-                MenuItemFactory.refreshExistingMenuItems()
-            }
+            MenuItemFactory.refreshExistingMenuItems()
         }
     }
 }

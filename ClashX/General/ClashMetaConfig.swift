@@ -23,6 +23,8 @@ class ClashMetaConfig: NSObject {
         var socksPort: Int?
         var mixedPort: Int?
 
+        var geodataMode: Bool?
+
         var logLevel = ConfigManager.selectLoggingApiLevel.rawValue
 
         var path: String {
@@ -43,6 +45,7 @@ class ClashMetaConfig: NSObject {
                  port,
                  socksPort = "socks-port",
                  logLevel = "log-level",
+                 geodataMode = "geodata-mode",
                  secret
         }
 
