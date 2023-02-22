@@ -94,6 +94,9 @@ class MetaDNS: NSObject {
     
     
     @objc func flushDnsCache() {
+        if #available(OSX 10.15, *) {
+            CommonUtils.runCommand("/usr/bin/dscacheutil", args: ["-flushcache"])
+        }
         CommonUtils.runCommand("/usr/bin/killall", args: ["-HUP", "mDNSResponder"])
         
         print("flushDnsCache")
