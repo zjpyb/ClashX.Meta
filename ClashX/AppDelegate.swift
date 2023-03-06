@@ -91,7 +91,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         ProcessInfo.processInfo.disableSuddenTermination()
         // setup menu item first
         statusItem = NSStatusBar.system.statusItem(withLength: statusItemLengthWithSpeed)
-        
+
         /*
         if #available(macOS 11, *), let button = statusItem.button {
             statusItemView = NewStatusMenuView.create(on: button)
@@ -100,7 +100,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
          */
         statusItemView = StatusItemView.create(statusItem: statusItem)
-         
+
         statusItemView.updateSize(width: statusItemLengthWithSpeed)
         statusMenu.delegate = self
         registCrashLogger()
