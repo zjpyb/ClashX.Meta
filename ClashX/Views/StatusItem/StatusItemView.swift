@@ -39,28 +39,13 @@ class StatusItemView: NSView, StatusItemViewProtocol {
         downloadSpeedLabel.textColor = NSColor.black
     }
 
-    func getSpeedString(for byte: Int) -> String {
-        let kb = byte / 1024
-        if kb < 1024 {
-            return  "\(kb)KB/s"
-        } else {
-            let mb = Double(kb) / 1024.0
-            if mb >= 100 {
-                if mb >= 1000 {
-                    return String(format: "%.1fGB/s", mb/1024)
-                }
-                return String(format: "%.1fMB/s", mb)
-            } else {
-                return String(format: "%.2fMB/s", mb)
-            }
-        }
     func updateSize(width: CGFloat) {
         frame = CGRect(x: 0, y: 0, width: width, height: 22)
     }
 
     func updateViewStatus(enableProxy: Bool) {
         let selectedColor = NSColor.red
-        let unselectedColor = selectedColor.withSystemEffect(.disabled)
+        let unselectedColor = selectedColor.withDisabledEffect()
         imageView.image = StatusItemTool.menuImage.tint(color: enableProxy ? selectedColor : unselectedColor)
         updateStatusItemView()
     }

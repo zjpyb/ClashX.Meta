@@ -15,7 +15,7 @@ import SwiftyJSON
 import Yams
 import PromiseKit
 
-private let statusItemLengthWithSpeed: CGFloat = 72
+let statusItemLengthWithSpeed: CGFloat = 72
 
 private let MetaCoreMd5 = "WOSHIZIDONGSHENGCHENGDEA"
 
@@ -91,11 +91,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         ProcessInfo.processInfo.disableSuddenTermination()
         // setup menu item first
         statusItem = NSStatusBar.system.statusItem(withLength: statusItemLengthWithSpeed)
+        
+        /*
         if #available(macOS 11, *), let button = statusItem.button {
             statusItemView = NewStatusMenuView.create(on: button)
         } else {
             statusItemView = StatusItemView.create(statusItem: statusItem)
         }
+         */
+        statusItemView = StatusItemView.create(statusItem: statusItem)
+         
         statusItemView.updateSize(width: statusItemLengthWithSpeed)
         statusMenu.delegate = self
         registCrashLogger()
@@ -1143,7 +1148,6 @@ extension AppDelegate {
     @IBAction func actionSetLogLevel(_ sender: NSMenuItem) {
         let level = ClashLogLevel(rawValue: sender.title.lowercased()) ?? .unknow
         ConfigManager.selectLoggingApiLevel = level
-        dynamicLogLevel = level.toDDLogLevel()
         updateLoggingLevel()
         resetStreamApi()
     }

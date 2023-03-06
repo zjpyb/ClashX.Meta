@@ -52,7 +52,7 @@ enum StatusItemTool {
 
     static func getMenuImage(enableProxy: Bool) -> NSImage {
         let selectedColor = NSColor.red
-        let unselectedColor = selectedColor.withSystemEffect(.disabled)
+        let unselectedColor = selectedColor.withDisabledEffect()
         return StatusItemTool.menuImage.tint(color: enableProxy ? selectedColor : unselectedColor)
     }
 }
