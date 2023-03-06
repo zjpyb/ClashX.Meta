@@ -11,7 +11,7 @@ import Foundation
 import RxCocoa
 import RxSwift
 
-class StatusItemView: NSView {
+class StatusItemView: NSView, StatusItemViewProtocol {
     @IBOutlet var imageView: NSImageView!
 
     @IBOutlet var uploadSpeedLabel: NSTextField!
@@ -19,18 +19,6 @@ class StatusItemView: NSView {
     @IBOutlet var speedContainerView: NSView!
 
     weak var statusItem: NSStatusItem?
-
-    lazy var menuImage: NSImage = {
-        let customImagePath = (NSHomeDirectory() as NSString).appendingPathComponent("/.config/clash/menuImage.png")
-        if let image = NSImage(contentsOfFile: customImagePath) {
-            return image
-        }
-        if let imagePath = Bundle.main.path(forResource: "menu_icon", ofType: "icns"),
-           let image = NSImage(contentsOfFile: imagePath) {
-            return image
-        }
-        return NSImage()
-    }()
 
     static func create(statusItem: NSStatusItem?) -> StatusItemView {
         var topLevelObjects: NSArray?
@@ -44,31 +32,11 @@ class StatusItemView: NSView {
     }
 
     func setupView() {
-        let fontSize: CGFloat = 9
-        let font: NSFont
-        if let fontName = UserDefaults.standard.string(forKey: "kStatusMenuFontName"),
-            let f = NSFont(name: fontName, size: fontSize) {
-            font = f
-        } else {
-            font = NSFont.menuBarFont(ofSize: fontSize)
-        }
-        uploadSpeedLabel.font = font
-        downloadSpeedLabel.font = font
-    }
+        uploadSpeedLabel.font = StatusItemTool.font
+        downloadSpeedLabel.font = StatusItemTool.font
 
-    func updateViewStatus(enableProxy: Bool) {
-        let selectedColor = NSColor.red
-        let unselectedColor: NSColor
-        if #available(OSX 10.14, *) {
-            unselectedColor = selectedColor.withSystemEffect(.disabled)
-        } else {
-            unselectedColor = selectedColor.withAlphaComponent(0.5)
-        }
-
-        uploadSpeedLabel.textColor = enableProxy ? NSColor.black : NSColor.init(white: 1.0, alpha: 0.5)
-        downloadSpeedLabel.textColor = enableProxy ? NSColor.black : NSColor.init(white: 1.0, alpha: 0.5)
-        imageView.image = menuImage.tint(color: enableProxy ? selectedColor : unselectedColor)
-        updateStatusItemView()
+        uploadSpeedLabel.textColor = NSColor.black
+        downloadSpeedLabel.textColor = NSColor.black
     }
 
     func getSpeedString(for byte: Int) -> String {
@@ -86,12 +54,21 @@ class StatusItemView: NSView {
                 return String(format: "%.2fMB/s", mb)
             }
         }
+    func updateSize(width: CGFloat) {
+        frame = CGRect(x: 0, y: 0, width: width, height: 22)
+    }
+
+    func updateViewStatus(enableProxy: Bool) {
+        let selectedColor = NSColor.red
+        let unselectedColor = selectedColor.withSystemEffect(.disabled)
+        imageView.image = StatusItemTool.menuImage.tint(color: enableProxy ? selectedColor : unselectedColor)
+        updateStatusItemView()
     }
 
     func updateSpeedLabel(up: Int, down: Int) {
         guard !speedContainerView.isHidden else { return }
-        let finalUpStr = getSpeedString(for: up)
-        let finalDownStr = getSpeedString(for: down)
+        let finalUpStr = StatusItemTool.getSpeedString(for: up)
+        let finalDownStr = StatusItemTool.getSpeedString(for: down)
 
         if downloadSpeedLabel.stringValue == finalDownStr && uploadSpeedLabel.stringValue == finalUpStr {
             return
