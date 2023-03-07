@@ -105,12 +105,29 @@ private class ProxyGroupSpeedTestMenuItemView: MenuItemBaseView {
         setNeedsDisplay()
 
         ApiRequest.getGroupDelay(groupName: group.name) {
-            [weak self] _ in
+            [weak self] delays in
             guard let self = self, let menu = self.enclosingMenuItem else { return }
+            
+            group.all?.forEach { proxyName in
+                var delayStr = NSLocalizedString("fail", comment: "")
+                var delay = 0
+                if let d = delays[proxyName], d != 0 {
+                    delayStr = "\(d) ms"
+                    delay = d
+                }
+
+                NotificationCenter.default.post(
+                    name: .speedTestFinishForProxy,
+                    object: nil,
+                    userInfo: ["proxyName": proxyName,
+                               "delay": delayStr,
+                               "rawValue": delay])
+
+            }
+            
             self.label.stringValue = menu.title
             menu.isEnabled = true
             self.setNeedsDisplay()
-            MenuItemFactory.refreshExistingMenuItems()
         }
     }
 }
