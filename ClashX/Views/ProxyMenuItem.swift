@@ -25,12 +25,13 @@ class ProxyMenuItem: NSMenuItem {
          action selector: Selector?,
          simpleItem: Bool = false) {
         proxyName = proxy.name
+        let isBuiltInProxy = ClashProxyType.isBuiltInProxy(proxy)
 
         maxProxyNameLength = simpleItem ? 0 : group.maxProxyNameLength
 
         super.init(title: proxyName, action: selector, keyEquivalent: "")
 
-        if !simpleItem && enableShowUsingView && group.isSpeedTestable {
+        if (!simpleItem && enableShowUsingView && group.isSpeedTestable) || isBuiltInProxy {
             view = ProxyItemView(proxy: proxy)
         } else if !simpleItem {
             attributedTitle = getAttributedTitle(name: proxyName, delay: proxy.history.last?.delayDisplay)
@@ -40,7 +41,7 @@ class ProxyMenuItem: NSMenuItem {
 
         NotificationCenter.default.addObserver(self, selector: #selector(proxyGroupInfoUpdate(note:)), name: .proxyUpdate(for: group.name), object: nil)
 
-        if !simpleItem {
+        if !simpleItem && !isBuiltInProxy {
             NotificationCenter.default.addObserver(self, selector: #selector(updateDelayNotification(note:)), name: .speedTestFinishForProxy, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(proxyInfoUpdate(note:)), name: .proxyUpdate(for: proxy.name), object: nil)
         }
