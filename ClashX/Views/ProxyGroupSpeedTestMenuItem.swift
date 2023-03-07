@@ -107,7 +107,7 @@ private class ProxyGroupSpeedTestMenuItemView: MenuItemBaseView {
         ApiRequest.getGroupDelay(groupName: group.name) {
             [weak self] delays in
             guard let self = self, let menu = self.enclosingMenuItem else { return }
-            
+
             group.all?.forEach { proxyName in
                 var delayStr = NSLocalizedString("fail", comment: "")
                 var delay = 0
@@ -124,7 +124,7 @@ private class ProxyGroupSpeedTestMenuItemView: MenuItemBaseView {
                                "rawValue": delay])
 
             }
-            
+
             self.label.stringValue = menu.title
             menu.isEnabled = true
             self.setNeedsDisplay()

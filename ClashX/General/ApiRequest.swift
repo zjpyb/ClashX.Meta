@@ -248,7 +248,7 @@ class ApiRequest {
     static func getProxyDelay(proxyName: String, callback: @escaping ((Int) -> Void)) {
         req("/proxies/\(proxyName.encoded)/delay",
             method: .get,
-            parameters: ["timeout": 5000, "url": ConfigManager.shared.benchMarkUrl])
+            parameters: ["timeout": 2500, "url": ConfigManager.shared.benchMarkUrl])
             .responseData { res in
                 switch res.result {
                 case let .success(value):
@@ -263,7 +263,7 @@ class ApiRequest {
     static func getGroupDelay(groupName: String, callback: @escaping (([String: Int]) -> Void)) {
         req("/group/\(groupName.encoded)/delay",
             method: .get,
-            parameters: ["timeout": 5000, "url": ConfigManager.shared.benchMarkUrl])
+            parameters: ["timeout": 2500, "url": ConfigManager.shared.benchMarkUrl])
             .responseData { res in
                 switch res.result {
                 case let .success(value):
