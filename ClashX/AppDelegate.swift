@@ -1432,7 +1432,12 @@ extension AppDelegate {
             if launch_fail_times > 3 {
                 // 发生连续崩溃
                 ConfigFileManager.backupAndRemoveConfigFile()
-                try? FileManager.default.removeItem(atPath: kConfigFolderPath + "Country.mmdb")
+				let ruleFiles = ClashResourceManager.RuleFiles
+				
+				try? FileManager.default.removeItem(atPath: kConfigFolderPath + ruleFiles.mmdb.rawValue)
+				try? FileManager.default.removeItem(atPath: kConfigFolderPath + ruleFiles.geosite.rawValue)
+				try? FileManager.default.removeItem(atPath: kConfigFolderPath + ruleFiles.geoip.rawValue)
+				
                 if let domain = Bundle.main.bundleIdentifier {
                     UserDefaults.standard.removePersistentDomain(forName: domain)
                     UserDefaults.standard.synchronize()
