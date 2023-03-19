@@ -520,45 +520,52 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func initMetaCore() {
         Logger.log("initClashCore")
 
-        let corePath: String = {
+        let corePath: (String?, String?) = {
             if let path = Paths.alphaCorePath()?.path,
                let v = testMetaCore(path) {
                 updateAlphaVersion(v.version)
                 if MenuItemFactory.useAlphaCore {
-                    return path
+                    return (path, nil)
                 }
             } else {
                 updateAlphaVersion(nil)
             }
 
             if let re = unzipMetaCore() {
-                return re
+                return (re, nil)
             }
 
-            if let path = Paths.defaultCorePath(),
-               testMetaCore(path) != nil,
-               validateDefaultCore() {
-                return path
+            if let path = Paths.defaultCorePath() {
+				if testMetaCore(path) != nil,
+				   validateDefaultCore() {
+					return (path, nil)
+				} else {
+					Logger.log("Failure to verify the internal Meta Core.")
+					Logger.log(path)
+					return (nil, "Failure to verify the internal Meta Core.\nDo NOT replace core file in the resources folder.")
+				}
             } else {
-                return "ERROR"
+                return (nil, "No internal Meta Core found")
             }
         }()
+		
+		if let path = corePath.0 {
+			RemoteConfigManager.shared.verifyConfigTask.setLaunchPath(path)
+			PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: path)
+			Logger.log("initClashCore finish")
+		} else {
+			let msg = corePath.1 ?? "Load internal Meta Core failed."
+			
+			let alert = NSAlert()
+			alert.messageText = msg
+			alert.alertStyle = .warning
+			alert.addButton(withTitle: NSLocalizedString("Quit", comment: ""))
+			alert.runModal()
 
-        if corePath == "ERROR" {
-            let alert = NSAlert()
-            alert.messageText = "Failure to verify the internal Meta Core.\nDo NOT replace core file in the resources folder."
-            alert.alertStyle = .warning
-            alert.addButton(withTitle: NSLocalizedString("Quit", comment: ""))
-            alert.runModal()
-
-            DispatchQueue.main.async {
-                NSApplication.shared.terminate(nil)
-            }
-        } else {
-            RemoteConfigManager.shared.verifyConfigTask.setLaunchPath(corePath)
-            PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: corePath)
-            Logger.log("initClashCore finish")
-        }
+			DispatchQueue.main.async {
+				NSApplication.shared.terminate(nil)
+			}
+		}
     }
 
     func unzipMetaCore() -> String? {
