@@ -531,9 +531,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 updateAlphaVersion(nil)
             }
 
-            if let re = unzipMetaCore() {
-                return (re, nil)
-            }
+            if let msg = unzipMetaCore() {
+                return (nil, msg)
+			}
 
             if let path = Paths.defaultCorePath() {
 				if testMetaCore(path) != nil,
@@ -569,9 +569,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func unzipMetaCore() -> String? {
-        guard var path = Bundle.main.resourcePath,
-              let p = Paths.defaultCoreGzPath() else { return "ERROR" }
-        path += "/\(kDefauleMetaCoreName)"
+        guard let path = Paths.defaultCorePath(),
+              let p = Paths.defaultCoreGzPath() else { return "Nil resources paths" }
 
         do {
             let data = try Data(contentsOf: .init(fileURLWithPath: p)).gunzipped()
@@ -589,14 +588,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         do {
             try proc.run()
         } catch let error {
-            Logger.log("Unzip Meta failed: \(error)", level: .error)
-            return "ERROR"
+			let msg = "Unzip Meta failed: \(error)"
+            Logger.log(msg, level: .error)
+            return msg
         }
 
         proc.waitUntilExit()
         guard proc.terminationStatus == 0 else {
-            Logger.log("Unzip Meta failed with terminationStatus: \(proc.terminationStatus)", level: .error)
-            return "ERROR"
+			let msg = "Unzip Meta failed with terminationStatus: \(proc.terminationStatus)"
+            Logger.log(msg, level: .error)
+            return msg
         }
         return nil
     }
