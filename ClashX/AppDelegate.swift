@@ -569,8 +569,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func unzipMetaCore() -> String? {
-        guard let path = Paths.defaultCorePath(),
-              let p = Paths.defaultCoreGzPath() else { return "Nil resources paths" }
+		guard var path = Bundle.main.resourcePath,
+			  let p = Paths.defaultCoreGzPath() else { return " No core gz file found" }
+		path += "/\(kDefauleMetaCoreName)"
 
         do {
             let data = try Data(contentsOf: .init(fileURLWithPath: p)).gunzipped()

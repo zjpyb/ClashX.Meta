@@ -31,7 +31,10 @@ struct Paths {
     }
 
     static func defaultCoreGzPath() -> String? {
-        Bundle.main.path(forResource: kDefauleMetaCoreName, ofType: "gz")
+		guard let path = Bundle.main.path(forResource: kDefauleMetaCoreName, ofType: "gz") else {
+			return nil
+		}
+		return FileManager.default.fileExists(atPath: path) ? path : nil
     }
 
     static func alphaCorePath() -> URL? {
