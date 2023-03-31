@@ -23,10 +23,11 @@ struct Paths {
     }
 
     static func defaultCorePath() -> String? {
-        guard var path = Bundle.main.resourcePath else {
-            return nil
-        }
-        path += "/\(kDefauleMetaCoreName)"
+		let path = Paths
+			.applicationSupportDirectory()
+			.appendingPathComponent(".private_core")
+			.appendingPathComponent(kDefauleMetaCoreName)
+
         return FileManager.default.fileExists(atPath: path) ? path : nil
     }
 
@@ -38,9 +39,14 @@ struct Paths {
     }
 
     static func alphaCorePath() -> URL? {
-        FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
-            .first?
-            .appendingPathComponent("com.metacubex.ClashX.meta")
-            .appendingPathComponent(kDefauleMetaCoreName)
+		Paths
+			.applicationSupportDirectory()
+			.appendingPathComponent(kDefauleMetaCoreName)
     }
+	
+	static func applicationSupportDirectory() -> URL? {
+		FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
+			.first?
+			.appendingPathComponent("com.metacubex.ClashX.meta")
+	}
 }
