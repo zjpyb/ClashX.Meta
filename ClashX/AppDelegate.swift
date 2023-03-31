@@ -1365,7 +1365,6 @@ extension AppDelegate {
             }
 
             self.updateAlphaVersion(nil)
-            try? fm.removeItem(at: helperURL)
 
             AF.download(asset.downloadUrl).response {
                 guard let gzPath = $0.fileURL?.path,
@@ -1375,6 +1374,8 @@ extension AppDelegate {
                     return
                 }
                 do {
+					try? fm.removeItem(at: helperURL)
+
                     try fm.createDirectory(at: helperURL.deletingLastPathComponent(), withIntermediateDirectories: true, attributes: nil)
                     try contentData.gunzipped().write(to: helperURL)
                     guard let version = self.testMetaCore(helperURL.path)?.version else {
