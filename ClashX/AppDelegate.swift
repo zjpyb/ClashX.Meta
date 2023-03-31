@@ -537,14 +537,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				updateAlphaVersion(nil)
 			}
 
+			let fm = FileManager.default
+
 			// unzip internal core
-			if !FileManager.default.fileExists(atPath: corePath.path) {
+			if !fm.fileExists(atPath: corePath.path) {
+				if let msg = unzipMetaCore() {
+					return (nil, msg)
+				}
+			} else if !validateDefaultCore() {
+				try? fm.removeItem(at: corePath)
 				if let msg = unzipMetaCore() {
 					return (nil, msg)
 				}
 			}
 
-			// -v test, chmod +x
+			if !chmodX(corePath.path) {
+				return (nil, "chmod +x failed.")
+			}
+
 			if let msg = testMetaCore(corePath.path) {
 				Logger.log("version: \(msg.version)")
 			}
@@ -599,10 +609,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func testMetaCore(_ path: String) -> (version: String, date: Date?)? {
-        guard FileManager.default.fileExists(atPath: path),
-              chmodX(path) else {
-            return nil
-        }
 
         let proc = Process()
         proc.executableURL = .init(fileURLWithPath: path)
