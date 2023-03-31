@@ -526,7 +526,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				  let corePath = Paths.defaultCorePath() else {
 				return (nil, "Paths error")
 			}
-			
+
 			// alpha core
 			if let v = testMetaCore(alphaCorePath.path) {
 				updateAlphaVersion(v.version)
@@ -543,13 +543,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 					return (nil, msg)
 				}
 			}
-			
+
 			// validate md5
 			if validateDefaultCore() {
-				return (path, nil)
+				return (corePath.path, nil)
 			} else {
 				Logger.log("Failure to verify the internal Meta Core.")
-				Logger.log(path)
+				Logger.log(corePath.path)
 				return (nil, "Failure to verify the internal Meta Core.\nDo NOT replace core file in the resources folder.")
 			}
         }()
