@@ -522,41 +522,45 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         Logger.log("initClashCore")
 
         let corePath: (String?, String?) = {
-            if let path = Paths.alphaCorePath()?.path,
-               let v = testMetaCore(path) {
-                updateAlphaVersion(v.version)
-                if MenuItemFactory.useAlphaCore {
-                    return (path, nil)
-                }
-            } else {
-                updateAlphaVersion(nil)
-            }
-
-            if let msg = unzipMetaCore() {
-                return (nil, msg)
+			guard let alphaCorePath = Paths.alphaCorePath(),
+				  let corePath = Paths.defaultCorePath() else {
+				return (nil, "Paths error")
+			}
+			
+			// alpha core
+			if let v = testMetaCore(alphaCorePath.path) {
+				updateAlphaVersion(v.version)
+				if MenuItemFactory.useAlphaCore {
+					return (alphaCorePath.path, nil)
+				}
+			} else {
+				updateAlphaVersion(nil)
 			}
 
-            if let path = Paths.defaultCorePath() {
-				if testMetaCore(path) != nil,
-				   validateDefaultCore() {
-					return (path, nil)
-				} else {
-					Logger.log("Failure to verify the internal Meta Core.")
-					Logger.log(path)
-					return (nil, "Failure to verify the internal Meta Core.\nDo NOT replace core file in the resources folder.")
+			// unzip internal core
+			if !FileManager.default.fileExists(atPath: corePath.path) {
+				if let msg = unzipMetaCore() {
+					return (nil, msg)
 				}
-            } else {
-                return (nil, "No internal Meta Core found")
-            }
+			}
+			
+			// validate md5
+			if validateDefaultCore() {
+				return (path, nil)
+			} else {
+				Logger.log("Failure to verify the internal Meta Core.")
+				Logger.log(path)
+				return (nil, "Failure to verify the internal Meta Core.\nDo NOT replace core file in the resources folder.")
+			}
         }()
-		
+
 		if let path = corePath.0 {
 			RemoteConfigManager.shared.verifyConfigTask.setLaunchPath(path)
 			PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: path)
 			Logger.log("initClashCore finish")
 		} else {
 			let msg = corePath.1 ?? "Load internal Meta Core failed."
-			
+
 			let alert = NSAlert()
 			alert.messageText = msg
 			alert.alertStyle = .warning
@@ -570,38 +574,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func unzipMetaCore() -> String? {
-		guard var path = Bundle.main.resourcePath,
-			  let p = Paths.defaultCoreGzPath() else { return " No core gz file found" }
-		path += "/\(kDefauleMetaCoreName)"
-
+		guard let corePath = Paths.defaultCorePath(),
+			  let gzPath = Paths.defaultCoreGzPath() else { return "Paths error" }
+		let fm = FileManager.default
         do {
-            let data = try Data(contentsOf: .init(fileURLWithPath: p)).gunzipped()
-            try data.write(to: URL(fileURLWithPath: path))
+            let data = try Data(contentsOf: .init(fileURLWithPath: gzPath)).gunzipped()
+
+			if !fm.fileExists(atPath: corePath.deletingLastPathComponent().path) {
+				try fm.createDirectory(at: corePath.deletingLastPathComponent(), withIntermediateDirectories: true)
+			}
+
+            try data.write(to: corePath)
             return nil
-        } catch let error {
-            Logger.log("Unzip Meta failed: \(error)", level: .error)
-            Logger.log("Fallback gunzip", level: .error)
-        }
-
-        let proc = Process()
-        proc.executableURL = .init(fileURLWithPath: "/usr/bin/gunzip")
-        proc.arguments = ["-dk", p]
-
-        do {
-            try proc.run()
         } catch let error {
 			let msg = "Unzip Meta failed: \(error)"
             Logger.log(msg, level: .error)
-            return msg
+			return msg
         }
-
-        proc.waitUntilExit()
-        guard proc.terminationStatus == 0 else {
-			let msg = "Unzip Meta failed with terminationStatus: \(proc.terminationStatus)"
-            Logger.log(msg, level: .error)
-            return msg
-        }
-        return nil
     }
 
     func testMetaCore(_ path: String) -> (version: String, date: Date?)? {
@@ -650,13 +639,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func validateDefaultCore() -> Bool {
-        guard let path = Paths.defaultCorePath() else { return false }
+		guard let path = Paths.defaultCorePath()?.path else { return false }
         #if DEBUG
             return true
         #endif
         let proc = Process()
         proc.executableURL = .init(fileURLWithPath: "/sbin/md5")
-        proc.arguments = ["-q", path]
+		proc.arguments = ["-q", path]
         let pipe = Pipe()
         proc.standardOutput = pipe
 

@@ -22,13 +22,11 @@ struct Paths {
         return "\(name).yaml"
     }
 
-    static func defaultCorePath() -> String? {
-		let path = Paths
-			.applicationSupportDirectory()
+    static func defaultCorePath() -> URL? {
+		Paths
+			.applicationSupportDirectory()?
 			.appendingPathComponent(".private_core")
 			.appendingPathComponent(kDefauleMetaCoreName)
-
-        return FileManager.default.fileExists(atPath: path) ? path : nil
     }
 
     static func defaultCoreGzPath() -> String? {
@@ -40,10 +38,10 @@ struct Paths {
 
     static func alphaCorePath() -> URL? {
 		Paths
-			.applicationSupportDirectory()
+			.applicationSupportDirectory()?
 			.appendingPathComponent(kDefauleMetaCoreName)
     }
-	
+
 	static func applicationSupportDirectory() -> URL? {
 		FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
 			.first?
