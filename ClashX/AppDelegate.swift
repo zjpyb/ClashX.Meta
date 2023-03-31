@@ -544,6 +544,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				}
 			}
 
+			// -v test, chmod +x
+			if let msg = testMetaCore(corePath.path) {
+				Logger.log("version: \(msg.version)")
+			}
+
 			// validate md5
 			if validateDefaultCore() {
 				return (corePath.path, nil)
