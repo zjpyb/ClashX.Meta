@@ -626,6 +626,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return nil
         }
 
+		Logger.log("test core path: \(path)")
+		Logger.log("-v out: \(out)")
+		
 		let outs = out
 			.split(separator: "\n")
 			.first {

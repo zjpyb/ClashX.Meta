@@ -140,6 +140,8 @@ class AlphaMetaDownloader: NSObject {
 
 			let cachePath = Paths.tempPath().appending("/\(UUID().uuidString).newcore")
 			try gzData.gunzipped().write(to: .init(fileURLWithPath: cachePath))
+			
+			Logger.log("save alpha core in \(cachePath)")
 
 			guard let version = ad.testMetaCore(cachePath)?.version else {
 				resolver.reject(errors.testFailed)
