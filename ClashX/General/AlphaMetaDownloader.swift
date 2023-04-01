@@ -84,6 +84,7 @@ class AlphaMetaDownloader: NSObject {
 					  let assetName,
 					  let asset = assets.first(where: {
 						  $0.name.contains(assetName) &&
+						  !$0.name.contains("cgo") &&
 						  $0.state == "uploaded" &&
 						  $0.contentType == "application/gzip"
 					  }) else {
