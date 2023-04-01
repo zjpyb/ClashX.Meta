@@ -1307,9 +1307,7 @@ extension AppDelegate {
     @IBAction func updateAlphaMeta(_ sender: NSMenuItem) {
         sender.isEnabled = false
 
-		AlphaMetaDownloader.alphaAsset().get { _ in
-			self.updateAlphaVersion(nil)
-		}.then {
+		AlphaMetaDownloader.alphaAsset().then {
 			AlphaMetaDownloader.checkVersion($0)
 		}.then {
 			AlphaMetaDownloader.downloadCore($0)
