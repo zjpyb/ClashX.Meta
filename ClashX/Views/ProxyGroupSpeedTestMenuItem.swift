@@ -43,19 +43,7 @@ class ProxyGroupSpeedTestMenuItem: NSMenuItem {
 
     @objc func healthCheck() {
         guard testType == .reTest else { return }
-        ApiRequest.healthCheck(proxy: proxyGroup.name)
-        ApiRequest.getMergedProxyData { [weak self] proxyResp in
-            guard let self = self else { return }
-            var providers = Set<ClashProxyName>()
-            self.proxyGroup.all?.compactMap {
-                proxyResp?.proxiesMap[$0]?.enclosingProvider?.name
-            }.forEach {
-                providers.insert($0)
-            }
-            providers.forEach {
-                ApiRequest.healthCheck(proxy: $0)
-            }
-        }
+		ApiRequest.getGroupDelay(groupName: proxyGroup.name) { _ in }
         menu?.cancelTracking()
     }
 }
@@ -105,12 +93,29 @@ private class ProxyGroupSpeedTestMenuItemView: MenuItemBaseView {
         setNeedsDisplay()
 
         ApiRequest.getGroupDelay(groupName: group.name) {
-            [weak self] _ in
+            [weak self] delays in
             guard let self = self, let menu = self.enclosingMenuItem else { return }
+
+            group.all?.forEach { proxyName in
+                var delayStr = NSLocalizedString("fail", comment: "")
+                var delay = 0
+                if let d = delays[proxyName], d != 0 {
+                    delayStr = "\(d) ms"
+                    delay = d
+                }
+
+                NotificationCenter.default.post(
+                    name: .speedTestFinishForProxy,
+                    object: nil,
+                    userInfo: ["proxyName": proxyName,
+                               "delay": delayStr,
+                               "rawValue": delay])
+
+            }
+
             self.label.stringValue = menu.title
             menu.isEnabled = true
             self.setNeedsDisplay()
-            MenuItemFactory.refreshExistingMenuItems()
         }
     }
 }

@@ -15,13 +15,15 @@
 		019A239628657A7A00AE5698 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019A239528657A7A00AE5698 /* main.swift */; };
 		01B009AE2854533300B93618 /* geoip.dat.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B009AC2854533200B93618 /* geoip.dat.gz */; };
 		01B009AF2854533300B93618 /* geosite.dat.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B009AD2854533300B93618 /* geosite.dat.gz */; };
+		01B2274B29B845F100FE35C9 /* country.mmdb.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B2274A29B845F100FE35C9 /* country.mmdb.gz */; };
 		01BC9ABE2928EB5A00F9B177 /* MetaDNS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC9ABD2928E5C600F9B177 /* MetaDNS.swift */; };
 		01C1462A28962E4E00346AF3 /* com.metacubex.ClashX.ProxyConfigHelper.meta.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01C1462928962E4E00346AF3 /* com.metacubex.ClashX.ProxyConfigHelper.meta.gz */; };
+		01E33AB229B5BF4200FD1006 /* NSColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E33AB129B5BF4200FD1006 /* NSColor+Extension.swift */; };
+		01E33AB529B5C5E400FD1006 /* menu_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 01E33AB429B5C5E300FD1006 /* menu_icon@2x.png */; };
 		185CBAEDFE986E6E1B836359 /* libPods-ClashX Meta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA63125BBF03DC1A291D3351 /* libPods-ClashX Meta.a */; };
 		4913C82321157D0200F6B87C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4913C82221157D0200F6B87C /* Notification.swift */; };
 		491E6203258A424D00313AEF /* CommonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 491E61FD258A424500313AEF /* CommonUtils.m */; };
 		49228457270AADE20027A4B6 /* RemoteConfigUpdateIntervalSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49228456270AADE20027A4B6 /* RemoteConfigUpdateIntervalSettingView.swift */; };
-		4929F677258CD89B00A435F6 /* Country.mmdb.gz in Resources */ = {isa = PBXBuildFile; fileRef = 4929F676258CD89B00A435F6 /* Country.mmdb.gz */; };
 		4929F67F258CE04700A435F6 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4929F67E258CE04700A435F6 /* Settings.swift */; };
 		4929F684258CE07500A435F6 /* UserDefaultWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4929F683258CE07500A435F6 /* UserDefaultWrapper.swift */; };
 		492C4869210EE6B9004554A0 /* ApiRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C4868210EE6B9004554A0 /* ApiRequest.swift */; };
@@ -75,7 +77,9 @@
 		49D176A72355FE680093DD7B /* NetworkChangeNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D176A62355FE680093DD7B /* NetworkChangeNotifier.swift */; };
 		49D176A9235614340093DD7B /* ProxyGroupSpeedTestMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D176A8235614340093DD7B /* ProxyGroupSpeedTestMenuItem.swift */; };
 		49D176AB23575BB20093DD7B /* ProxyGroupMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D176AA23575BB20093DD7B /* ProxyGroupMenuItemView.swift */; };
-		6AB113B928AF9D6800F46261 /* menu_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6AB113B828AF9D6800F46261 /* menu_icon.icns */; };
+		49D6A45229AEEC15006487EF /* StatusItemTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D6A45129AEEC15006487EF /* StatusItemTool.swift */; };
+		49D6A45429AEEC3C006487EF /* NewStatusItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D6A45329AEEC3C006487EF /* NewStatusItemView.swift */; };
+		49D6A45629AEEC55006487EF /* StatusItemViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D6A45529AEEC55006487EF /* StatusItemViewProtocol.swift */; };
 		8A2BBEA727A03ACB0081EBEF /* ProxySetting.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 8A2BBEA627A03ACB0081EBEF /* ProxySetting.sdef */; };
 		8ACD21BB27A04C7800BC4632 /* ProxySettingCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACD21BA27A04C7800BC4632 /* ProxySettingCommand.swift */; };
 		8ACD21BD27A04ED500BC4632 /* ProxyModeChangeCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACD21BC27A04ED500BC4632 /* ProxyModeChangeCommand.swift */; };
@@ -144,14 +148,16 @@
 		019A239528657A7A00AE5698 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		01B009AC2854533200B93618 /* geoip.dat.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = geoip.dat.gz; sourceTree = "<group>"; };
 		01B009AD2854533300B93618 /* geosite.dat.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = geosite.dat.gz; sourceTree = "<group>"; };
+		01B2274A29B845F100FE35C9 /* country.mmdb.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = country.mmdb.gz; sourceTree = "<group>"; };
 		01BC9ABD2928E5C600F9B177 /* MetaDNS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaDNS.swift; sourceTree = "<group>"; };
 		01C1462928962E4E00346AF3 /* com.metacubex.ClashX.ProxyConfigHelper.meta.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = com.metacubex.ClashX.ProxyConfigHelper.meta.gz; sourceTree = "<group>"; };
+		01E33AB129B5BF4200FD1006 /* NSColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSColor+Extension.swift"; sourceTree = "<group>"; };
+		01E33AB429B5C5E300FD1006 /* menu_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_icon@2x.png"; sourceTree = "<group>"; };
 		3F86DA2DA3CC14731BE1ABF7 /* Pods-ClashX Meta.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClashX Meta.release.xcconfig"; path = "Pods/Target Support Files/Pods-ClashX Meta/Pods-ClashX Meta.release.xcconfig"; sourceTree = "<group>"; };
 		4913C82221157D0200F6B87C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		491E61FC258A424500313AEF /* CommonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonUtils.h; sourceTree = "<group>"; };
 		491E61FD258A424500313AEF /* CommonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonUtils.m; sourceTree = "<group>"; };
 		49228456270AADE20027A4B6 /* RemoteConfigUpdateIntervalSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigUpdateIntervalSettingView.swift; sourceTree = "<group>"; };
-		4929F676258CD89B00A435F6 /* Country.mmdb.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = Country.mmdb.gz; sourceTree = "<group>"; };
 		4929F67E258CE04700A435F6 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		4929F683258CE07500A435F6 /* UserDefaultWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultWrapper.swift; sourceTree = "<group>"; };
 		492C4868210EE6B9004554A0 /* ApiRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiRequest.swift; sourceTree = "<group>"; };
@@ -162,7 +168,7 @@
 		4949D153213242F600EF85E6 /* Paths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paths.swift; sourceTree = "<group>"; };
 		4952C3BE2115C7CA004A4FA8 /* MenuItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemFactory.swift; sourceTree = "<group>"; };
 		4952C3CF2117027C004A4FA8 /* ConfigFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigFileManager.swift; sourceTree = "<group>"; };
-		495340AF20DE5F7200B0D3FF /* StatusItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatusItemView.xib; sourceTree = "<group>"; };
+		495340AF20DE5F7200B0D3FF /* StatusItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = StatusItemView.xib; path = ClashX/Views/StatusItem/StatusItemView.xib; sourceTree = SOURCE_ROOT; };
 		495340B220DE68C300B0D3FF /* StatusItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItemView.swift; sourceTree = "<group>"; };
 		495A44D220D267D000888A0A /* LaunchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLogin.swift; sourceTree = "<group>"; };
 		495BFB8721919B9800C8779D /* RemoteConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigManager.swift; sourceTree = "<group>"; };
@@ -212,10 +218,12 @@
 		49D176A62355FE680093DD7B /* NetworkChangeNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkChangeNotifier.swift; sourceTree = "<group>"; };
 		49D176A8235614340093DD7B /* ProxyGroupSpeedTestMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyGroupSpeedTestMenuItem.swift; sourceTree = "<group>"; };
 		49D176AA23575BB20093DD7B /* ProxyGroupMenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyGroupMenuItemView.swift; sourceTree = "<group>"; };
+		49D6A45129AEEC15006487EF /* StatusItemTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItemTool.swift; sourceTree = "<group>"; };
+		49D6A45329AEEC3C006487EF /* NewStatusItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStatusItemView.swift; sourceTree = "<group>"; };
+		49D6A45529AEEC55006487EF /* StatusItemViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItemViewProtocol.swift; sourceTree = "<group>"; };
 		49D8276627E9B01700159D93 /* LoginKitWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginKitWrapper.h; sourceTree = "<group>"; };
 		49D8276727E9B01700159D93 /* LoginKitWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginKitWrapper.m; sourceTree = "<group>"; };
 		5217C006C5A22A1CEA24BFC1 /* Pods-ClashX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClashX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ClashX/Pods-ClashX.debug.xcconfig"; sourceTree = "<group>"; };
-		6AB113B828AF9D6800F46261 /* menu_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = menu_icon.icns; sourceTree = "<group>"; };
 		8A2BBEA627A03ACB0081EBEF /* ProxySetting.sdef */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ProxySetting.sdef; sourceTree = "<group>"; };
 		8ACD21BA27A04C7800BC4632 /* ProxySettingCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxySettingCommand.swift; sourceTree = "<group>"; };
 		8ACD21BC27A04ED500BC4632 /* ProxyModeChangeCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyModeChangeCommand.swift; sourceTree = "<group>"; };
@@ -292,6 +300,7 @@
 				F9E754D1239CC28D00CEE7CC /* NSAlert+Extension.swift */,
 				F9E8F34523A12B89002DE5E8 /* String+Encode.swift */,
 				F939724D23A4DB0600FE5A3F /* DateFormatter+.swift */,
+				01E33AB129B5BF4200FD1006 /* NSColor+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -357,14 +366,13 @@
 		4931969C21631F2E00A8E6E7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				49BC1B4029AEEBBB002007B1 /* StatusItem */,
 				F92D0B2B236C7C3600575E15 /* MenuItemBaseView.swift */,
 				49D176AA23575BB20093DD7B /* ProxyGroupMenuItemView.swift */,
 				49D176A8235614340093DD7B /* ProxyGroupSpeedTestMenuItem.swift */,
 				F92D0B2D236D35C000575E15 /* ProxyItemView.swift */,
 				493AEAE4221AE7230016FE98 /* ProxyMenuItem.swift */,
 				499A485922ED781100F6C675 /* RemoteConfigAddView.xib */,
-				495340B220DE68C300B0D3FF /* StatusItemView.swift */,
-				495340AF20DE5F7200B0D3FF /* StatusItemView.xib */,
 				F910AA23240134AF00116E95 /* ProxyGroupMenu.swift */,
 				493A9F272453E60400D35296 /* ProxyDelayHistoryMenu.swift */,
 				49228456270AADE20027A4B6 /* RemoteConfigUpdateIntervalSettingView.swift */,
@@ -399,13 +407,13 @@
 		49761DA521C9490400AE13EF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				6AB113B828AF9D6800F46261 /* menu_icon.icns */,
-				4929F676258CD89B00A435F6 /* Country.mmdb.gz */,
+				01B2274A29B845F100FE35C9 /* country.mmdb.gz */,
 				01B009AC2854533200B93618 /* geoip.dat.gz */,
 				01B009AD2854533300B93618 /* geosite.dat.gz */,
 				01C1462928962E4E00346AF3 /* com.metacubex.ClashX.ProxyConfigHelper.meta.gz */,
 				49761DA621C9497000AE13EF /* dashboard */,
 				4989F98D20D0AE990001E564 /* sampleConfig.yaml */,
+				01E33AB429B5C5E300FD1006 /* menu_icon@2x.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -441,6 +449,18 @@
 				49ABB748236B0F9E00535CD7 /* UnsafePointer+bridge.swift */,
 			);
 			path = Basic;
+			sourceTree = "<group>";
+		};
+		49BC1B4029AEEBBB002007B1 /* StatusItem */ = {
+			isa = PBXGroup;
+			children = (
+				495340AF20DE5F7200B0D3FF /* StatusItemView.xib */,
+				495340B220DE68C300B0D3FF /* StatusItemView.swift */,
+				49D6A45129AEEC15006487EF /* StatusItemTool.swift */,
+				49D6A45329AEEC3C006487EF /* NewStatusItemView.swift */,
+				49D6A45529AEEC55006487EF /* StatusItemViewProtocol.swift */,
+			);
+			path = StatusItem;
 			sourceTree = "<group>";
 		};
 		49CF3B1420CD7463001EBF94 = {
@@ -649,19 +669,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AB113B928AF9D6800F46261 /* menu_icon.icns in Resources */,
 				01B009AF2854533300B93618 /* geosite.dat.gz in Resources */,
 				49761DA721C9497000AE13EF /* dashboard in Resources */,
-				4929F677258CD89B00A435F6 /* Country.mmdb.gz in Resources */,
 				4981C88B216BAE4A008CC14A /* Localizable.strings in Resources */,
 				8A2BBEA727A03ACB0081EBEF /* ProxySetting.sdef in Resources */,
 				F9FAB31E262BE04800DE02A6 /* Images.xcassets in Resources */,
+				01E33AB529B5C5E400FD1006 /* menu_icon@2x.png in Resources */,
 				495340B020DE5F7200B0D3FF /* StatusItemView.xib in Resources */,
 				01B009AE2854533300B93618 /* geoip.dat.gz in Resources */,
 				49CF3B2820CD7465001EBF94 /* Main.storyboard in Resources */,
 				499A485A22ED781100F6C675 /* RemoteConfigAddView.xib in Resources */,
 				4989F98E20D0AE990001E564 /* sampleConfig.yaml in Resources */,
 				01C1462A28962E4E00346AF3 /* com.metacubex.ClashX.ProxyConfigHelper.meta.gz in Resources */,
+				01B2274B29B845F100FE35C9 /* country.mmdb.gz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -712,6 +732,7 @@
 			files = (
 				49ABB749236B0F9E00535CD7 /* UnsafePointer+bridge.swift in Sources */,
 				499A485522ED707300F6C675 /* RemoteConfigViewController.swift in Sources */,
+				49D6A45229AEEC15006487EF /* StatusItemTool.swift in Sources */,
 				49CF3B5C20CE8068001EBF94 /* ClashResourceManager.swift in Sources */,
 				4952C3D02117027C004A4FA8 /* ConfigFileManager.swift in Sources */,
 				49BC061C212931F4005A0FE7 /* AboutViewController.swift in Sources */,
@@ -724,6 +745,7 @@
 				F935B2FC23085515009E4D33 /* SystemProxyManager.swift in Sources */,
 				495A44D320D267D000888A0A /* LaunchAtLogin.swift in Sources */,
 				4929F67F258CE04700A435F6 /* Settings.swift in Sources */,
+				49D6A45629AEEC55006487EF /* StatusItemViewProtocol.swift in Sources */,
 				493AEAE3221AE3420016FE98 /* AppVersionUtil.swift in Sources */,
 				49CF3B2120CD7463001EBF94 /* AppDelegate.swift in Sources */,
 				496BDEE021196F1E00C5207F /* Logger.swift in Sources */,
@@ -737,6 +759,7 @@
 				F9203A26236342820020D57D /* AppDelegate+..swift in Sources */,
 				499A485C22ED793C00F6C675 /* NSView+Nib.swift in Sources */,
 				493A9F282453E60400D35296 /* ProxyDelayHistoryMenu.swift in Sources */,
+				01E33AB229B5BF4200FD1006 /* NSColor+Extension.swift in Sources */,
 				492C4871210EF62E004554A0 /* ClashConfig.swift in Sources */,
 				492C4869210EE6B9004554A0 /* ApiRequest.swift in Sources */,
 				49CF3B6520CEE06C001EBF94 /* ConfigManager.swift in Sources */,
@@ -752,6 +775,7 @@
 				F92D0B2A236C759100575E15 /* NSTextField+Vibrancy.swift in Sources */,
 				F910AA24240134AF00116E95 /* ProxyGroupMenu.swift in Sources */,
 				4952C3BF2115C7CA004A4FA8 /* MenuItemFactory.swift in Sources */,
+				49D6A45429AEEC3C006487EF /* NewStatusItemView.swift in Sources */,
 				015F1E92288E60D30052B20A /* MetaTask.swift in Sources */,
 				F977FAAC2366790500C17F1F /* AutoUpgardeManager.swift in Sources */,
 				499A485822ED715200F6C675 /* RemoteConfigModel.swift in Sources */,

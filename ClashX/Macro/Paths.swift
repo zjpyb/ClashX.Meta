@@ -22,22 +22,29 @@ struct Paths {
         return "\(name).yaml"
     }
 
-    static func defaultCorePath() -> String? {
-        guard var path = Bundle.main.resourcePath else {
-            return nil
-        }
-        path += "/\(kDefauleMetaCoreName)"
-        return FileManager.default.fileExists(atPath: path) ? path : nil
+    static func defaultCorePath() -> URL? {
+		Paths
+			.applicationSupportDirectory()?
+			.appendingPathComponent(".private_core")
+			.appendingPathComponent(kDefauleMetaCoreName)
     }
 
     static func defaultCoreGzPath() -> String? {
-        Bundle.main.path(forResource: kDefauleMetaCoreName, ofType: "gz")
+		guard let path = Bundle.main.path(forResource: kDefauleMetaCoreName, ofType: "gz") else {
+			return nil
+		}
+		return FileManager.default.fileExists(atPath: path) ? path : nil
     }
 
     static func alphaCorePath() -> URL? {
-        FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
-            .first?
-            .appendingPathComponent("com.metacubex.ClashX.meta")
-            .appendingPathComponent(kDefauleMetaCoreName)
+		Paths
+			.applicationSupportDirectory()?
+			.appendingPathComponent(kDefauleMetaCoreName)
     }
+
+	static func applicationSupportDirectory() -> URL? {
+		FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
+			.first?
+			.appendingPathComponent("com.metacubex.ClashX.meta")
+	}
 }

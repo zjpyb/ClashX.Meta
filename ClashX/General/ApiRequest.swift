@@ -248,7 +248,7 @@ class ApiRequest {
     static func getProxyDelay(proxyName: String, callback: @escaping ((Int) -> Void)) {
         req("/proxies/\(proxyName.encoded)/delay",
             method: .get,
-            parameters: ["timeout": 5000, "url": ConfigManager.shared.benchMarkUrl])
+            parameters: ["timeout": 2500, "url": ConfigManager.shared.benchMarkUrl])
             .responseData { res in
                 switch res.result {
                 case let .success(value):
@@ -263,7 +263,7 @@ class ApiRequest {
     static func getGroupDelay(groupName: String, callback: @escaping (([String: Int]) -> Void)) {
         req("/group/\(groupName.encoded)/delay",
             method: .get,
-            parameters: ["timeout": 5000, "url": ConfigManager.shared.benchMarkUrl])
+            parameters: ["timeout": 2500, "url": ConfigManager.shared.benchMarkUrl])
             .responseData { res in
                 switch res.result {
                 case let .success(value):
@@ -460,7 +460,7 @@ extension ApiRequest {
     private func requestTrafficInfo() {
         trafficWebSocketRetryTimer?.invalidate()
         trafficWebSocketRetryTimer = nil
-        trafficWebSocket?.disconnect(forceTimeout: 0, closeCode: 0)
+        trafficWebSocket?.disconnect(forceTimeout: 0.5)
 
         let socket = WebSocket(url: URL(string: ConfigManager.apiUrl.appending("/traffic"))!)
 
@@ -475,7 +475,7 @@ extension ApiRequest {
     private func requestLog() {
         loggingWebSocketRetryTimer?.invalidate()
         loggingWebSocketRetryTimer = nil
-        loggingWebSocket?.disconnect()
+        loggingWebSocket?.disconnect(forceTimeout: 1)
 
         let uriString = "/logs?level=".appending(ConfigManager.selectLoggingApiLevel.rawValue)
         let socket = WebSocket(url: URL(string: ConfigManager.apiUrl.appending(uriString))!)

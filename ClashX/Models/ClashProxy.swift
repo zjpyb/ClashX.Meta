@@ -67,6 +67,7 @@ typealias ClashProviderName = String
 class ClashProxySpeedHistory: Codable {
     let time: Date
     let delay: Int
+    let meanDelay: Int?
 
     class HisDateFormaterInstance {
         static let shared = HisDateFormaterInstance()
@@ -78,9 +79,10 @@ class ClashProxySpeedHistory: Codable {
     }
 
     lazy var delayDisplay: String = {
-        switch delay {
+        let d = meanDelay ?? delay
+        switch d {
         case 0: return NSLocalizedString("fail", comment: "")
-        default: return "\(delay) ms"
+        default: return "\(d) ms"
         }
     }()
 

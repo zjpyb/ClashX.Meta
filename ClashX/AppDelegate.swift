@@ -15,7 +15,7 @@ import SwiftyJSON
 import Yams
 import PromiseKit
 
-private let statusItemLengthWithSpeed: CGFloat = 72
+let statusItemLengthWithSpeed: CGFloat = 72
 
 private let MetaCoreMd5 = "WOSHIZIDONGSHENGCHENGDEA"
 
@@ -65,7 +65,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var updateAlphaMetaMenuItem: NSMenuItem!
 
     var disposeBag = DisposeBag()
-    var statusItemView: StatusItemView!
+    var statusItemView: StatusItemViewProtocol!
     var isSpeedTesting = false
 
     var runAfterConfigReload: (() -> Void)?
@@ -73,8 +73,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var dashboardWindowController: ClashWebViewWindowController?
 
     func applicationWillFinishLaunching(_ notification: Notification) {
+        Logger.log("applicationWillFinishLaunching")
         signal(SIGPIPE, SIG_IGN)
-        // crash recorder
         failLaunchProtect()
         NSAppleEventManager.shared()
             .setEventHandler(self,
@@ -91,16 +91,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         ProcessInfo.processInfo.disableSuddenTermination()
         // setup menu item first
         statusItem = NSStatusBar.system.statusItem(withLength: statusItemLengthWithSpeed)
+
+        /*
+        if #available(macOS 11, *), let button = statusItem.button {
+            statusItemView = NewStatusMenuView.create(on: button)
+        } else {
+            statusItemView = StatusItemView.create(statusItem: statusItem)
+        }
+         */
         statusItemView = StatusItemView.create(statusItem: statusItem)
-        statusItemView.frame = CGRect(x: 0, y: 0, width: statusItemLengthWithSpeed, height: 22)
+
+        statusItemView.updateSize(width: statusItemLengthWithSpeed)
         statusMenu.delegate = self
-        registCrashLogger()
         DispatchQueue.main.async {
             self.postFinishLaunching()
         }
     }
 
     func postFinishLaunching() {
+        Logger.log("postFinishLaunching")
         defer {
             statusItem.menu = statusMenu
             DispatchQueue.main.asyncAfter(deadline: .now()+1) {
@@ -135,6 +144,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         RemoteConfigManager.shared.autoUpdateCheck()
 
         setupNetworkNotifier()
+        registCrashLogger()
     }
 
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
@@ -263,7 +273,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.showNetSpeedIndicatorMenuItem.state = (show ?? true) ? .on : .off
                 let statusItemLength: CGFloat = (show ?? true) ? statusItemLengthWithSpeed : 25
                 self.statusItem.length = statusItemLength
-                self.statusItemView.frame.size.width = statusItemLength
+                self.statusItemView.updateSize(width: statusItemLength)
                 self.statusItemView.showSpeedContainer(show: show ?? true)
             }.disposed(by: disposeBag)
 
@@ -511,85 +521,94 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func initMetaCore() {
         Logger.log("initClashCore")
 
-        let corePath: String = {
-            if let path = Paths.alphaCorePath()?.path,
-               let v = testMetaCore(path) {
-                updateAlphaVersion(v.version)
-                if MenuItemFactory.useAlphaCore {
-                    return path
-                }
-            } else {
-                updateAlphaVersion(nil)
-            }
+        let corePath: (String?, String?) = {
+			guard let alphaCorePath = Paths.alphaCorePath(),
+				  let corePath = Paths.defaultCorePath() else {
+				return (nil, "Paths error")
+			}
 
-            if let re = unzipMetaCore() {
-                return re
-            }
+			// alpha core
+			if let v = testMetaCore(alphaCorePath.path) {
+				updateAlphaVersion(v.version)
+				if MenuItemFactory.useAlphaCore {
+					return (alphaCorePath.path, nil)
+				}
+			} else {
+				updateAlphaVersion(nil)
+			}
 
-            if let path = Paths.defaultCorePath(),
-               testMetaCore(path) != nil,
-               validateDefaultCore() {
-                return path
-            } else {
-                return "ERROR"
-            }
+			let fm = FileManager.default
+
+			// unzip internal core
+			if !fm.fileExists(atPath: corePath.path) {
+				if let msg = unzipMetaCore() {
+					return (nil, msg)
+				}
+			} else if !validateDefaultCore() {
+				try? fm.removeItem(at: corePath)
+				if let msg = unzipMetaCore() {
+					return (nil, msg)
+				}
+			}
+
+			if !chmodX(corePath.path) {
+				return (nil, "chmod +x failed.")
+			}
+
+			if let msg = testMetaCore(corePath.path) {
+				Logger.log("version: \(msg.version)")
+			}
+
+			// validate md5
+			if validateDefaultCore() {
+				return (corePath.path, nil)
+			} else {
+				Logger.log("Failure to verify the internal Meta Core.")
+				Logger.log(corePath.path)
+				return (nil, "Failure to verify the internal Meta Core.\nDo NOT replace core file in the resources folder.")
+			}
         }()
 
-        if corePath == "ERROR" {
-            let alert = NSAlert()
-            alert.messageText = "Failure to verify the internal Meta Core.\nDo NOT replace core file in the resources folder."
-            alert.alertStyle = .warning
-            alert.addButton(withTitle: NSLocalizedString("Quit", comment: ""))
-            alert.runModal()
+		if let path = corePath.0 {
+			RemoteConfigManager.shared.verifyConfigTask.setLaunchPath(path)
+			PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: path)
+			Logger.log("initClashCore finish")
+		} else {
+			let msg = corePath.1 ?? "Load internal Meta Core failed."
 
-            DispatchQueue.main.async {
-                NSApplication.shared.terminate(nil)
-            }
-        } else {
-            RemoteConfigManager.shared.verifyConfigTask.setLaunchPath(corePath)
-            PrivilegedHelperManager.shared.helper()?.initMetaCore(withPath: corePath)
-            Logger.log("initClashCore finish")
-        }
+			let alert = NSAlert()
+			alert.messageText = msg
+			alert.alertStyle = .warning
+			alert.addButton(withTitle: NSLocalizedString("Quit", comment: ""))
+			alert.runModal()
+
+			DispatchQueue.main.async {
+				NSApplication.shared.terminate(nil)
+			}
+		}
     }
 
     func unzipMetaCore() -> String? {
-        guard var path = Bundle.main.resourcePath,
-              let p = Paths.defaultCoreGzPath() else { return "ERROR" }
-        path += "/\(kDefauleMetaCoreName)"
-
+		guard let corePath = Paths.defaultCorePath(),
+			  let gzPath = Paths.defaultCoreGzPath() else { return "Paths error" }
+		let fm = FileManager.default
         do {
-            let data = try Data(contentsOf: .init(fileURLWithPath: p)).gunzipped()
-            try data.write(to: URL(fileURLWithPath: path))
+            let data = try Data(contentsOf: .init(fileURLWithPath: gzPath)).gunzipped()
+
+			if !fm.fileExists(atPath: corePath.deletingLastPathComponent().path) {
+				try fm.createDirectory(at: corePath.deletingLastPathComponent(), withIntermediateDirectories: true)
+			}
+
+            try data.write(to: corePath)
             return nil
         } catch let error {
-            Logger.log("Unzip Meta failed: \(error)", level: .error)
-            Logger.log("Fallback gunzip", level: .error)
+			let msg = "Unzip Meta failed: \(error)"
+            Logger.log(msg, level: .error)
+			return msg
         }
-
-        let proc = Process()
-        proc.executableURL = .init(fileURLWithPath: "/usr/bin/gunzip")
-        proc.arguments = ["-dk", p]
-
-        do {
-            try proc.run()
-        } catch let error {
-            Logger.log("Unzip Meta failed: \(error)", level: .error)
-            return "ERROR"
-        }
-
-        proc.waitUntilExit()
-        guard proc.terminationStatus == 0 else {
-            Logger.log("Unzip Meta failed with terminationStatus: \(proc.terminationStatus)", level: .error)
-            return "ERROR"
-        }
-        return nil
     }
 
     func testMetaCore(_ path: String) -> (version: String, date: Date?)? {
-        guard FileManager.default.fileExists(atPath: path),
-              chmodX(path) else {
-            return nil
-        }
 
         let proc = Process()
         proc.executableURL = .init(fileURLWithPath: path)
@@ -631,13 +650,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func validateDefaultCore() -> Bool {
-        guard let path = Paths.defaultCorePath() else { return false }
+		guard let path = Paths.defaultCorePath()?.path else { return false }
         #if DEBUG
             return true
         #endif
         let proc = Process()
         proc.executableURL = .init(fileURLWithPath: "/sbin/md5")
-        proc.arguments = ["-q", path]
+		proc.arguments = ["-q", path]
         let pipe = Pipe()
         proc.standardOutput = pipe
 
@@ -1352,7 +1371,6 @@ extension AppDelegate {
             }
 
             self.updateAlphaVersion(nil)
-            try? fm.removeItem(at: helperURL)
 
             AF.download(asset.downloadUrl).response {
                 guard let gzPath = $0.fileURL?.path,
@@ -1362,6 +1380,8 @@ extension AppDelegate {
                     return
                 }
                 do {
+					try? fm.removeItem(at: helperURL)
+
                     try fm.createDirectory(at: helperURL.deletingLastPathComponent(), withIntermediateDirectories: true, attributes: nil)
                     try contentData.gunzipped().write(to: helperURL)
                     guard let version = self.testMetaCore(helperURL.path)?.version else {
@@ -1402,7 +1422,8 @@ extension AppDelegate {
         #else
             DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                 AppCenter.start(withAppSecret: "dce6e9a3-b6e3-4fd2-9f2d-35c767a99663", services: [
-                    Analytics.self
+                    Analytics.self,
+                    Crashes.self
                 ])
             }
 
@@ -1423,7 +1444,12 @@ extension AppDelegate {
             if launch_fail_times > 3 {
                 // 发生连续崩溃
                 ConfigFileManager.backupAndRemoveConfigFile()
-                try? FileManager.default.removeItem(atPath: kConfigFolderPath + "Country.mmdb")
+				let ruleFiles = ClashResourceManager.RuleFiles.self
+
+				try? FileManager.default.removeItem(atPath: kConfigFolderPath + ruleFiles.mmdb.rawValue)
+				try? FileManager.default.removeItem(atPath: kConfigFolderPath + ruleFiles.geosite.rawValue)
+				try? FileManager.default.removeItem(atPath: kConfigFolderPath + ruleFiles.geoip.rawValue)
+
                 if let domain = Bundle.main.bundleIdentifier {
                     UserDefaults.standard.removePersistentDomain(forName: domain)
                     UserDefaults.standard.synchronize()

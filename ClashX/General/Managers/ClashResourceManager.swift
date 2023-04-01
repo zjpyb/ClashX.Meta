@@ -5,9 +5,9 @@ import Gzip
 
 class ClashResourceManager {
     enum RuleFiles: String {
-        case mmdb = "Country.mmdb"
-        case geosite = "Geosite.dat"
-        case geoip = "Geoip.dat"
+        case mmdb = "country.mmdb"
+        case geosite = "geosite.dat"
+        case geoip = "geoip.dat"
     }
 
     static func check() -> Bool {
@@ -88,7 +88,7 @@ extension ClashResourceManager {
     @objc private static func updateGeoIP() {
         guard let url = showCustomAlert() else { return }
         AF.download(url, to: { (_, _) in
-            let path = kConfigFolderPath.appending("/Country.mmdb")
+            let path = kConfigFolderPath.appending("/country.mmdb")
             return (URL(fileURLWithPath: path), .removePreviousFile)
         }).response { res in
             var info: String
