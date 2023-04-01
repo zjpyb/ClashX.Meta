@@ -626,9 +626,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return nil
         }
 
-        let outs = out.replacingOccurrences(of: "\n", with: "").split(separator: " ").map(String.init)
+		let outs = out
+			.split(separator: "\n")
+			.first {
+				$0.starts(with: "Clash Meta")
+			}?.split(separator: " ")
+			.map(String.init)
 
-        guard outs.count >= 13,
+        guard let outs,
+			  outs.count == 13,
               outs[0] == "Clash",
               outs[1] == "Meta",
               outs[3] == "darwin" else {
@@ -637,7 +643,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let version = outs[2]
 
-        return (version: version, date: nil)
+		let dateString = [outs[7], outs[8], outs[9], outs[10], outs[12]].joined(separator: "-")
+		let f = DateFormatter()
+		f.dateFormat = "E-MMM-d-HH:mm:ss-yyyy"
+		f.timeZone = .init(abbreviation: outs[11])
+		let date = f.date(from: dateString)
+
+		return (version: version, date: date)
     }
 
     func validateDefaultCore() -> Bool {
