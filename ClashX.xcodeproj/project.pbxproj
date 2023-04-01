@@ -10,6 +10,7 @@
 		015F1E91288E42A50052B20A /* ClashMetaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015F1E90288E42A50052B20A /* ClashMetaConfig.swift */; };
 		015F1E92288E60D30052B20A /* MetaTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162E74E2864B819007218A6 /* MetaTask.swift */; };
 		0162E74F2864B819007218A6 /* MetaTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162E74E2864B819007218A6 /* MetaTask.swift */; };
+		016BEAB029D80103001586C5 /* AlphaMetaDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016BEAAF29D80102001586C5 /* AlphaMetaDownloader.swift */; };
 		018F88F9286DD0CB004DD0F7 /* DualTitleMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018F88F8286DD0CB004DD0F7 /* DualTitleMenuItem.swift */; };
 		01943259287D19BC008CC51A /* ClashRuleProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01943258287D19BC008CC51A /* ClashRuleProvider.swift */; };
 		019A239628657A7A00AE5698 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019A239528657A7A00AE5698 /* main.swift */; };
@@ -143,6 +144,7 @@
 		015F1E90288E42A50052B20A /* ClashMetaConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashMetaConfig.swift; sourceTree = "<group>"; };
 		0162E74D2864B818007218A6 /* com.metacubex.ClashX.ProxyConfigHelper-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "com.metacubex.ClashX.ProxyConfigHelper-Bridging-Header.h"; sourceTree = "<group>"; };
 		0162E74E2864B819007218A6 /* MetaTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaTask.swift; sourceTree = "<group>"; };
+		016BEAAF29D80102001586C5 /* AlphaMetaDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlphaMetaDownloader.swift; sourceTree = "<group>"; };
 		018F88F8286DD0CB004DD0F7 /* DualTitleMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DualTitleMenuItem.swift; sourceTree = "<group>"; };
 		01943258287D19BC008CC51A /* ClashRuleProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashRuleProvider.swift; sourceTree = "<group>"; };
 		019A239528657A7A00AE5698 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 				491C250021BD55B900AB5D44 /* Utils */,
 				492C4868210EE6B9004554A0 /* ApiRequest.swift */,
 				015F1E90288E42A50052B20A /* ClashMetaConfig.swift */,
+				016BEAAF29D80102001586C5 /* AlphaMetaDownloader.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -750,6 +753,7 @@
 				49CF3B2120CD7463001EBF94 /* AppDelegate.swift in Sources */,
 				496BDEE021196F1E00C5207F /* Logger.swift in Sources */,
 				49722FEF211F338B00650A41 /* FileEvent.swift in Sources */,
+				016BEAB029D80103001586C5 /* AlphaMetaDownloader.swift in Sources */,
 				49D176A72355FE680093DD7B /* NetworkChangeNotifier.swift in Sources */,
 				4913C82321157D0200F6B87C /* Notification.swift in Sources */,
 				015F1E91288E42A50052B20A /* ClashMetaConfig.swift in Sources */,

@@ -1305,101 +1305,26 @@ extension AppDelegate {
     }
 
     @IBAction func updateAlphaMeta(_ sender: NSMenuItem) {
-        guard let helperURL = Paths.alphaCorePath() else {
-            return
-        }
         sender.isEnabled = false
-        struct ReleasesResp: Decodable {
-            let assets: [Asset]
-            struct Asset: Decodable {
-                let name: String
-                let downloadUrl: String
-                let contentType: String
-                let state: String
 
-                enum CodingKeys: String, CodingKey {
-                    case name,
-                         state,
-                         downloadUrl = "browser_download_url",
-                         contentType = "content_type"
-                }
-            }
-        }
-
-        func GetMachineHardwareName() -> String? {
-            var sysInfo = utsname()
-            let retVal = uname(&sysInfo)
-
-            guard retVal == EXIT_SUCCESS else { return nil }
-
-            let machineMirror = Mirror(reflecting: sysInfo.machine)
-            let identifier = machineMirror.children.reduce("") { identifier, element in
-                guard let value = element.value as? Int8, value != 0 else { return identifier }
-                return identifier + String(UnicodeScalar(UInt8(value)))
-            }
-            return identifier
-        }
-
-        let assetName: String? = {
-            switch GetMachineHardwareName() {
-            case "x86_64":
-                return "darwin-amd64"
-            case "arm64":
-                return "darwin-arm64"
-            default:
-                return nil
-            }
-        }()
-        let fm = FileManager.default
-
-        func dlResult(_ info: String) {
-            sender.isEnabled = true
-            NSUserNotificationCenter.default.post(title: "Clash Meta Core", info: info)
-        }
-
-        AF.request("https://api.github.com/repos/MetaCubeX/Clash.Meta/releases/tags/Prerelease-Alpha").responseDecodable(of: ReleasesResp.self) {
-            guard let assets = $0.value?.assets,
-                  let assetName = assetName,
-                  let asset = assets.first(where: {
-                      $0.name.contains(assetName) &&
-                      $0.state == "uploaded" &&
-                      $0.contentType == "application/gzip"
-                  }) else {
-                dlResult("Decode alpha release info failed")
-                return
-            }
-
-            if let v = self.testMetaCore(helperURL.path),
-               asset.name.contains(v.version) {
-                dlResult("Not found update")
-                return
-            }
-
-            self.updateAlphaVersion(nil)
-
-            AF.download(asset.downloadUrl).response {
-                guard let gzPath = $0.fileURL?.path,
-                      let contentData = fm.contents(atPath: gzPath)
-                else {
-                    dlResult("Download file failed")
-                    return
-                }
-                do {
-					try? fm.removeItem(at: helperURL)
-
-                    try fm.createDirectory(at: helperURL.deletingLastPathComponent(), withIntermediateDirectories: true, attributes: nil)
-                    try contentData.gunzipped().write(to: helperURL)
-                    guard let version = self.testMetaCore(helperURL.path)?.version else {
-                        dlResult("Test downloaded file failed")
-                        return
-                    }
-                    self.updateAlphaVersion(version)
-                    dlResult(NSLocalizedString("Version: ", comment: "") + version)
-                } catch let error {
-                    dlResult("Something error \(error.localizedDescription)")
-                }
-            }
-        }
+		AlphaMetaDownloader.alphaAsset().get { _ in
+			self.updateAlphaVersion(nil)
+		}.then {
+			AlphaMetaDownloader.checkVersion($0)
+		}.then {
+			AlphaMetaDownloader.downloadCore($0)
+		}.then {
+			AlphaMetaDownloader.replaceCore($0)
+		}.done {
+			self.updateAlphaVersion($0)
+			let msg = NSLocalizedString("Version: ", comment: "") + $0
+			NSUserNotificationCenter.default.post(title: "Clash Meta Core", info: msg)
+		}.ensure {
+			sender.isEnabled = true
+		}.catch {
+			let error = $0 as? AlphaMetaDownloader.errors
+			NSUserNotificationCenter.default.post(title: "Clash Meta Core", info: error?.des() ?? "")
+		}
     }
 
     func updateAlphaVersion(_ version: String?) {

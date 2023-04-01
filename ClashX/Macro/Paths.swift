@@ -47,7 +47,7 @@ struct Paths {
 			.first?
 			.appendingPathComponent("com.metacubex.ClashX.meta")
 	}
-	
+
 	static func tempPath() -> String {
 		NSTemporaryDirectory().appending("com.MetaCubeX.ClashX.meta")
 	}
