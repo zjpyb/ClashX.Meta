@@ -551,10 +551,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				}
 			}
 
-			if !chmodX(corePath.path) {
-				return (nil, "chmod +x failed.")
-			}
-
 			if let msg = testMetaCore(corePath.path) {
 				Logger.log("version: \(msg.version)")
 			}
@@ -609,6 +605,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func testMetaCore(_ path: String) -> (version: String, date: Date?)? {
+		guard chmodX(path) else { return nil }
 
         let proc = Process()
         proc.executableURL = .init(fileURLWithPath: path)
@@ -631,7 +628,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let outs = out.replacingOccurrences(of: "\n", with: "").split(separator: " ").map(String.init)
 
-        guard outs.count == 13,
+        guard outs.count >= 13,
               outs[0] == "Clash",
               outs[1] == "Meta",
               outs[3] == "darwin" else {
@@ -640,17 +637,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let version = outs[2]
 
-        let dateString = [outs[7], outs[8], outs[9], outs[10], outs[12]].joined(separator: "-")
-        let f = DateFormatter()
-        f.dateFormat = "E-MMM-d-HH:mm:ss-yyyy"
-        f.timeZone = .init(abbreviation: outs[11])
-        let date = f.date(from: dateString)
-
-        return (version: version, date: date)
+        return (version: version, date: nil)
     }
 
     func validateDefaultCore() -> Bool {
-		guard let path = Paths.defaultCorePath()?.path else { return false }
+		guard let path = Paths.defaultCorePath()?.path,
+			  chmodX(path) else { return false }
+
         #if DEBUG
             return true
         #endif
