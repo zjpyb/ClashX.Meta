@@ -71,6 +71,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var runAfterConfigReload: (() -> Void)?
 
     var dashboardWindowController: ClashWebViewWindowController?
+	
+	var helperStatusTimer: Timer?
 
     func applicationWillFinishLaunching(_ notification: Notification) {
         Logger.log("applicationWillFinishLaunching")
@@ -292,7 +294,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         hideUnselecableMenuItem.state = .init(rawValue: MenuItemFactory.hideUnselectable)
         useAlphaMetaMenuItem.state = MenuItemFactory.useAlphaCore ? .on : .off
     }
-
+	
     func setupData() {
         ConfigManager.shared
             .showNetSpeedIndicatorObservable.skip(1)
@@ -389,19 +391,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         // start proxy
-        if !PrivilegedHelperManager.shared.isHelperCheckFinished.value {
-            PrivilegedHelperManager.shared.isHelperCheckFinished
-                .filter({$0})
-                .take(1)
-                .observe(on: MainScheduler.instance)
-                .bind(onNext: { _ in
-                    self.initMetaCore()
-                    self.startProxy()
-                }).disposed(by: disposeBag)
-        } else {
-            initMetaCore()
-            startProxy()
-        }
+		PrivilegedHelperManager.shared.isHelperReady
+			.filter({$0})
+			.take(1)
+			.observe(on: MainScheduler.instance)
+			.bind(onNext: { _ in
+				self.initMetaCore()
+				self.startProxy()
+			}).disposed(by: disposeBag)
+		
+		helperStatusTimer = Timer.scheduledTimer(withTimeInterval: 120, repeats: true) { timer in
+			timer.fireDate = .init(timeIntervalSinceNow: 3600)
+			
+			PrivilegedHelperManager.shared.helper {
+				Logger.log("Check helper status Error, will try again")
+				timer.fireDate = .init(timeIntervalSinceNow: 0.15)
+			}?.getVersion {
+				Logger.log("Check helper status success \($0 ?? "")")
+				timer.invalidate()
+				PrivilegedHelperManager.shared.isHelperReady.accept(true)
+			}
+		}
+		helperStatusTimer?.fire()
     }
 
     func setupSystemData() {
