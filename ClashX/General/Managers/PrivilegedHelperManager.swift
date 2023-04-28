@@ -13,6 +13,9 @@ import RxCocoa
 
 class PrivilegedHelperManager {
     let isHelperCheckFinished = BehaviorRelay<Bool>(value: false)
+	let isHelperReady = BehaviorRelay<Bool>(value: false)
+	
+	
     private var cancelInstallCheck = false
 
     private let useLegacyInstall = true
@@ -154,7 +157,7 @@ class PrivilegedHelperManager {
         case needUpdate
     }
 
-    private func getHelperStatus(callback:@escaping ((HelperStatus) -> Void)) {
+    private func getHelperStatus(callback: @escaping ((HelperStatus) -> Void)) {
         var called = false
         let reply: ((HelperStatus) -> Void) = {
             status in
@@ -278,7 +281,6 @@ private enum DaemonInstallResult {
             case kSMErrorToolNotValid: return "blessError: kSMErrorToolNotValid"
             case kSMErrorJobNotFound: return "blessError: kSMErrorJobNotFound"
             case kSMErrorServiceUnavailable: return "blessError: kSMErrorServiceUnavailable"
-            case kSMErrorJobNotFound: return "blessError: kSMErrorJobNotFound"
             case kSMErrorJobMustBeEnabled: return "ClashX Helper is disabled by other process. Please run \"sudo launchctl enable system/\(PrivilegedHelperManager.machServiceName)\" in your terminal. The command has been copied to your pasteboard"
             case kSMErrorInvalidPlist: return "blessError: kSMErrorInvalidPlist"
             default:
