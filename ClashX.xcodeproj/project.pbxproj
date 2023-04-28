@@ -22,6 +22,7 @@
 		01E33AB229B5BF4200FD1006 /* NSColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E33AB129B5BF4200FD1006 /* NSColor+Extension.swift */; };
 		01E33AB529B5C5E400FD1006 /* menu_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 01E33AB429B5C5E300FD1006 /* menu_icon@2x.png */; };
 		185CBAEDFE986E6E1B836359 /* libPods-ClashX Meta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA63125BBF03DC1A291D3351 /* libPods-ClashX Meta.a */; };
+		4908087B29F8F405007A4944 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4908087A29F8F3FF007A4944 /* libresolv.tbd */; };
 		4913C82321157D0200F6B87C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4913C82221157D0200F6B87C /* Notification.swift */; };
 		491E6203258A424D00313AEF /* CommonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 491E61FD258A424500313AEF /* CommonUtils.m */; };
 		49228457270AADE20027A4B6 /* RemoteConfigUpdateIntervalSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49228456270AADE20027A4B6 /* RemoteConfigUpdateIntervalSettingView.swift */; };
@@ -156,6 +157,7 @@
 		01E33AB129B5BF4200FD1006 /* NSColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSColor+Extension.swift"; sourceTree = "<group>"; };
 		01E33AB429B5C5E300FD1006 /* menu_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_icon@2x.png"; sourceTree = "<group>"; };
 		3F86DA2DA3CC14731BE1ABF7 /* Pods-ClashX Meta.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClashX Meta.release.xcconfig"; path = "Pods/Target Support Files/Pods-ClashX Meta/Pods-ClashX Meta.release.xcconfig"; sourceTree = "<group>"; };
+		4908087A29F8F3FF007A4944 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		4913C82221157D0200F6B87C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		491E61FC258A424500313AEF /* CommonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonUtils.h; sourceTree = "<group>"; };
 		491E61FD258A424500313AEF /* CommonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonUtils.m; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4908087B29F8F405007A4944 /* libresolv.tbd in Frameworks */,
 				185CBAEDFE986E6E1B836359 /* libPods-ClashX Meta.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -544,6 +547,7 @@
 		CF1AC9FACC36FCE7663C5583 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4908087A29F8F3FF007A4944 /* libresolv.tbd */,
 				AA63125BBF03DC1A291D3351 /* libPods-ClashX Meta.a */,
 			);
 			name = Frameworks;
