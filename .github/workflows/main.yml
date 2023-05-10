@@ -22,10 +22,11 @@ jobs:
       run: git rev-list --count origin/master..origin/meta
     
     - name: download meta core
-      uses: robinraju/release-downloader@v1.7
+      uses: robinraju/release-downloader@v1.8
       with:
         repository: 'MetaCubeX/Clash.Meta'
-        tag: "v1.14.4"
+        # tag: "v1.14.4"
+        releaseId: "62870807"
         fileName: ".*darwin.*64-v.*.gz"
         out-file-path: "clash.meta"
         token: ${{ secrets.GITHUB_TOKEN }}
