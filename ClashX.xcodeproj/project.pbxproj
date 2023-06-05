@@ -16,6 +16,7 @@
 		019A239628657A7A00AE5698 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019A239528657A7A00AE5698 /* main.swift */; };
 		01B009AE2854533300B93618 /* geoip.dat.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B009AC2854533200B93618 /* geoip.dat.gz */; };
 		01B009AF2854533300B93618 /* geosite.dat.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B009AD2854533300B93618 /* geosite.dat.gz */; };
+		01B1CB0A2A2E20C10073EA34 /* DashboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B1CB092A2E20C10073EA34 /* DashboardManager.swift */; };
 		01B2274B29B845F100FE35C9 /* country.mmdb.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B2274A29B845F100FE35C9 /* country.mmdb.gz */; };
 		01BC9ABE2928EB5A00F9B177 /* MetaDNS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC9ABD2928E5C600F9B177 /* MetaDNS.swift */; };
 		01C1462A28962E4E00346AF3 /* com.metacubex.ClashX.ProxyConfigHelper.meta.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01C1462928962E4E00346AF3 /* com.metacubex.ClashX.ProxyConfigHelper.meta.gz */; };
@@ -151,6 +152,7 @@
 		019A239528657A7A00AE5698 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		01B009AC2854533200B93618 /* geoip.dat.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = geoip.dat.gz; sourceTree = "<group>"; };
 		01B009AD2854533300B93618 /* geosite.dat.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = geosite.dat.gz; sourceTree = "<group>"; };
+		01B1CB092A2E20C10073EA34 /* DashboardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardManager.swift; sourceTree = "<group>"; };
 		01B2274A29B845F100FE35C9 /* country.mmdb.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = country.mmdb.gz; sourceTree = "<group>"; };
 		01BC9ABD2928E5C600F9B177 /* MetaDNS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaDNS.swift; sourceTree = "<group>"; };
 		01C1462928962E4E00346AF3 /* com.metacubex.ClashX.ProxyConfigHelper.meta.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = com.metacubex.ClashX.ProxyConfigHelper.meta.gz; sourceTree = "<group>"; };
@@ -429,6 +431,7 @@
 			children = (
 				498BC2512929CC0A00CA8084 /* Settings */,
 				49BC061B212931F4005A0FE7 /* AboutViewController.swift */,
+				01B1CB092A2E20C10073EA34 /* DashboardManager.swift */,
 				499976C721359F0400E7BF83 /* ClashWebViewContoller.swift */,
 				499A485322ED707300F6C675 /* RemoteConfigViewController.swift */,
 				499ADAFE2498FC6D00C488FE /* ExternalControlViewController.swift */,
@@ -594,7 +597,6 @@
 				49CF3B1A20CD7463001EBF94 /* Frameworks */,
 				49CF3B1B20CD7463001EBF94 /* Resources */,
 				663E4677213FCDC4006F11BB /* Copy Files */,
-				318032FABBC2E552CB58B254 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -713,23 +715,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		318032FABBC2E552CB58B254 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ClashX Meta/Pods-ClashX Meta-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ClashX Meta/Pods-ClashX Meta-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ClashX Meta/Pods-ClashX Meta-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -744,6 +729,7 @@
 				4952C3D02117027C004A4FA8 /* ConfigFileManager.swift in Sources */,
 				49BC061C212931F4005A0FE7 /* AboutViewController.swift in Sources */,
 				4949D154213242F600EF85E6 /* Paths.swift in Sources */,
+				01B1CB0A2A2E20C10073EA34 /* DashboardManager.swift in Sources */,
 				499ADAFF2498FC6D00C488FE /* ExternalControlViewController.swift in Sources */,
 				F939724E23A4DB0600FE5A3F /* DateFormatter+.swift in Sources */,
 				F915A4622366ADEF004840BE /* ClashConnection.swift in Sources */,
