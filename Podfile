@@ -1,5 +1,7 @@
 source 'https://cdn.cocoapods.org/'
 
+project 'ClashX.xcodeproj'
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
@@ -16,7 +18,6 @@ end
 target 'ClashX Meta' do
   inhibit_all_warnings!
   use_modular_headers!
-  pod 'LetsMove'
   pod 'Alamofire', '~> 5.0'
   pod 'SwiftyJSON'
   pod 'RxSwift'
