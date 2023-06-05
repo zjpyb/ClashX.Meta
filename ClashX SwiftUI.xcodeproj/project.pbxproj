@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		012875E52A2E39CD004FB615 /* ClashX Dashboard in Frameworks */ = {isa = PBXBuildFile; productRef = 012875E42A2E39CD004FB615 /* ClashX Dashboard */; };
 		015F1E91288E42A50052B20A /* ClashMetaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015F1E90288E42A50052B20A /* ClashMetaConfig.swift */; };
 		015F1E92288E60D30052B20A /* MetaTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162E74E2864B819007218A6 /* MetaTask.swift */; };
 		0162E74F2864B819007218A6 /* MetaTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162E74E2864B819007218A6 /* MetaTask.swift */; };
@@ -26,7 +27,6 @@
 		019A239628657A7A00AE5698 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019A239528657A7A00AE5698 /* main.swift */; };
 		01B009AE2854533300B93618 /* geoip.dat.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B009AC2854533200B93618 /* geoip.dat.gz */; };
 		01B009AF2854533300B93618 /* geosite.dat.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B009AD2854533300B93618 /* geosite.dat.gz */; };
-		01B1CB042A2DC4B50073EA34 /* ClashX Dashboard Kit in Frameworks */ = {isa = PBXBuildFile; productRef = 01B1CB032A2DC4B50073EA34 /* ClashX Dashboard Kit */; };
 		01B1CB082A2E1EC10073EA34 /* DashboardManagerSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B1CB072A2E1EC10073EA34 /* DashboardManagerSwiftUI.swift */; };
 		01B1CB0C2A2E23F70073EA34 /* LoggerSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B1CB0B2A2E23F70073EA34 /* LoggerSwiftUI.swift */; };
 		01B2274B29B845F100FE35C9 /* country.mmdb.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B2274A29B845F100FE35C9 /* country.mmdb.gz */; };
@@ -150,7 +150,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		011BFE502A27A9880027AD15 /* ClashX Dashboard Kit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "ClashX Dashboard Kit"; path = "../ClashX Dashboard/ClashX Dashboard Kit"; sourceTree = "<group>"; };
 		015F1E90288E42A50052B20A /* ClashMetaConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashMetaConfig.swift; sourceTree = "<group>"; };
 		0162E74D2864B818007218A6 /* com.metacubex.ClashX.ProxyConfigHelper-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "com.metacubex.ClashX.ProxyConfigHelper-Bridging-Header.h"; sourceTree = "<group>"; };
 		0162E74E2864B819007218A6 /* MetaTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaTask.swift; sourceTree = "<group>"; };
@@ -276,8 +275,8 @@
 				0192312929DD476A00539EDD /* SwiftyJSON in Frameworks */,
 				0192312129DD457000539EDD /* Alamofire in Frameworks */,
 				0192313B29DD496E00539EDD /* PromiseKit in Frameworks */,
-				01B1CB042A2DC4B50073EA34 /* ClashX Dashboard Kit in Frameworks */,
 				0192312C29DD47FB00539EDD /* CocoaLumberjackSwift in Frameworks */,
+				012875E52A2E39CD004FB615 /* ClashX Dashboard in Frameworks */,
 				0192312F29DD483100539EDD /* Starscream in Frameworks */,
 				0192313529DD48BC00539EDD /* Gzip in Frameworks */,
 				0192313229DD488D00539EDD /* FlexibleDiff in Frameworks */,
@@ -294,14 +293,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		011BFE482A27A5FA0027AD15 /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				011BFE502A27A9880027AD15 /* ClashX Dashboard Kit */,
-			);
-			name = Packages;
-			sourceTree = "<group>";
-		};
 		011BFE4E2A27A7500027AD15 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -497,7 +488,6 @@
 		49CF3B1420CD7463001EBF94 = {
 			isa = PBXGroup;
 			children = (
-				011BFE482A27A5FA0027AD15 /* Packages */,
 				49CF3B1F20CD7463001EBF94 /* ClashX */,
 				F9A7C06A2306E874007163C7 /* ProxyConfigHelper */,
 				49CF3B1E20CD7463001EBF94 /* Products */,
@@ -616,7 +606,7 @@
 				0192313429DD48BC00539EDD /* Gzip */,
 				0192313729DD490400539EDD /* Yams */,
 				0192313A29DD496E00539EDD /* PromiseKit */,
-				01B1CB032A2DC4B50073EA34 /* ClashX Dashboard Kit */,
+				012875E42A2E39CD004FB615 /* ClashX Dashboard */,
 			);
 			productName = ClashX;
 			productReference = 49CF3B1D20CD7463001EBF94 /* ClashX Meta.app */;
@@ -687,6 +677,7 @@
 				0192313329DD48BC00539EDD /* XCRemoteSwiftPackageReference "GzipSwift" */,
 				0192313629DD490400539EDD /* XCRemoteSwiftPackageReference "Yams" */,
 				0192313929DD496E00539EDD /* XCRemoteSwiftPackageReference "PromiseKit" */,
+				012875E32A2E39CD004FB615 /* XCRemoteSwiftPackageReference "ClashX-Dashboard" */,
 			);
 			productRefGroup = 49CF3B1E20CD7463001EBF94 /* Products */;
 			projectDirPath = "";
@@ -1178,6 +1169,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		012875E32A2E39CD004FB615 /* XCRemoteSwiftPackageReference "ClashX-Dashboard" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mrFq1/ClashX-Dashboard";
+			requirement = {
+				branch = dev;
+				kind = branch;
+			};
+		};
 		0192311F29DD457000539EDD /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire";
@@ -1253,6 +1252,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		012875E42A2E39CD004FB615 /* ClashX Dashboard */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 012875E32A2E39CD004FB615 /* XCRemoteSwiftPackageReference "ClashX-Dashboard" */;
+			productName = "ClashX Dashboard";
+		};
 		0192312029DD457000539EDD /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0192311F29DD457000539EDD /* XCRemoteSwiftPackageReference "Alamofire" */;
@@ -1302,10 +1306,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0192313929DD496E00539EDD /* XCRemoteSwiftPackageReference "PromiseKit" */;
 			productName = PromiseKit;
-		};
-		01B1CB032A2DC4B50073EA34 /* ClashX Dashboard Kit */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = "ClashX Dashboard Kit";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

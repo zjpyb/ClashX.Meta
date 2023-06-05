@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "clashx-dashboard",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mrFq1/ClashX-Dashboard",
+      "state" : {
+        "branch" : "dev",
+        "revision" : "f488f41f8dbb6d2e718101c51380f605ec2a197c"
+      }
+    },
+    {
       "identity" : "cocoalumberjack",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CocoaLumberjack/CocoaLumberjack",
@@ -122,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/siteline/SwiftUI-Introspect.git",
       "state" : {
-        "revision" : "5b3f3996c7a2a84d5f4ba0e03cd7d584154778f2",
-        "version" : "0.3.1"
+        "revision" : "67e2a59be1cf1c6dc4bb7a861cbea888d423bb78",
+        "version" : "0.5.2"
       }
     },
     {

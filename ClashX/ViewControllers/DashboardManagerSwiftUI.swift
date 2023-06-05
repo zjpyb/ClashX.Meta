@@ -7,7 +7,7 @@
 
 import Cocoa
 import RxSwift
-import ClashX_Dashboard_Kit
+import ClashX_Dashboard
 
 class DashboardManager: NSObject {
 	private let disposeBag = DisposeBag()
