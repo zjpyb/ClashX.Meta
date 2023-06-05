@@ -8,7 +8,6 @@
 
 import Alamofire
 import Cocoa
-import LetsMove
 import RxCocoa
 import RxSwift
 import SwiftyJSON
@@ -69,8 +68,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var isSpeedTesting = false
 
     var runAfterConfigReload: (() -> Void)?
-
-    var dashboardWindowController: ClashWebViewWindowController?
 	
 	var helperStatusTimer: Timer?
 
@@ -128,8 +125,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         _ = ClashResourceManager.check()
         PrivilegedHelperManager.shared.checkInstall()
         ConfigFileManager.copySampleConfigIfNeed()
-
-        PFMoveToApplicationsFolderIfNecessary()
 
         // claer not existed selected model
         removeUnExistProxyGroups()
@@ -1014,14 +1009,7 @@ extension AppDelegate {
 
 extension AppDelegate {
     @IBAction func actionDashboard(_ sender: NSMenuItem) {
-        if dashboardWindowController == nil {
-            dashboardWindowController = ClashWebViewWindowController.create()
-            dashboardWindowController?.onWindowClose = {
-                [weak self] in
-                self?.dashboardWindowController = nil
-            }
-        }
-        dashboardWindowController?.showWindow(sender)
+		DashboardManager.shared.show(sender)
     }
 
     @IBAction func actionAllowFromLan(_ sender: NSMenuItem) {
