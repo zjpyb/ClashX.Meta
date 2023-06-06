@@ -46,7 +46,7 @@ jobs:
     - name: build-SwiftUI
       run: |
         xcodebuild -resolvePackageDependencies -project ClashX\ SwiftUI.xcodeproj
-        xcodebuild archive -project ClashX.xcodeproj -scheme ClashX -archivePath archive/ClashX\ SwiftUI.xcarchive -showBuildTimingSummary -allowProvisioningUpdates
+        xcodebuild archive -project ClashX\ SwiftUI.xcodeproj -scheme ClashX\ Meta -archivePath archive/ClashX\ SwiftUI.xcarchive -showBuildTimingSummary -allowProvisioningUpdates
 
 
     - name: create zip
