@@ -14,6 +14,8 @@ class DebugSettingViewController: NSViewController {
     var disposeBag = DisposeBag()
     override func viewDidLoad() {
         super.viewDidLoad()
+		swiftuiMenuBarButton.isEnabled = false
+		
         swiftuiMenuBarButton.state = Settings.useSwiftUiMenuBar ? .on : .off
         swiftuiMenuBarButton.rx.state.bind { state in
             Settings.useSwiftUiMenuBar = state == .on
