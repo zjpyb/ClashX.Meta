@@ -36,4 +36,20 @@ enum Settings {
 
     @UserDefault("disableMenubarNotice", defaultValue: false)
     static var disableMenubarNotice: Bool
+
+    @UserDefault("proxyPort", defaultValue: 0)
+    static var proxyPort: Int
+
+    @UserDefault("apiPort", defaultValue: 0)
+    static var apiPort: Int
+
+    @UserDefault("apiPortAllowLan", defaultValue: false)
+    static var apiPortAllowLan: Bool
+    
+    @UserDefault("disableSSIDList", defaultValue: [])
+    static var disableSSIDList:[String]
+    
+    @UserDefault("useSwiftUiMenuBar", defaultValue: true)
+    static var useSwiftUiMenuBar: Bool
+
 }

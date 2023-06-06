@@ -12,7 +12,7 @@ class DashboardManager: NSObject {
 	
 	var dashboardWindowController: ClashWebViewWindowController?
 	
-	func show(_ sender: NSMenuItem) {
+	func show(_ sender: NSMenuItem?) {
 		if dashboardWindowController == nil {
 			dashboardWindowController = ClashWebViewWindowController.create()
 			dashboardWindowController?.onWindowClose = {

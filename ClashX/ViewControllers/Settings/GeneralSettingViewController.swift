@@ -16,6 +16,11 @@ class GeneralSettingViewController: NSViewController {
     @IBOutlet weak var reduceNotificationsButton: NSButton!
     @IBOutlet weak var useiCloudButton: NSButton!
 
+    @IBOutlet weak var allowApiLanUsageSwitcher: NSButton!
+    @IBOutlet weak var proxyPortTextField: NSTextField!
+    @IBOutlet weak var apiPortTextField: NSTextField!
+    @IBOutlet var ssidSuspendTextField: NSTextView!
+    
     var disposeBag = DisposeBag()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +33,16 @@ class GeneralSettingViewController: NSViewController {
                 Settings.proxyIgnoreList = arr
             }.disposed(by: disposeBag)
 
+        
+        ssidSuspendTextField.string = Settings.disableSSIDList.joined(separator: ",")
+        ssidSuspendTextField.rx
+            .string.debounce(.milliseconds(500), scheduler: MainScheduler.instance)
+            .map { $0.components(separatedBy: ",").filter {!$0.isEmpty} }
+            .subscribe { arr in
+                Settings.disableSSIDList = arr
+                SSIDSuspendTool.shared.update()
+            }.disposed(by: disposeBag)
+        
         LaunchAtLogin.shared.isEnableVirable
             .map { $0 ? .on : .off }
             .bind(to: launchAtLoginButton.rx.state)
@@ -47,6 +62,35 @@ class GeneralSettingViewController: NSViewController {
         reduceNotificationsButton.state = Settings.disableNoti ? .on : .off
         reduceNotificationsButton.rx.state.map {$0 == .on }.subscribe {
             Settings.disableNoti = $0
+        }.disposed(by: disposeBag)
+
+        if Settings.proxyPort > 0 {
+            proxyPortTextField.stringValue = "\(Settings.proxyPort)"
+        } else {
+            proxyPortTextField.stringValue = "\(ConfigManager.shared.currentConfig?.mixedPort ?? 0)"
+        }
+        if Settings.apiPort > 0 {
+            apiPortTextField.stringValue = "\(Settings.apiPort)"
+        } else {
+            apiPortTextField.stringValue = ConfigManager.shared.apiPort
+        }
+
+        proxyPortTextField.rx.text
+            .compactMap {$0}
+            .compactMap {Int($0)}
+            .bind {
+                Settings.proxyPort = $0
+            }.disposed(by: disposeBag)
+
+        apiPortTextField.rx.text
+            .compactMap {$0}
+            .compactMap {Int($0)}
+            .bind {
+                Settings.apiPort = $0
+            }.disposed(by: disposeBag)
+        allowApiLanUsageSwitcher.state = Settings.apiPortAllowLan ? .on : .off
+        allowApiLanUsageSwitcher.rx.state.bind { state in
+            Settings.apiPortAllowLan = state == .on
         }.disposed(by: disposeBag)
     }
 
