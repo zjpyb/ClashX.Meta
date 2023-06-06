@@ -19,7 +19,7 @@ class DashboardManager: NSObject {
 	
 	var dashboardWindowController: DashboardWindowController?
 	
-	func show(_ sender: NSMenuItem) {
+	func show(_ sender: NSMenuItem?) {
 		if !inited {
 			inited = true
 			NotificationCenter.default.rx.notification(.configFileChange).bind {
