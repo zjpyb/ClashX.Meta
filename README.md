@@ -9,6 +9,11 @@
 A rule based proxy For Mac base on [Clash Meta](https://github.com/MetaCubeX/Clash.Meta).
 
 
+
+## 注意
+- ClashX / ClashX Pro / ClashX Meta 只是一个代理工具，不提供任何代理服务器。如果服务器不可用或与服务器续费有关的问题，请与您的提供商联系。
+- ClashX / ClashX Pro / ClashX Meta 目前并没有创建官网。凡是声称是 ClashX / ClashX Pro / ClashX Meta 官网的一定是骗子。
+
 ## Features
 
 - Clash.Meta Core
@@ -18,6 +23,7 @@ A rule based proxy For Mac base on [Clash Meta](https://github.com/MetaCubeX/Cla
 
 You can download from [Release](https://github.com/MetaCubeX/Clash.Meta/releases) page
 
+**在 [AppCenter](https://install.appcenter.ms/users/clashx/apps/clashx-pro/distribution_groups/public) 免费下载ClashX Pro版本，支持增强模式以及更多Clash Premium Core特性。**
 
 ## Build
 - Make sure have python3 and golang installed in your computer.
@@ -99,5 +105,5 @@ script:
 Note：强烈不推荐这么做，这可能导致clashx的很多重要错误提醒无法显示。
 
 ### 全局快捷键
-
-- 设置详情点击 [全局快捷键](Shortcuts.md)
+- 在菜单栏配置->更多配置中，自定义对应功能的快捷键。（需要1.116.1之后的版本）
+- 使用AppleScript设置, 详情点击 [全局快捷键](Shortcuts.md)

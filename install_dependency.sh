@@ -27,15 +27,15 @@ rm -f ./ClashX/Resources/geoip.dat
 rm -rf ./ClashX/Resources/dashboard
 rm -f GeoLite2-Country.*
 echo "install mmdb"
-curl -LO https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb
+curl -LO https://github.com/MetaCubeX/meta-rules-dat/raw/release/country.mmdb
 gzip country.mmdb
 mv country.mmdb.gz ./ClashX/Resources/country.mmdb.gz
 echo "install geosite"
-curl -LO https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat
+curl -LO https://github.com/MetaCubeX/meta-rules-dat/raw/release/geosite.dat
 gzip geosite.dat
 mv geosite.dat.gz ./ClashX/Resources/geosite.dat.gz
 echo "install geoip"
-curl -LO https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat
+curl -LO https://github.com/MetaCubeX/meta-rules-dat/raw/release/geoip.dat
 gzip geoip.dat
 mv geoip.dat.gz ./ClashX/Resources/geoip.dat.gz
 echo "install dashboard"

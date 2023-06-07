@@ -6,7 +6,7 @@
 //  Copyright © 2018年 yichengchen. All rights reserved.
 //
 
-import CocoaLumberjack
+import CocoaLumberjackSwift
 import Foundation
 class Logger {
     static let shared = Logger()
@@ -48,8 +48,8 @@ class Logger {
     func logFilePath() -> String {
         return fileLogger.logFileManager.sortedLogFilePaths.first ?? ""
     }
-    
-    func logFolder() -> String {
-        return fileLogger.logFileManager.logsDirectory
-    }
+	
+	func logFolder() -> String {
+		return fileLogger.logFileManager.logsDirectory
+	}
 }

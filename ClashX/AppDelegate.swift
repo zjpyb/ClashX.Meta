@@ -8,7 +8,6 @@
 
 import Alamofire
 import Cocoa
-import LetsMove
 import RxCocoa
 import RxSwift
 import SwiftyJSON
@@ -69,8 +68,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var isSpeedTesting = false
 
     var runAfterConfigReload: (() -> Void)?
-
-    var dashboardWindowController: ClashWebViewWindowController?
 	
 	var helperStatusTimer: Timer?
 
@@ -129,8 +126,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         PrivilegedHelperManager.shared.checkInstall()
         ConfigFileManager.copySampleConfigIfNeed()
 
-        PFMoveToApplicationsFolderIfNecessary()
-
         // claer not existed selected model
         removeUnExistProxyGroups()
         setupData()
@@ -147,6 +142,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         setupNetworkNotifier()
         registCrashLogger()
+        KeyboardShortCutManager.setup()
     }
 
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
@@ -296,6 +292,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 	
     func setupData() {
+        SSIDSuspendTool.shared.setup()
         ConfigManager.shared
             .showNetSpeedIndicatorObservable.skip(1)
             .bind {
@@ -305,9 +302,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         Observable
             .merge([ConfigManager.shared.proxyPortAutoSetObservable,
-                    ConfigManager.shared.isProxySetByOtherVariable.asObservable()])
+                    ConfigManager.shared.isProxySetByOtherVariable.asObservable(),
+                    ConfigManager.shared.proxyShouldPaused.asObservable()])
+            .observe(on: MainScheduler.instance)
             .map { _ -> NSControl.StateValue in
-                if ConfigManager.shared.isProxySetByOtherVariable.value && ConfigManager.shared.proxyPortAutoSet {
+                if (ConfigManager.shared.isProxySetByOtherVariable.value || ConfigManager.shared.proxyShouldPaused.value)  && ConfigManager.shared.proxyPortAutoSet {
                     return .mixed
                 }
                 return ConfigManager.shared.proxyPortAutoSet ? .on : .off
@@ -477,7 +476,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             .asObservable()
             .filter { _ in ConfigManager.shared.proxyPortAutoSet }
             .distinctUntilChanged()
-            .filter { $0 }.bind { _ in
+            .filter { $0 }
+            .filter { _ in !ConfigManager.shared.proxyShouldPaused.value }
+            .bind { _ in
                 let rawProxy = NetworkChangeNotifier.getRawProxySetting()
                 Logger.log("proxy changed to no clashX setting: \(rawProxy)", level: .warning)
                 NSUserNotificationCenter.default.postProxyChangeByOtherAppNotice()
@@ -1013,15 +1014,8 @@ extension AppDelegate {
 // MARK: Main actions
 
 extension AppDelegate {
-    @IBAction func actionDashboard(_ sender: NSMenuItem) {
-        if dashboardWindowController == nil {
-            dashboardWindowController = ClashWebViewWindowController.create()
-            dashboardWindowController?.onWindowClose = {
-                [weak self] in
-                self?.dashboardWindowController = nil
-            }
-        }
-        dashboardWindowController?.showWindow(sender)
+    @IBAction func actionDashboard(_ sender: NSMenuItem?) {
+		DashboardManager.shared.show(sender)
     }
 
     @IBAction func actionAllowFromLan(_ sender: NSMenuItem) {
@@ -1049,6 +1043,10 @@ extension AppDelegate {
         default:
             return
         }
+        switchProxyMode(mode: mode)
+    }
+    
+    func switchProxyMode(mode: ClashProxyMode) {
         let config = ConfigManager.shared.currentConfig?.copy()
         config?.mode = mode
         ApiRequest.updateOutBoundMode(mode: mode) { _ in
@@ -1062,9 +1060,11 @@ extension AppDelegate {
         ConfigManager.shared.showNetSpeedIndicator = !(sender.state == .on)
     }
 
-    @IBAction func actionSetSystemProxy(_ sender: Any) {
+    @IBAction func actionSetSystemProxy(_ sender: Any?) {
         var canSaveProxy = true
-        if ConfigManager.shared.isProxySetByOtherVariable.value {
+        if ConfigManager.shared.proxyPortAutoSet && ConfigManager.shared.proxyShouldPaused.value {
+            ConfigManager.shared.proxyPortAutoSet = false
+        } else if ConfigManager.shared.isProxySetByOtherVariable.value {
             // should reset proxy to clashx
             ConfigManager.shared.isProxySetByOtherVariable.accept(false)
             ConfigManager.shared.proxyPortAutoSet = true
@@ -1149,7 +1149,7 @@ extension AppDelegate: ApiRequestStreamDelegate {
 // MARK: Help actions
 
 extension AppDelegate {
-    @IBAction func actionShowLog(_ sender: Any) {
+    @IBAction func actionShowLog(_ sender: Any?) {
         NSWorkspace.shared.openFile(Logger.shared.logFilePath())
     }
 }
