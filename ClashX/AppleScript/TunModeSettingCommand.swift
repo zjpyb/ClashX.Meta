@@ -1,9 +1,9 @@
 //
-//  ProxySettingCommand.swift
-//  ClashXX
+//  TunModeSettingCommand.swift
+//  ClashX.Meta
 //
-//  Created by Vince-hz on 2022/1/25.
-//  Copyright © 2022 west2online. All rights reserved.
+//  Created by hbsgithub on 2023/5/26.
+//  Copyright © 2023 west2online. All rights reserved.
 //
 
 import Foundation
@@ -19,9 +19,9 @@ import AppKit
         let menuItem: NSMenuItem
         menuItem = delegate.tunModeMenuItem
         if menuItem.state == .on {
-            menuItem.state = .on// 当条件为真时执行的代码
+            menuItem.state = .on
         } else {
-            menuItem.state = .off// 当条件为假时执行的代码
+            menuItem.state = .off
         }
         delegate.tunMode(menuItem)
         return nil
