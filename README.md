@@ -23,7 +23,6 @@ A rule based proxy For Mac base on [Clash Meta](https://github.com/MetaCubeX/Cla
 
 You can download from [Release](https://github.com/MetaCubeX/Clash.Meta/releases) page
 
-**在 [AppCenter](https://install.appcenter.ms/users/clashx/apps/clashx-pro/distribution_groups/public) 免费下载ClashX Pro版本，支持增强模式以及更多Clash Premium Core特性。**
 
 ## Build
 - Make sure have python3 and golang installed in your computer.
@@ -105,5 +104,5 @@ script:
 Note：强烈不推荐这么做，这可能导致clashx的很多重要错误提醒无法显示。
 
 ### 全局快捷键
-- 在菜单栏配置->更多配置中，自定义对应功能的快捷键。（需要1.116.1之后的版本）
+- 在菜单栏配置->更多配置中，自定义对应功能的快捷键。（需要v1.2.6之后的版本）
 - 使用AppleScript设置, 详情点击 [全局快捷键](Shortcuts.md)
