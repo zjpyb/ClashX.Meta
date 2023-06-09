@@ -92,6 +92,11 @@ class GeneralSettingViewController: NSViewController {
         allowApiLanUsageSwitcher.rx.state.bind { state in
             Settings.apiPortAllowLan = state == .on
         }.disposed(by: disposeBag)
+		
+		
+		proxyPortTextField.isEnabled = false
+		apiPortTextField.isEnabled = false
+		allowApiLanUsageSwitcher.isEnabled = false
     }
 
 }
