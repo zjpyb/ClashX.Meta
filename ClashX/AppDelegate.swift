@@ -399,12 +399,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				self.startProxy()
 			}).disposed(by: disposeBag)
 		
-		helperStatusTimer = Timer.scheduledTimer(withTimeInterval: 120, repeats: true) { timer in
+		helperStatusTimer = Timer.scheduledTimer(withTimeInterval: 300, repeats: true) { timer in
 			timer.fireDate = .init(timeIntervalSinceNow: 3600)
 			
 			PrivilegedHelperManager.shared.helper {
 				Logger.log("Check helper status Error, will try again")
-				timer.fireDate = .init(timeIntervalSinceNow: 0.15)
+				timer.fireDate = .init(timeIntervalSinceNow: 0.3)
 			}?.getVersion {
 				Logger.log("Check helper status success \($0 ?? "")")
 				timer.invalidate()
