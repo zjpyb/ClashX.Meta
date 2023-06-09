@@ -23,7 +23,7 @@ import AppKit
         } else {
             menuItem.state = .off
         }
-        delegate.tunMode(menuItem)
+        delegate.actionSetTunMode(menuItem)
         return nil
     }
 }

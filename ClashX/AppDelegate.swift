@@ -1224,13 +1224,13 @@ extension AppDelegate {
 // MARK: Meta Menu
 
 extension AppDelegate {
-    @IBAction func tunMode(_ sender: NSMenuItem) {
-        let enable = sender.state != .on
-        sender.isEnabled = false
+    @IBAction func actionSetTunMode(_ sender: NSMenuItem?) {
+        let enable = tunModeMenuItem.state != .on
+		tunModeMenuItem.isEnabled = false
         ApiRequest.updateTun(enable: enable) {
             self.syncConfigWithTun {
-                sender.state = enable ? .on : .off
-                sender.isEnabled = true
+				self.tunModeMenuItem.state = enable ? .on : .off
+				self.tunModeMenuItem.isEnabled = true
             }
         }
     }

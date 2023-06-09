@@ -11,6 +11,8 @@ import KeyboardShortcuts
 
 extension KeyboardShortcuts.Name {
     static let toggleSystemProxyMode = Self("shortCut.toggleSystemProxyMode")
+	static let toggleTunProxyMode = Self("shortCut.toggleTunProxyMode")
+	
     static let copyShellCommand = Self("shortCut.copyShellCommand")
     static let copyExternalShellCommand = Self("shortCut.copyExternalShellCommand")
 
@@ -30,6 +32,10 @@ enum KeyboardShortCutManager {
         KeyboardShortcuts.onKeyUp(for: .toggleSystemProxyMode) {
             AppDelegate.shared.actionSetSystemProxy(nil)
         }
+		
+		KeyboardShortcuts.onKeyUp(for: .toggleTunProxyMode) {
+			AppDelegate.shared.actionSetTunMode(nil)
+		}
         
         KeyboardShortcuts.onKeyUp(for: .copyShellCommand) {
             AppDelegate.shared.actionCopyExportCommand(AppDelegate.shared.copyExportCommandMenuItem)
@@ -75,10 +81,13 @@ class GlobalShortCutViewController: NSViewController {
         super.viewDidLoad()
         
         let systemProxy = KeyboardShortcuts.RecorderCocoa(for: .toggleSystemProxyMode)
+		let tunProxy = KeyboardShortcuts.RecorderCocoa(for: .toggleTunProxyMode)
+		
         let copyShellCommand = KeyboardShortcuts.RecorderCocoa(for: .copyShellCommand)
         let copyShellCommandExternal = KeyboardShortcuts.RecorderCocoa(for: .copyExternalShellCommand)
         addGridView(in: proxyBox.contentView!, with: [
             [NSTextField(labelWithString: NSLocalizedString("System Proxy", comment: "")),systemProxy],
+			[NSTextField(labelWithString: NSLocalizedString("Tun Mode", comment: "")),tunProxy],
             [NSTextField(labelWithString: NSLocalizedString("Copy Shell Command", comment: "")),copyShellCommand],
             [NSTextField(labelWithString: NSLocalizedString("Copy Shell Command (External)", comment: "")),copyShellCommandExternal],
         ])

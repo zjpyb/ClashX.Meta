@@ -622,7 +622,7 @@
                         </menuItem>
                         <menuItem title="Tun mode" keyEquivalent="e" id="ZoW-Ax-rde">
                             <connections>
-                                <action selector="tunMode:" target="Voe-Tx-rLC" id="iYh-34-ynf"/>
+                                <action selector="actionSetTunMode:" target="Voe-Tx-rLC" id="Wx4-MO-YvW"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Copy shell command" keyEquivalent="c" id="Jmb-PK-rMW">
