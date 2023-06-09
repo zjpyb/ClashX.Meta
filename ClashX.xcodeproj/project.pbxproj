@@ -555,7 +555,6 @@
 				2753484F2A3082FD0077B458 /* TunModeSettingCommand.swift */,
 				8A2BBEA627A03ACB0081EBEF /* ProxySetting.sdef */,
 				8ACD21BA27A04C7800BC4632 /* ProxySettingCommand.swift */,
-				27F9A6272A1FB25500C50C38 /* TunModeSettingCommand.swift */,
 				8ACD21BC27A04ED500BC4632 /* ProxyModeChangeCommand.swift */,
 			);
 			path = AppleScript;
@@ -648,7 +647,6 @@
 		49CF3B1520CD7463001EBF94 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1030;
 				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = west2online;
@@ -1002,7 +1000,6 @@
 				CODE_SIGN_ENTITLEMENTS = ClashX/ClashX.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-
 				COMBINE_HIDPI_IMAGES = YES;
 				COMPRESS_PNG_FILES = YES;
 				CURRENT_PROJECT_VERSION = 0;
@@ -1026,7 +1023,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/ClashX",
 				);
-				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MARKETING_VERSION = v1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.metacubex.ClashX.meta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1048,7 +1045,6 @@
 				CODE_SIGN_ENTITLEMENTS = ClashX/ClashX.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-
 				COMBINE_HIDPI_IMAGES = YES;
 				COMPRESS_PNG_FILES = YES;
 				COPY_PHASE_STRIP = YES;
@@ -1074,7 +1070,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/ClashX",
 				);
-				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MARKETING_VERSION = v1.0;
 				OTHER_CODE_SIGN_FLAGS = "--timestamp";
 				PRODUCT_BUNDLE_IDENTIFIER = com.metacubex.ClashX.meta;
