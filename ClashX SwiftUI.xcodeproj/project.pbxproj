@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		011946B62A32F64600502077 /* TunModeSettingCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011946B52A32F64500502077 /* TunModeSettingCommand.swift */; };
+		011946BA2A334C4900502077 /* ClashWebViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011946B92A334C4900502077 /* ClashWebViewContoller.swift */; };
 		012875E52A2E39CD004FB615 /* ClashX Dashboard in Frameworks */ = {isa = PBXBuildFile; productRef = 012875E42A2E39CD004FB615 /* ClashX Dashboard */; };
 		015F1E91288E42A50052B20A /* ClashMetaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015F1E90288E42A50052B20A /* ClashMetaConfig.swift */; };
 		015F1E92288E60D30052B20A /* MetaTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162E74E2864B819007218A6 /* MetaTask.swift */; };
@@ -157,6 +158,7 @@
 
 /* Begin PBXFileReference section */
 		011946B52A32F64500502077 /* TunModeSettingCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TunModeSettingCommand.swift; sourceTree = "<group>"; };
+		011946B92A334C4900502077 /* ClashWebViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClashWebViewContoller.swift; sourceTree = "<group>"; };
 		015F1E90288E42A50052B20A /* ClashMetaConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashMetaConfig.swift; sourceTree = "<group>"; };
 		0162E74D2864B818007218A6 /* com.metacubex.ClashX.ProxyConfigHelper-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "com.metacubex.ClashX.ProxyConfigHelper-Bridging-Header.h"; sourceTree = "<group>"; };
 		0162E74E2864B819007218A6 /* MetaTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaTask.swift; sourceTree = "<group>"; };
@@ -460,6 +462,7 @@
 				49BC061B212931F4005A0FE7 /* AboutViewController.swift */,
 				499A485322ED707300F6C675 /* RemoteConfigViewController.swift */,
 				499ADAFE2498FC6D00C488FE /* ExternalControlViewController.swift */,
+				011946B92A334C4900502077 /* ClashWebViewContoller.swift */,
 				01B1CB072A2E1EC10073EA34 /* DashboardManagerSwiftUI.swift */,
 			);
 			path = ViewControllers;
@@ -736,6 +739,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				011946BA2A334C4900502077 /* ClashWebViewContoller.swift in Sources */,
 				49ABB749236B0F9E00535CD7 /* UnsafePointer+bridge.swift in Sources */,
 				01EACC762A2F94AB001C584B /* GlobalShortCutViewController.swift in Sources */,
 				499A485522ED707300F6C675 /* RemoteConfigViewController.swift in Sources */,

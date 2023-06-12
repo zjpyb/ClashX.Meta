@@ -10,29 +10,49 @@ import RxSwift
 import ClashX_Dashboard
 
 class DashboardManager: NSObject {
-	private let disposeBag = DisposeBag()
-	private var inited = false
+	
+	private var disposables = [Disposable]()
+	
 	static let shared = DashboardManager()
 	
 	override init() {
 	}
 	
+	var useYacd = true {
+		willSet {
+			if newValue {
+				deinitNotifications()
+			}
+		}
+	}
+	
+	var yacdWindowController: ClashWebViewWindowController?
 	var dashboardWindowController: DashboardWindowController?
 	
 	func show(_ sender: NSMenuItem?) {
-		if !inited {
-			inited = true
-			NotificationCenter.default.rx.notification(.configFileChange).bind {
-				[weak self] _ in
-				self?.dashboardWindowController?.reload()
-			}.disposed(by: disposeBag)
-
-			NotificationCenter.default.rx.notification(.reloadDashboard).bind {
-				[weak self] _ in
-				self?.dashboardWindowController?.reload()
-			}.disposed(by: disposeBag)
-		}
+		initNotifications()
 		
+		if useYacd {
+			dashboardWindowController = nil
+			showWebWindow(sender)
+		} else {
+			yacdWindowController = nil
+			showSwiftUIWindow(sender)
+		}
+	}
+	
+	func showWebWindow(_ sender: NSMenuItem?) {
+		if yacdWindowController == nil {
+			yacdWindowController = ClashWebViewWindowController.create()
+			yacdWindowController?.onWindowClose = {
+				[weak self] in
+				self?.yacdWindowController = nil
+			}
+		}
+		yacdWindowController?.showWindow(sender)
+	}
+	
+	func showSwiftUIWindow(_ sender: NSMenuItem?) {
 		if dashboardWindowController == nil {
 			dashboardWindowController = DashboardWindowController.create()
 			dashboardWindowController?.onWindowClose = {
@@ -44,5 +64,32 @@ class DashboardManager: NSObject {
 		dashboardWindowController?.set(ConfigManager.apiUrl, secret: ConfigManager.shared.overrideSecret ?? ConfigManager.shared.apiSecret)
 		
 		dashboardWindowController?.showWindow(sender)
+	}
+	
+	func initNotifications() {
+		guard !useYacd, disposables.count == 0 else { return }
+		
+		let n1 = NotificationCenter.default.rx.notification(.configFileChange).subscribe {
+			[weak self] _ in
+			self?.dashboardWindowController?.reload()
+		}
+
+		let n2 = NotificationCenter.default.rx.notification(.reloadDashboard).subscribe {
+			[weak self] _ in
+			self?.dashboardWindowController?.reload()
+		}
+		disposables.append(n1)
+		disposables.append(n2)
+	}
+	
+	func deinitNotifications() {
+		disposables.forEach {
+			$0.dispose()
+		}
+		disposables.removeAll()
+	}
+	
+	deinit {
+		deinitNotifications()
 	}
 }

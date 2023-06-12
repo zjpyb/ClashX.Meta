@@ -10,7 +10,6 @@ import Cocoa
 import RxCocoa
 import RxSwift
 import WebKit
-import WebViewJavascriptBridge
 
 class ClashWebViewWindowController: NSWindowController {
     var onWindowClose: (() -> Void)?
@@ -45,7 +44,6 @@ extension ClashWebViewWindowController: NSWindowDelegate {
 
 class ClashWebViewContoller: NSViewController {
     let webview: CustomWKWebView = CustomWKWebView()
-    var bridge: WebViewJavascriptBridge?
     let disposeBag = DisposeBag()
     let minSize = NSSize(width: 920, height: 580)
     var lastSize: CGSize? {
@@ -90,14 +88,11 @@ class ClashWebViewContoller: NSViewController {
             webview.setValue(true, forKey: "drawsTransparentBackground")
         }
 
-        bridge = JsBridgeUtil.initJSbridge(webview: webview, delegate: self)
-        registerExtenalJSBridgeFunction()
-
         webview.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
 
         NotificationCenter.default.rx.notification(.configFileChange).bind {
             [weak self] _ in
-            self?.bridge?.callHandler("onConfigChange")
+			self?.webview.reload()
         }.disposed(by: disposeBag)
 
         NotificationCenter.default.rx.notification(.reloadDashboard).bind {
@@ -175,17 +170,6 @@ class ClashWebViewContoller: NSViewController {
     }
 }
 
-extension ClashWebViewContoller {
-    func registerExtenalJSBridgeFunction() {
-        bridge?.registerHandler("setDragAreaHeight") {
-            [weak self] anydata, responseCallback in
-            if let height = anydata as? CGFloat {
-                self?.webview.dragableAreaHeight = height
-            }
-            responseCallback?(nil)
-        }
-    }
-}
 
 extension ClashWebViewContoller: WKUIDelegate, WKNavigationDelegate {
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {}
