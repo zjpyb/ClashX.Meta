@@ -18,10 +18,15 @@ class DashboardManager: NSObject {
 	override init() {
 	}
 	
-	var useYacd = true {
-		willSet {
-			if newValue {
+	let enableSwiftUI = true
+	
+	var useYacd = MenuItemFactory.useYacdDashboard {
+		didSet {
+			if useYacd {
 				deinitNotifications()
+				dashboardWindowController?.close()
+			} else {
+				yacdWindowController?.close()
 			}
 		}
 	}

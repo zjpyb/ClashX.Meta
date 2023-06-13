@@ -52,6 +52,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var tunModeMenuItem: NSMenuItem!
 
     @IBOutlet var hideUnselecableMenuItem: NSMenuItem!
+	@IBOutlet var useYacdDashboardMenuItem: NSMenuItem!
     @IBOutlet var proxyProvidersMenu: NSMenu!
     @IBOutlet var ruleProvidersMenu: NSMenu!
     @IBOutlet var proxyProvidersMenuItem: NSMenuItem!
@@ -288,6 +289,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         remoteConfigAutoupdateMenuItem.state = RemoteConfigManager.autoUpdateEnable ? .on : .off
 
         hideUnselecableMenuItem.state = .init(rawValue: MenuItemFactory.hideUnselectable)
+		
+		useYacdDashboardMenuItem.state = MenuItemFactory.useYacdDashboard ? .on : .off
+		useYacdDashboardMenuItem.isHidden = !DashboardManager.shared.enableSwiftUI
+		
         useAlphaMetaMenuItem.state = MenuItemFactory.useAlphaCore ? .on : .off
     }
 	
@@ -1251,6 +1256,14 @@ extension AppDelegate {
         sender.state = newState
         MenuItemFactory.hideUnselectable = newState.rawValue
     }
+	
+	@IBAction func useYacdDashboard(_ sender: NSMenuItem) {
+		guard DashboardManager.shared.enableSwiftUI else { return }
+		
+		let useYacd = sender.state == .off
+		sender.state = useYacd ? .on : .off
+		MenuItemFactory.useYacdDashboard = useYacd
+	}
 
     @IBAction func checkForUpdate(_ sender: NSMenuItem) {
         let unc = NSUserNotificationCenter.default

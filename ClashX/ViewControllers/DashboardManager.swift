@@ -10,6 +10,9 @@ import Cocoa
 class DashboardManager: NSObject {
 	static let shared = DashboardManager()
 	
+	let enableSwiftUI = false
+	var useYacd = true
+
 	var dashboardWindowController: ClashWebViewWindowController?
 	
 	func show(_ sender: NSMenuItem?) {
