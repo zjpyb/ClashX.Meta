@@ -400,6 +400,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			.take(1)
 			.observe(on: MainScheduler.instance)
 			.bind(onNext: { _ in
+				Logger.log("HelperReady")
 				self.initMetaCore()
 				self.startProxy()
 			}).disposed(by: disposeBag)
@@ -417,6 +418,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			}
 		}
 		helperStatusTimer?.fire()
+		Logger.log("Fire helperStatusTimer")
     }
 
     func setupSystemData() {
