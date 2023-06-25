@@ -21,6 +21,7 @@ private let MetaCoreMd5 = "WOSHIZIDONGSHENGCHENGDEA"
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem!
+    @IBOutlet weak var checkForUpdateMenuItem: NSMenuItem!
 
     @IBOutlet var statusMenu: NSMenu!
     @IBOutlet var proxySettingMenuItem: NSMenuItem!
@@ -112,10 +113,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         Logger.log("postFinishLaunching")
         defer {
             statusItem.menu = statusMenu
-            DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+            DispatchQueue.main.asyncAfter(deadline: .now()+5) {
                 self.checkMenuIconVisable()
             }
 
+        }
+        if #unavailable(macOS 10.15) {
+            // dashboard is not support in macOS 10.15 below
+            self.dashboardMenuItem.isHidden = true
         }
         setupStatusMenuItemData()
         AppVersionUtil.showUpgradeAlert()
@@ -210,37 +215,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func buttonRectOnScreen() -> CGRect {
-            guard let button = statusItem.button else { return .zero }
-            guard let window = button.window else { return .zero }
-            let buttonRect = button.convert(button.bounds, to: nil)
-            let onScreenRect = window.convertToScreen(buttonRect)
-            return onScreenRect
-        }
-
-     func leftScreenX() -> CGFloat {
-            let screens = NSScreen.screens
-
-            var left: CGFloat = 0
-
-            for screen in screens {
-                if screen.frame.origin.x < left {
-                    left = screen.frame.origin.x
-                }
-            }
-            return left
-        }
-
     func checkMenuIconVisable() {
         guard let button = statusItem.button else {assertionFailure(); return }
         guard let window = button.window else {assertionFailure(); return }
         let buttonRect = button.convert(button.bounds, to: nil)
         let onScreenRect = window.convertToScreen(buttonRect)
         var leftScreenX: CGFloat = 0
-        for screen in NSScreen.screens {
-            if screen.frame.origin.x < leftScreenX {
-                leftScreenX = screen.frame.origin.x
-            }
+        for screen in NSScreen.screens where screen.frame.origin.x < leftScreenX {
+            leftScreenX = screen.frame.origin.x
         }
         let isMenuIconHidden = onScreenRect.midX < leftScreenX
 
@@ -1052,7 +1034,7 @@ extension AppDelegate {
         }
         switchProxyMode(mode: mode)
     }
-    
+
     func switchProxyMode(mode: ClashProxyMode) {
         let config = ConfigManager.shared.currentConfig?.copy()
         config?.mode = mode

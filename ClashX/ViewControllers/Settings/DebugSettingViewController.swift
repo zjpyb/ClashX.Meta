@@ -27,4 +27,28 @@ class DebugSettingViewController: NSViewController {
     @IBAction func actionOpenLogFolder(_ sender: Any) {
         NSWorkspace.shared.openFile(Logger.shared.logFolder())
     }
+    @IBAction func actionOpenLocalConfig(_ sender: Any) {
+        NSWorkspace.shared.openFile(kConfigFolderPath)
+
+    }
+    @IBAction func actionOpenIcloudConfig(_ sender: Any) {
+        if ICloudManager.shared.icloudAvailable {
+            ICloudManager.shared.getUrl {
+                url in
+                if let url = url {
+                    NSWorkspace.shared.open(url)
+                }
+            }
+        } else {
+            NSAlert.alert(with: NSLocalizedString("iCloud not available", comment: ""))
+        }
+    }
+
+    @IBAction func actionResetUserDefault(_ sender: Any) {
+        guard let domain = Bundle.main.bundleIdentifier else { return }
+        NSAlert.alert(with: NSLocalizedString("Click OK to quit the app and apply change.", comment: ""))
+        UserDefaults.standard.removePersistentDomain(forName: domain)
+        UserDefaults.standard.synchronize()
+        NSApplication.shared.terminate(self)
+    }
 }

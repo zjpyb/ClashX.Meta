@@ -41,6 +41,9 @@
 "ClashX use a daemon helper to setup your system proxy. Please enable ClashX in the Login Items under the Allow in the Background section and relaunch the app" = "ClashX use a daemon helper to setup your system proxy. Please enable ClashX in the Login Items under the Allow in the Background section and relaunch the app";
 
 /* No comment provided by engineer. */
+"Click OK to quit the app and apply change." = "Click OK to quit the app and apply change.";
+
+/* No comment provided by engineer. */
 "Config file have been changed" = "Config file have been changed";
 
 /* No comment provided by engineer. */
@@ -105,6 +108,9 @@
 
 /* No comment provided by engineer. */
 "hours" = "hours";
+
+/* No comment provided by engineer. */
+"iCloud not available" = "iCloud not available";
 
 /* No comment provided by engineer. */
 "If you can not find ClashX in the settings, you can try reset daemon" = "If you can not find ClashX in the settings, you can try reset daemon";

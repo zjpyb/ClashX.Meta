@@ -19,6 +19,7 @@ PODS:
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
   - Starscream (3.1.1)
+  - SwiftLint (0.52.2)
   - SwiftyJSON (5.0.1)
   - WebViewJavascriptBridge (6.0.3)
   - Yams (5.0.5)
@@ -32,6 +33,7 @@ DEPENDENCIES:
   - RxCocoa
   - RxSwift
   - Starscream (= 3.1.1)
+  - SwiftLint
   - SwiftyJSON
   - WebViewJavascriptBridge
   - Yams
@@ -47,6 +49,7 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - Starscream
+    - SwiftLint
     - SwiftyJSON
     - WebViewJavascriptBridge
     - Yams
@@ -61,6 +64,7 @@ SPEC CHECKSUMS:
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
+  SwiftLint: 1ac76dac888ca05cb0cf24d0c85887ec1209961d
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
   Yams: 271b5757cee031e087ae6322128895c04826c4f3

@@ -351,3 +351,24 @@
 
 /* Class = "NSTextFieldCell"; title = "Log"; ObjectID = "c01-0L-1SQ"; */
 "c01-0L-1SQ.title" = "日志";
+
+/* Class = "NSButtonCell"; title = "Override Config Setting"; ObjectID = "LW4-cA-3bB"; */
+"LW4-cA-3bB.title" = "覆盖配置文件设置";
+
+/* Class = "NSTextFieldCell"; title = "Api Secret:"; ObjectID = "ckH-Er-PfX"; */
+"ckH-Er-PfX.title" = "Api秘钥";
+
+/* Class = "NSButtonCell"; title = "iCloud"; ObjectID = "URV-fZ-bJf"; */
+"URV-fZ-bJf.title" = "iCloud";
+
+/* Class = "NSButtonCell"; title = "Local"; ObjectID = "YF4-uZ-A0M"; */
+"YF4-uZ-A0M.title" = "本地";
+
+/* Class = "NSTextFieldCell"; title = "Config Folder"; ObjectID = "ZA9-qc-wi4"; */
+"ZA9-qc-wi4.title" = "配置文件夹";
+
+/* Class = "NSButtonCell"; title = "Reset"; ObjectID = "5ws-55-f1g"; */
+"5ws-55-f1g.title" = "重置";
+
+/* Class = "NSTextFieldCell"; title = "App Setting"; ObjectID = "PF0-Gd-XbR"; */
+"PF0-Gd-XbR.title" = "应用配置";
