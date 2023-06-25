@@ -109,6 +109,8 @@ class GeneralSettingViewController: NSViewController {
 		
 		proxyPortTextField.isEnabled = false
 		apiPortTextField.isEnabled = false
+		apiSecretTextField.isEnabled = false
+		
 		allowApiLanUsageSwitcher.isEnabled = false
     }
 
