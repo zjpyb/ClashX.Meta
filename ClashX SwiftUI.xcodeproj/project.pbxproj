@@ -10,6 +10,8 @@
 		011946B62A32F64600502077 /* TunModeSettingCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011946B52A32F64500502077 /* TunModeSettingCommand.swift */; };
 		011946BA2A334C4900502077 /* ClashWebViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011946B92A334C4900502077 /* ClashWebViewContoller.swift */; };
 		012875E52A2E39CD004FB615 /* ClashX Dashboard in Frameworks */ = {isa = PBXBuildFile; productRef = 012875E42A2E39CD004FB615 /* ClashX Dashboard */; };
+		015EC9412A4888E400145F7F /* Hotfixs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EC9402A4888E300145F7F /* Hotfixs.swift */; };
+		015EC9432A48891000145F7F /* NormalMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EC9422A48891000145F7F /* NormalMenuItemView.swift */; };
 		015F1E91288E42A50052B20A /* ClashMetaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015F1E90288E42A50052B20A /* ClashMetaConfig.swift */; };
 		015F1E92288E60D30052B20A /* MetaTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162E74E2864B819007218A6 /* MetaTask.swift */; };
 		0162E74F2864B819007218A6 /* MetaTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162E74E2864B819007218A6 /* MetaTask.swift */; };
@@ -159,6 +161,8 @@
 /* Begin PBXFileReference section */
 		011946B52A32F64500502077 /* TunModeSettingCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TunModeSettingCommand.swift; sourceTree = "<group>"; };
 		011946B92A334C4900502077 /* ClashWebViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClashWebViewContoller.swift; sourceTree = "<group>"; };
+		015EC9402A4888E300145F7F /* Hotfixs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hotfixs.swift; sourceTree = "<group>"; };
+		015EC9422A48891000145F7F /* NormalMenuItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalMenuItemView.swift; sourceTree = "<group>"; };
 		015F1E90288E42A50052B20A /* ClashMetaConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashMetaConfig.swift; sourceTree = "<group>"; };
 		0162E74D2864B818007218A6 /* com.metacubex.ClashX.ProxyConfigHelper-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "com.metacubex.ClashX.ProxyConfigHelper-Bridging-Header.h"; sourceTree = "<group>"; };
 		0162E74E2864B819007218A6 /* MetaTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaTask.swift; sourceTree = "<group>"; };
@@ -381,6 +385,7 @@
 				492C4868210EE6B9004554A0 /* ApiRequest.swift */,
 				015F1E90288E42A50052B20A /* ClashMetaConfig.swift */,
 				016BEAAF29D80102001586C5 /* AlphaMetaDownloader.swift */,
+				015EC9402A4888E300145F7F /* Hotfixs.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -414,6 +419,7 @@
 				493A9F272453E60400D35296 /* ProxyDelayHistoryMenu.swift */,
 				49228456270AADE20027A4B6 /* RemoteConfigUpdateIntervalSettingView.swift */,
 				018F88F8286DD0CB004DD0F7 /* DualTitleMenuItem.swift */,
+				015EC9422A48891000145F7F /* NormalMenuItemView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -759,6 +765,7 @@
 				495A44D320D267D000888A0A /* LaunchAtLogin.swift in Sources */,
 				01EACC722A2F9469001C584B /* SSIDSuspendTool.swift in Sources */,
 				01B1CB082A2E1EC10073EA34 /* DashboardManagerSwiftUI.swift in Sources */,
+				015EC9432A48891000145F7F /* NormalMenuItemView.swift in Sources */,
 				4929F67F258CE04700A435F6 /* Settings.swift in Sources */,
 				49D6A45629AEEC55006487EF /* StatusItemViewProtocol.swift in Sources */,
 				493AEAE3221AE3420016FE98 /* AppVersionUtil.swift in Sources */,
@@ -782,6 +789,7 @@
 				F9E754D0239CC21F00CEE7CC /* WebPortalManager.swift in Sources */,
 				018F88F9286DD0CB004DD0F7 /* DualTitleMenuItem.swift in Sources */,
 				495BFB8821919B9800C8779D /* RemoteConfigManager.swift in Sources */,
+				015EC9412A4888E400145F7F /* Hotfixs.swift in Sources */,
 				4982F51F2344A216008804B0 /* Cgo+Convert.swift in Sources */,
 				8ACD21BB27A04C7800BC4632 /* ProxySettingCommand.swift in Sources */,
 				49722FF1211F338B00650A41 /* Witness.swift in Sources */,
