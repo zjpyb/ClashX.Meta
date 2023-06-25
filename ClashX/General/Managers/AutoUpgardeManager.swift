@@ -12,7 +12,7 @@ import Cocoa
 class AutoUpgardeManager: NSObject {
     var checkForUpdatesMenuItem: NSMenuItem?
     static let shared = AutoUpgardeManager()
-    private var controller:SPUStandardUpdaterController?
+//    private var controller:SPUStandardUpdaterController?
     private var current: Channel = {
         if let value = UserDefaults.standard.object(forKey: "AutoUpgardeManager.current") as? Int,
             let channel = Channel(rawValue: value) { return channel }
@@ -40,13 +40,13 @@ class AutoUpgardeManager: NSObject {
 
     // MARK: Public
     func setup() {
-        controller = SPUStandardUpdaterController(updaterDelegate: self, userDriverDelegate: nil)
+//        controller = SPUStandardUpdaterController(updaterDelegate: self, userDriverDelegate: nil)
     }
 
     func setupCheckForUpdatesMenuItem(_ item: NSMenuItem) {
-        checkForUpdatesMenuItem = item
-        checkForUpdatesMenuItem?.target = controller
-        checkForUpdatesMenuItem?.action = #selector(SPUStandardUpdaterController.checkForUpdates(_:))
+//        checkForUpdatesMenuItem = item
+//        checkForUpdatesMenuItem?.target = controller
+//        checkForUpdatesMenuItem?.action = #selector(SPUStandardUpdaterController.checkForUpdates(_:))
     }
 
     func addChanelMenuItem(_ menu: inout NSMenu) {
@@ -77,16 +77,16 @@ extension AutoUpgardeManager {
     }
 }
 
-extension AutoUpgardeManager: SPUUpdaterDelegate {
-    func feedURLString(for updater: SPUUpdater) -> String? {
-        guard WebPortalManager.hasWebProtal == false, allowSelectChannel else { return nil }
-        return current.urlString
-    }
-
-    func updaterWillRelaunchApplication(_ updater: SPUUpdater) {
-        SystemProxyManager.shared.disableProxy(port: 0, socksPort: 0, forceDisable: true)
-    }
-}
+//extension AutoUpgardeManager: SPUUpdaterDelegate {
+//    func feedURLString(for updater: SPUUpdater) -> String? {
+//        guard WebPortalManager.hasWebProtal == false, allowSelectChannel else { return nil }
+//        return current.urlString
+//    }
+//
+//    func updaterWillRelaunchApplication(_ updater: SPUUpdater) {
+//        SystemProxyManager.shared.disableProxy(port: 0, socksPort: 0, forceDisable: true)
+//    }
+//}
 
 // MARK: - Channel Enum
 

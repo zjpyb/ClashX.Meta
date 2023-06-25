@@ -94,9 +94,9 @@ class ClashWebViewContoller: NSViewController {
         webview.navigationDelegate = self
 
         webview.customUserAgent = "ClashX Runtime"
-        if #available(macOS 13.3, *) {
-            webview.isInspectable = true
-        }
+//        if #available(macOS 13.3, *) {
+//            webview.isInspectable = true
+//        }
         webview.setValue(false, forKey: "drawsBackground")
         let script = WKUserScript(source: "console.log(\"dashboard loaded\")", injectionTime: .atDocumentStart, forMainFrameOnly: false)
 
@@ -177,7 +177,7 @@ class ClashWebViewContoller: NSViewController {
             webview.load(URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 0))
             return
         }
-        let defaultUrl = "http://127.0.0.1:\(ConfigManager.shared.apiPort)/ui/"
+		
         if let url = URL(string: defaultUrl) {
             Logger.log("dashboard url:\(defaultUrl)")
             webview.load(URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 0))
