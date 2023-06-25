@@ -947,7 +947,9 @@ extension AppDelegate {
             ClashMetaConfig.generateInitConfig {
                 var config = $0
                 PrivilegedHelperManager.shared.helper {
-                    resolver.reject(StartMetaError.helperNotFound)
+//                    resolver.reject(StartMetaError.helperNotFound)
+					Logger.log("helperNotFound, getUsedPorts failed", level: .error)
+					resolver.fulfill(config)
                 }?.getUsedPorts {
                     config.updatePorts($0 ?? "")
                     resolver.fulfill(config)
@@ -959,6 +961,7 @@ extension AppDelegate {
     func startMeta(_ config: ClashMetaConfig.Config) -> Promise<StartProxyResp> {
         .init { resolver in
             PrivilegedHelperManager.shared.helper {
+				Logger.log("helperNotFound, startMeta failed", level: .error)
                 resolver.reject(StartMetaError.helperNotFound)
             }?.startMeta(withConfPath: kConfigFolderPath,
                          confFilePath: config.path) {
