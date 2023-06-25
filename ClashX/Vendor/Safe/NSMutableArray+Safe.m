@@ -6,7 +6,8 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (@available(macOS 14, *)) {
-            swizzleInstanceMethod([NSMutableArray class], @selector(objectAtIndex:), @selector(hookObjectAtIndex:));
+            swizzleInstanceMethod(NSClassFromString(@"__NSArrayM"), @selector(objectAtIndex:), @selector(hookObjectAtIndex:));
+            swizzleInstanceMethod(NSClassFromString(@"__NSArrayM"), @selector(replaceObjectAtIndex:withObject:), @selector(hookReplaceObjectAtIndex:withObject:));
         }
     });
 }
@@ -17,7 +18,25 @@
         if (index < self.count) {
             return [self hookObjectAtIndex:index];
         }
+        if ([self.firstObject isKindOfClass:[NSNumber class]] || self.count == 0) {
+            return @(22); // menu height
+        }
         return nil;
+    }
+}
+
+- (void) hookReplaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject {
+    @synchronized (self) {
+        if (index < self.count && anObject) {
+            [self hookReplaceObjectAtIndex:index withObject:anObject];
+        } else {
+            if (!anObject) {
+                return;
+            }
+            if (index >= self.count) {
+                return;
+            }
+        }
     }
 }
 
