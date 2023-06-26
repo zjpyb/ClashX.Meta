@@ -1,6 +1,6 @@
 //
 //  ProxySettingCommand.swift
-//  ClashXX
+//  ClashX.Meta
 //
 //  Created by Vince-hz on 2022/1/25.
 //  Copyright © 2022 west2online. All rights reserved.

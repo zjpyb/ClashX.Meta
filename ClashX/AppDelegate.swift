@@ -21,6 +21,7 @@ private let MetaCoreMd5 = "WOSHIZIDONGSHENGCHENGDEA"
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem!
+    @IBOutlet weak var checkForUpdateMenuItem: NSMenuItem!
 
     @IBOutlet var statusMenu: NSMenu!
     @IBOutlet var proxySettingMenuItem: NSMenuItem!
@@ -52,6 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var tunModeMenuItem: NSMenuItem!
 
     @IBOutlet var hideUnselecableMenuItem: NSMenuItem!
+	@IBOutlet var useYacdDashboardMenuItem: NSMenuItem!
     @IBOutlet var proxyProvidersMenu: NSMenu!
     @IBOutlet var ruleProvidersMenu: NSMenu!
     @IBOutlet var proxyProvidersMenuItem: NSMenuItem!
@@ -111,10 +113,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         Logger.log("postFinishLaunching")
         defer {
             statusItem.menu = statusMenu
-            DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+            DispatchQueue.main.asyncAfter(deadline: .now()+5) {
                 self.checkMenuIconVisable()
             }
 
+        }
+        if #unavailable(macOS 10.15) {
+            // dashboard is not support in macOS 10.15 below
+            self.dashboardMenuItem.isHidden = true
         }
         setupStatusMenuItemData()
         AppVersionUtil.showUpgradeAlert()
@@ -143,6 +149,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         setupNetworkNotifier()
         registCrashLogger()
         KeyboardShortCutManager.setup()
+        Hotfixs.applyMacOS14Hotfix(modeItem: proxyModeMenuItem)
     }
 
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
@@ -209,37 +216,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func buttonRectOnScreen() -> CGRect {
-            guard let button = statusItem.button else { return .zero }
-            guard let window = button.window else { return .zero }
-            let buttonRect = button.convert(button.bounds, to: nil)
-            let onScreenRect = window.convertToScreen(buttonRect)
-            return onScreenRect
-        }
-
-     func leftScreenX() -> CGFloat {
-            let screens = NSScreen.screens
-
-            var left: CGFloat = 0
-
-            for screen in screens {
-                if screen.frame.origin.x < left {
-                    left = screen.frame.origin.x
-                }
-            }
-            return left
-        }
-
     func checkMenuIconVisable() {
         guard let button = statusItem.button else {assertionFailure(); return }
         guard let window = button.window else {assertionFailure(); return }
         let buttonRect = button.convert(button.bounds, to: nil)
         let onScreenRect = window.convertToScreen(buttonRect)
         var leftScreenX: CGFloat = 0
-        for screen in NSScreen.screens {
-            if screen.frame.origin.x < leftScreenX {
-                leftScreenX = screen.frame.origin.x
-            }
+        for screen in NSScreen.screens where screen.frame.origin.x < leftScreenX {
+            leftScreenX = screen.frame.origin.x
         }
         let isMenuIconHidden = onScreenRect.midX < leftScreenX
 
@@ -288,6 +272,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         remoteConfigAutoupdateMenuItem.state = RemoteConfigManager.autoUpdateEnable ? .on : .off
 
         hideUnselecableMenuItem.state = .init(rawValue: MenuItemFactory.hideUnselectable)
+		
+		useYacdDashboardMenuItem.state = MenuItemFactory.useYacdDashboard ? .on : .off
+		useYacdDashboardMenuItem.isHidden = !DashboardManager.shared.enableSwiftUI
+		
         useAlphaMetaMenuItem.state = MenuItemFactory.useAlphaCore ? .on : .off
     }
 	
@@ -395,16 +383,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			.take(1)
 			.observe(on: MainScheduler.instance)
 			.bind(onNext: { _ in
+				Logger.log("HelperReady")
 				self.initMetaCore()
 				self.startProxy()
 			}).disposed(by: disposeBag)
 		
-		helperStatusTimer = Timer.scheduledTimer(withTimeInterval: 120, repeats: true) { timer in
+		helperStatusTimer = Timer.scheduledTimer(withTimeInterval: 300, repeats: true) { timer in
 			timer.fireDate = .init(timeIntervalSinceNow: 3600)
 			
 			PrivilegedHelperManager.shared.helper {
 				Logger.log("Check helper status Error, will try again")
-				timer.fireDate = .init(timeIntervalSinceNow: 0.15)
+				timer.fireDate = .init(timeIntervalSinceNow: 0.3)
 			}?.getVersion {
 				Logger.log("Check helper status success \($0 ?? "")")
 				timer.invalidate()
@@ -412,6 +401,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			}
 		}
 		helperStatusTimer?.fire()
+		Logger.log("Fire helperStatusTimer")
     }
 
     func setupSystemData() {
@@ -958,7 +948,9 @@ extension AppDelegate {
             ClashMetaConfig.generateInitConfig {
                 var config = $0
                 PrivilegedHelperManager.shared.helper {
-                    resolver.reject(StartMetaError.helperNotFound)
+//                    resolver.reject(StartMetaError.helperNotFound)
+					Logger.log("helperNotFound, getUsedPorts failed", level: .error)
+					resolver.fulfill(config)
                 }?.getUsedPorts {
                     config.updatePorts($0 ?? "")
                     resolver.fulfill(config)
@@ -970,6 +962,7 @@ extension AppDelegate {
     func startMeta(_ config: ClashMetaConfig.Config) -> Promise<StartProxyResp> {
         .init { resolver in
             PrivilegedHelperManager.shared.helper {
+				Logger.log("helperNotFound, startMeta failed", level: .error)
                 resolver.reject(StartMetaError.helperNotFound)
             }?.startMeta(withConfPath: kConfigFolderPath,
                          confFilePath: config.path) {
@@ -1045,7 +1038,7 @@ extension AppDelegate {
         }
         switchProxyMode(mode: mode)
     }
-    
+
     func switchProxyMode(mode: ClashProxyMode) {
         let config = ConfigManager.shared.currentConfig?.copy()
         config?.mode = mode
@@ -1224,13 +1217,13 @@ extension AppDelegate {
 // MARK: Meta Menu
 
 extension AppDelegate {
-    @IBAction func tunMode(_ sender: NSMenuItem) {
-        let enable = sender.state != .on
-        sender.isEnabled = false
+    @IBAction func actionSetTunMode(_ sender: NSMenuItem?) {
+        let enable = tunModeMenuItem.state != .on
+		tunModeMenuItem.isEnabled = false
         ApiRequest.updateTun(enable: enable) {
             self.syncConfigWithTun {
-                sender.state = enable ? .on : .off
-                sender.isEnabled = true
+				self.tunModeMenuItem.state = enable ? .on : .off
+				self.tunModeMenuItem.isEnabled = true
             }
         }
     }
@@ -1251,6 +1244,14 @@ extension AppDelegate {
         sender.state = newState
         MenuItemFactory.hideUnselectable = newState.rawValue
     }
+	
+	@IBAction func useYacdDashboard(_ sender: NSMenuItem) {
+		guard DashboardManager.shared.enableSwiftUI else { return }
+		
+		let useYacd = sender.state == .off
+		sender.state = useYacd ? .on : .off
+		MenuItemFactory.useYacdDashboard = useYacd
+	}
 
     @IBAction func checkForUpdate(_ sender: NSMenuItem) {
         let unc = NSUserNotificationCenter.default

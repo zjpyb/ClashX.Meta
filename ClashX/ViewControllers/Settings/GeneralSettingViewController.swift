@@ -20,7 +20,11 @@ class GeneralSettingViewController: NSViewController {
     @IBOutlet weak var proxyPortTextField: NSTextField!
     @IBOutlet weak var apiPortTextField: NSTextField!
     @IBOutlet var ssidSuspendTextField: NSTextView!
-    
+
+    @IBOutlet weak var apiSecretTextField: NSTextField!
+
+    @IBOutlet weak var apiSecretOverrideButton: NSButton!
+
     var disposeBag = DisposeBag()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +37,6 @@ class GeneralSettingViewController: NSViewController {
                 Settings.proxyIgnoreList = arr
             }.disposed(by: disposeBag)
 
-        
         ssidSuspendTextField.string = Settings.disableSSIDList.joined(separator: ",")
         ssidSuspendTextField.rx
             .string.debounce(.milliseconds(500), scheduler: MainScheduler.instance)
@@ -42,7 +45,7 @@ class GeneralSettingViewController: NSViewController {
                 Settings.disableSSIDList = arr
                 SSIDSuspendTool.shared.update()
             }.disposed(by: disposeBag)
-        
+
         LaunchAtLogin.shared.isEnableVirable
             .map { $0 ? .on : .off }
             .bind(to: launchAtLoginButton.rx.state)
@@ -75,6 +78,16 @@ class GeneralSettingViewController: NSViewController {
             apiPortTextField.stringValue = ConfigManager.shared.apiPort
         }
 
+        apiSecretTextField.stringValue = Settings.apiSecret
+        apiSecretTextField.rx.text.compactMap {$0}.bind {
+            Settings.apiSecret = $0
+        }.disposed(by: disposeBag)
+
+        apiSecretOverrideButton.state = Settings.overrideConfigSecret ? .on : .off
+        apiSecretOverrideButton.rx.state.bind { state in
+            Settings.overrideConfigSecret = state == .on
+        }.disposed(by: disposeBag)
+
         proxyPortTextField.rx.text
             .compactMap {$0}
             .compactMap {Int($0)}
@@ -92,6 +105,13 @@ class GeneralSettingViewController: NSViewController {
         allowApiLanUsageSwitcher.rx.state.bind { state in
             Settings.apiPortAllowLan = state == .on
         }.disposed(by: disposeBag)
+		
+		
+		proxyPortTextField.isEnabled = false
+		apiPortTextField.isEnabled = false
+		apiSecretTextField.isEnabled = false
+		
+		allowApiLanUsageSwitcher.isEnabled = false
     }
 
 }

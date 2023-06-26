@@ -10,7 +10,9 @@ post_install do |installer|
           config.build_settings['SWIFT_VERSION'] = '5'
         end
       end
-      config.build_settings['MACOSX_DEPLOYMENT_TARGET'] = '10.13'
+      if config.build_settings['MACOSX_DEPLOYMENT_TARGET'] == '' || Gem::Version.new(config.build_settings['MACOSX_DEPLOYMENT_TARGET']) < Gem::Version.new("10.13")
+        config.build_settings['MACOSX_DEPLOYMENT_TARGET'] = '10.13'
+      end
     end
   end
 end
@@ -27,6 +29,7 @@ target 'ClashX Meta' do
   pod 'Starscream','3.1.1'
   pod "FlexibleDiff"
   pod 'GzipSwift'
+  pod 'SwiftLint'
   pod 'Yams'
   pod "PromiseKit", "~> 6.8"
 end

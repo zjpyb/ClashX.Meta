@@ -9,7 +9,7 @@
 import Cocoa
 import SwiftyJSON
 
-enum ClashProxyType: String, Codable {
+enum ClashProxyType: String, Codable, CaseIterable {
     case urltest = "URLTest"
     case fallback = "Fallback"
     case loadBalance = "LoadBalance"
@@ -27,13 +27,20 @@ enum ClashProxyType: String, Codable {
 
     case vless = "Vless"
     case hysteria = "Hysteria"
-    case wireguardMeta = "WireGuard"
     case wireguard = "Wireguard"
     case tuic = "Tuic"
 
     case pass = "Pass"
 
     case unknown = "Unknown"
+	
+	init(from decoder: Decoder) throws {
+		let container = try decoder.singleValueContainer()
+		let rawString = try container.decode(String.self)
+		
+		self = ClashProxyType.allCases.first(where: { $0.rawValue.caseInsensitiveCompare(rawString) == .orderedSame }) ?? .unknown
+	}
+	
 
     static let proxyGroups: [ClashProxyType] = [.select, .urltest, .fallback, .loadBalance]
 
@@ -99,6 +106,7 @@ class ClashProxy: Codable {
     let all: [ClashProxyName]?
     let history: [ClashProxySpeedHistory]
     let now: ClashProxyName?
+    let alive: Bool?
     weak var enclosingResp: ClashProxyResp?
     weak var enclosingProvider: ClashProvider?
 
@@ -137,7 +145,7 @@ class ClashProxy: Codable {
     }()
 
     private enum CodingKeys: String, CodingKey {
-        case type, all, history, now, name
+        case type, all, history, now, name, alive
     }
 
     lazy var maxProxyNameLength: CGFloat = {
