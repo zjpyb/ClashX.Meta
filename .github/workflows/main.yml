@@ -18,9 +18,8 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: test
-      run: git rev-list --count origin/master..origin/meta
-    
+    - uses: FranzDiebold/github-env-vars-action@v2
+
     - name: download meta core
       uses: robinraju/release-downloader@v1.8
       with:
@@ -34,13 +33,29 @@ jobs:
         out-file-path: "clash.meta"
         token: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: build infos
+      run: |
+        /usr/libexec/PlistBuddy -c "Set CFBundleVersion $(git rev-list --count origin/master..origin/meta)" ClashX/Info.plist
+        /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString $(git describe --tags --abbrev=0)" ClashX/Info.plist
+        /usr/libexec/PlistBuddy -c "Add coreVersion string $(ls clash.meta | grep -m1 "" | sed -ne 's/.*64-\(.*\).gz/\1/p')" ClashX/Info.plist
+        /usr/libexec/PlistBuddy -c "Add gitBranch string $CI_ACTION_REF_NAME" ClashX/Info.plist
+        /usr/libexec/PlistBuddy -c "Add gitCommit string $CI_SHA_SHORT" ClashX/Info.plist
+        /usr/libexec/PlistBuddy -c "Add buildTime string $(date +%Y-%m-%d\ %H:%M)" ClashX/Info.plist
+
+        /usr/libexec/PlistBuddy -c 'Print CFBundleVersion' ClashX/Info.plist
+        /usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' ClashX/Info.plist
+        /usr/libexec/PlistBuddy -c 'Print coreVersion' ClashX/Info.plist
+        /usr/libexec/PlistBuddy -c 'Print gitBranch' ClashX/Info.plist
+        /usr/libexec/PlistBuddy -c 'Print gitCommit' ClashX/Info.plist
+        /usr/libexec/PlistBuddy -c 'Print buildTime' ClashX/Info.plist
+
+
     - name: install deps
       run: bash install_dependency.sh
-
-    - name: build infos
-      run: python3 ClashX/add_build_info.py
+        
 
     - name: build
+      if: startsWith(github.ref, 'refs/tags/')
       run: xcodebuild archive -workspace ClashX.xcworkspace -scheme ClashX -archivePath archive/ClashX.xcarchive -showBuildTimingSummary -allowProvisioningUpdates
 
     - name: build-SwiftUI
