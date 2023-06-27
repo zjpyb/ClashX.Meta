@@ -10,6 +10,7 @@
 		011946B62A32F64600502077 /* TunModeSettingCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011946B52A32F64500502077 /* TunModeSettingCommand.swift */; };
 		011946BA2A334C4900502077 /* ClashWebViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011946B92A334C4900502077 /* ClashWebViewContoller.swift */; };
 		012875E52A2E39CD004FB615 /* ClashX Dashboard in Frameworks */ = {isa = PBXBuildFile; productRef = 012875E42A2E39CD004FB615 /* ClashX Dashboard */; };
+		015A00072A4ABBCC000FD974 /* NSMutableArray+Safe.m in Sources */ = {isa = PBXBuildFile; fileRef = 015A00052A4ABBCC000FD974 /* NSMutableArray+Safe.m */; };
 		015EC9412A4888E400145F7F /* Hotfixs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EC9402A4888E300145F7F /* Hotfixs.swift */; };
 		015EC9432A48891000145F7F /* NormalMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EC9422A48891000145F7F /* NormalMenuItemView.swift */; };
 		015F1E91288E42A50052B20A /* ClashMetaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015F1E90288E42A50052B20A /* ClashMetaConfig.swift */; };
@@ -161,6 +162,8 @@
 /* Begin PBXFileReference section */
 		011946B52A32F64500502077 /* TunModeSettingCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TunModeSettingCommand.swift; sourceTree = "<group>"; };
 		011946B92A334C4900502077 /* ClashWebViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClashWebViewContoller.swift; sourceTree = "<group>"; };
+		015A00052A4ABBCC000FD974 /* NSMutableArray+Safe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Safe.m"; sourceTree = "<group>"; };
+		015A00062A4ABBCC000FD974 /* NSMutableArray+Safe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Safe.h"; sourceTree = "<group>"; };
 		015EC9402A4888E300145F7F /* Hotfixs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hotfixs.swift; sourceTree = "<group>"; };
 		015EC9422A48891000145F7F /* NormalMenuItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalMenuItemView.swift; sourceTree = "<group>"; };
 		015F1E90288E42A50052B20A /* ClashMetaConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashMetaConfig.swift; sourceTree = "<group>"; };
@@ -318,6 +321,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		015A00042A4ABBCC000FD974 /* Safe */ = {
+			isa = PBXGroup;
+			children = (
+				015A00052A4ABBCC000FD974 /* NSMutableArray+Safe.m */,
+				015A00062A4ABBCC000FD974 /* NSMutableArray+Safe.h */,
+			);
+			path = Safe;
+			sourceTree = "<group>";
+		};
 		4913C82021157CEB00F6B87C /* Macro */ = {
 			isa = PBXGroup;
 			children = (
@@ -429,6 +441,7 @@
 			children = (
 				4929F683258CE07500A435F6 /* UserDefaultWrapper.swift */,
 				F976275D23634F18000EDEFE /* LoginServiceKit */,
+				015A00042A4ABBCC000FD974 /* Safe */,
 				49722FE9211F338B00650A41 /* Witness */,
 				49D8276627E9B01700159D93 /* LoginKitWrapper.h */,
 				49D8276727E9B01700159D93 /* LoginKitWrapper.m */,
@@ -801,6 +814,7 @@
 				4952C3BF2115C7CA004A4FA8 /* MenuItemFactory.swift in Sources */,
 				49D6A45429AEEC3C006487EF /* NewStatusItemView.swift in Sources */,
 				015F1E92288E60D30052B20A /* MetaTask.swift in Sources */,
+				015A00072A4ABBCC000FD974 /* NSMutableArray+Safe.m in Sources */,
 				F977FAAC2366790500C17F1F /* AutoUpgardeManager.swift in Sources */,
 				499A485822ED715200F6C675 /* RemoteConfigModel.swift in Sources */,
 				49D176AB23575BB20093DD7B /* ProxyGroupMenuItemView.swift in Sources */,

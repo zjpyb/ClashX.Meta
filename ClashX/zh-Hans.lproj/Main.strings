@@ -259,9 +259,6 @@
 /* Class = "NSMenuItem"; title = "Set update interval"; ObjectID = "h1H-7k-9HS"; */
 "h1H-7k-9HS.title" = "设置更新间隔";
 
-/* Class = "NSBox"; title = "Box"; ObjectID = "Gnh-m8-PAz"; */
-"Gnh-m8-PAz.title" = "";
-
 /* Class = "NSTabViewController"; title = "Settings"; ObjectID = "LAj-p8-9gd"; */
 "LAj-p8-9gd.title" = "ClashX 设置";
 
@@ -275,7 +272,7 @@
 "dV6-4Z-2SO.title" = "开机启动";
 
 /* Class = "NSViewController"; title = "General"; ObjectID = "kma-mp-ncL"; */
-"kma-mp-ncL.title" = "";
+"kma-mp-ncL.title" = "通用";
 
 /* Class = "NSMenuItem"; title = "Settings"; ObjectID = "krh-QF-pqZ"; */
 "krh-QF-pqZ.title" = "更多设置";
