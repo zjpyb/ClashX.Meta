@@ -882,7 +882,7 @@ extension AppDelegate {
         }.done {
             Logger.log("Init config file success.")
 			
-			self.showUpdateNotification("ClashX_Meta_1.3.0_UpdateTips", info: "Config Floder migrated from\n~/.config/clash to\n~/.config/ClashMeta")
+			self.showUpdateNotification("ClashX_Meta_1.3.0_UpdateTips", info: "Config Floder migrated from\n~/.config/clash to\n~/.config/clash.meta")
 			
 			
         }.catch { error in
@@ -1521,7 +1521,7 @@ extension AppDelegate {
 
         guard let components = URLComponents(string: url),
               let scheme = components.scheme,
-              scheme.hasPrefix("clashmeta"),
+              scheme.hasPrefix("clash"),
               let host = components.host
         else { return }
 

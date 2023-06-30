@@ -41,10 +41,10 @@
 			<key>CFBundleURLIconFile</key>
 			<string>Icon</string>
 			<key>CFBundleURLName</key>
-			<string>com.metacubex.ClashX</string>
+			<string>com.west2online.ClashX</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>clashxmeta</string>
+				<string>clashx</string>
 			</array>
 		</dict>
 		<dict>
@@ -53,10 +53,10 @@
 			<key>CFBundleURLIconFile</key>
 			<string>Icon</string>
 			<key>CFBundleURLName</key>
-			<string>com.metacubex.ClashX</string>
+			<string>com.west2online.Clash</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>clashmeta</string>
+				<string>clash</string>
 			</array>
 		</dict>
 	</array>
@@ -101,12 +101,12 @@
 	<false/>
 	<key>NSUbiquitousContainers</key>
 	<dict>
-		<key>iCloud.com.metacubex.ClashX</key>
+		<key>iCloud.com.west2online.ClashX</key>
 		<dict>
 			<key>NSUbiquitousContainerIsDocumentScopePublic</key>
 			<true/>
 			<key>NSUbiquitousContainerName</key>
-			<string>ClashXMeta</string>
+			<string>ClashX</string>
 			<key>NSUbiquitousContainerSupportedFolderLevels</key>
 			<string>Any</string>
 		</dict>
