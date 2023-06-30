@@ -881,6 +881,10 @@ extension AppDelegate {
             self.pushInitConfig()
         }.done {
             Logger.log("Init config file success.")
+			
+			self.showUpdateNotification("ClashX_Meta_1.3.0_UpdateTips", info: "Config Floder migrated from\n~/.config/clash to\n~/.config/ClashMeta")
+			
+			
         }.catch { error in
             ConfigManager.shared.isRunning = false
             self.proxyModeMenuItem.isEnabled = false
@@ -1214,6 +1218,19 @@ extension AppDelegate {
     }
 }
 
+// MARK: Meta Update Notification
+extension AppDelegate {
+	func showUpdateNotification(_ udString: String, info: String) {
+		guard !UserDefaults.standard.bool(forKey: udString) else { return }
+		
+		UserDefaults.standard.set(true, forKey: udString)
+		
+		NSUserNotificationCenter.default
+			.postNotificationAlert(title: "Update Tips", info: info)
+	}
+	
+}
+
 // MARK: Meta Menu
 
 extension AppDelegate {
@@ -1504,7 +1521,7 @@ extension AppDelegate {
 
         guard let components = URLComponents(string: url),
               let scheme = components.scheme,
-              scheme.hasPrefix("clash"),
+              scheme.hasPrefix("clashmeta"),
               let host = components.host
         else { return }
 
