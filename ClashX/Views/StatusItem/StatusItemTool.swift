@@ -10,7 +10,7 @@ import AppKit
 
 enum StatusItemTool {
     static let menuImage: NSImage = {
-        let customImagePath = (NSHomeDirectory() as NSString).appendingPathComponent("/.config/ClashMeta/menuImage.png")
+        let customImagePath = (NSHomeDirectory() as NSString).appendingPathComponent("/.config/clash.meta/menuImage.png")
         if let image = NSImage(contentsOfFile: customImagePath) {
             return image
         }
