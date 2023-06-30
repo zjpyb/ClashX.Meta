@@ -1504,7 +1504,7 @@ extension AppDelegate {
 
         guard let components = URLComponents(string: url),
               let scheme = components.scheme,
-              scheme.hasPrefix("clash"),
+              scheme.hasPrefix("clashmeta"),
               let host = components.host
         else { return }
 
