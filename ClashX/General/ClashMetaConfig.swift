@@ -24,6 +24,7 @@ class ClashMetaConfig: NSObject {
         var mixedPort: Int?
 
         var geodataMode: Bool?
+		var geoxUrl: [String: String]?
 
         var logLevel = ConfigManager.selectLoggingApiLevel.rawValue
 
@@ -46,6 +47,7 @@ class ClashMetaConfig: NSObject {
                  socksPort = "socks-port",
                  logLevel = "log-level",
                  geodataMode = "geodata-mode",
+				 geoxUrl = "geox-url",
                  secret
         }
 
@@ -80,6 +82,10 @@ class ClashMetaConfig: NSObject {
             if port == nil && mixedPort == nil {
                 mixedPort = 7890
             }
+			
+			if let urls = yaml[keys.geoxUrl.rawValue] as? [String: String] {
+				geoxUrl = urls
+			}
         }
 
         mutating func updatePorts(_ usedPorts: String) {
