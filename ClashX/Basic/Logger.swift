@@ -6,7 +6,7 @@
 //  Copyright © 2018年 yichengchen. All rights reserved.
 //
 
-import CocoaLumberjack
+import CocoaLumberjackSwift
 import Foundation
 class Logger {
     static let shared = Logger()

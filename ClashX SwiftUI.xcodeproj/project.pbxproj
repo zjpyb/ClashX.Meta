@@ -33,10 +33,10 @@
 		01B009AE2854533300B93618 /* geoip.dat.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B009AC2854533200B93618 /* geoip.dat.gz */; };
 		01B009AF2854533300B93618 /* geosite.dat.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B009AD2854533300B93618 /* geosite.dat.gz */; };
 		01B1CB082A2E1EC10073EA34 /* DashboardManagerSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B1CB072A2E1EC10073EA34 /* DashboardManagerSwiftUI.swift */; };
-		01B1CB0C2A2E23F70073EA34 /* LoggerSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B1CB0B2A2E23F70073EA34 /* LoggerSwiftUI.swift */; };
 		01B2274B29B845F100FE35C9 /* country.mmdb.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01B2274A29B845F100FE35C9 /* country.mmdb.gz */; };
 		01BC9ABE2928EB5A00F9B177 /* MetaDNS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC9ABD2928E5C600F9B177 /* MetaDNS.swift */; };
 		01C1462A28962E4E00346AF3 /* com.metacubex.ClashX.ProxyConfigHelper.meta.gz in Resources */ = {isa = PBXBuildFile; fileRef = 01C1462928962E4E00346AF3 /* com.metacubex.ClashX.ProxyConfigHelper.meta.gz */; };
+		01C5B88D2A4FD1DB00C4E36A /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C5B88C2A4FD1DB00C4E36A /* Logger.swift */; };
 		01E33AB229B5BF4200FD1006 /* NSColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E33AB129B5BF4200FD1006 /* NSColor+Extension.swift */; };
 		01E33AB529B5C5E400FD1006 /* menu_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 01E33AB429B5C5E300FD1006 /* menu_icon@2x.png */; };
 		01EACC702A2F9408001C584B /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 01EACC6F2A2F9408001C584B /* KeyboardShortcuts */; };
@@ -176,10 +176,10 @@
 		01B009AC2854533200B93618 /* geoip.dat.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = geoip.dat.gz; sourceTree = "<group>"; };
 		01B009AD2854533300B93618 /* geosite.dat.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = geosite.dat.gz; sourceTree = "<group>"; };
 		01B1CB072A2E1EC10073EA34 /* DashboardManagerSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardManagerSwiftUI.swift; sourceTree = "<group>"; };
-		01B1CB0B2A2E23F70073EA34 /* LoggerSwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggerSwiftUI.swift; sourceTree = "<group>"; };
 		01B2274A29B845F100FE35C9 /* country.mmdb.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = country.mmdb.gz; sourceTree = "<group>"; };
 		01BC9ABD2928E5C600F9B177 /* MetaDNS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaDNS.swift; sourceTree = "<group>"; };
 		01C1462928962E4E00346AF3 /* com.metacubex.ClashX.ProxyConfigHelper.meta.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = com.metacubex.ClashX.ProxyConfigHelper.meta.gz; sourceTree = "<group>"; };
+		01C5B88C2A4FD1DB00C4E36A /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		01E33AB129B5BF4200FD1006 /* NSColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSColor+Extension.swift"; sourceTree = "<group>"; };
 		01E33AB429B5C5E300FD1006 /* menu_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_icon@2x.png"; sourceTree = "<group>"; };
 		01EACC712A2F9469001C584B /* SSIDSuspendTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSIDSuspendTool.swift; sourceTree = "<group>"; };
@@ -502,7 +502,7 @@
 			isa = PBXGroup;
 			children = (
 				495A44D220D267D000888A0A /* LaunchAtLogin.swift */,
-				01B1CB0B2A2E23F70073EA34 /* LoggerSwiftUI.swift */,
+				01C5B88C2A4FD1DB00C4E36A /* Logger.swift */,
 				4966E9E5211824F300A391FB /* NSImage+extension.swift */,
 				49B10869216A356D0064FFCE /* String+Extension.swift */,
 				49ABB748236B0F9E00535CD7 /* UnsafePointer+bridge.swift */,
@@ -773,7 +773,6 @@
 				F915A4622366ADEF004840BE /* ClashConnection.swift in Sources */,
 				F977FAAE23669D6400C17F1F /* ConnectionManager.swift in Sources */,
 				495340B320DE68C300B0D3FF /* StatusItemView.swift in Sources */,
-				01B1CB0C2A2E23F70073EA34 /* LoggerSwiftUI.swift in Sources */,
 				F935B2FC23085515009E4D33 /* SystemProxyManager.swift in Sources */,
 				495A44D320D267D000888A0A /* LaunchAtLogin.swift in Sources */,
 				01EACC722A2F9469001C584B /* SSIDSuspendTool.swift in Sources */,
@@ -826,6 +825,7 @@
 				F976275C23634DF8000EDEFE /* LoginServiceKit.swift in Sources */,
 				4966E9E6211824F300A391FB /* NSImage+extension.swift in Sources */,
 				011946B62A32F64600502077 /* TunModeSettingCommand.swift in Sources */,
+				01C5B88D2A4FD1DB00C4E36A /* Logger.swift in Sources */,
 				F92D0B2E236D35C000575E15 /* ProxyItemView.swift in Sources */,
 				49BB31E7246853EA008A4CB0 /* ICloudManager.swift in Sources */,
 				49B1086A216A356D0064FFCE /* String+Extension.swift in Sources */,
@@ -1280,7 +1280,7 @@
 			repositoryURL = "https://github.com/1024jp/GzipSwift";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
+				minimumVersion = 6.0.0;
 			};
 		};
 		0192313629DD490400539EDD /* XCRemoteSwiftPackageReference "Yams" */ = {
