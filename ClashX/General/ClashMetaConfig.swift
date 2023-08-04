@@ -86,6 +86,11 @@ class ClashMetaConfig: NSObject {
 			if let urls = yaml[keys.geoxUrl.rawValue] as? [String: String] {
 				geoxUrl = urls
 			}
+			
+			if let mode = yaml[keys.geodataMode.rawValue] as? Bool {
+				geodataMode = mode
+			}
+				
         }
 
         mutating func updatePorts(_ usedPorts: String) {

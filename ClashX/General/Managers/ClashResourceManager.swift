@@ -37,7 +37,7 @@ class ClashResourceManager {
 
     static func checkRule(_ file: RuleFiles) {
         let fileManage = FileManager.default
-        let destPath = "\(kConfigFolderPath)/\(file.rawValue)"
+        let destPath = kConfigFolderPath + file.rawValue
 
         // Remove old mmdb file after version update.
         if fileManage.fileExists(atPath: destPath) {
