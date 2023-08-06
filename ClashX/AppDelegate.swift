@@ -363,20 +363,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 ConfigManager.shared.isTunModeVariable.accept(config.tun.enable)
             }.disposed(by: disposeBag)
 
-        if !PrivilegedHelperManager.shared.isHelperCheckFinished.value {
-            proxySettingMenuItem.target = nil
-            tunModeMenuItem.target = nil
-            PrivilegedHelperManager.shared.isHelperCheckFinished
-                .filter({$0})
-                .take(1)
-                .observe(on: MainScheduler.instance)
-                .subscribe { [weak self] _ in
-                    guard let self = self else { return }
-                    self.proxySettingMenuItem.target = self
-                    self.tunModeMenuItem.target = self
-                }.disposed(by: disposeBag)
-        }
-
         // start proxy
 		PrivilegedHelperManager.shared.isHelperReady
 			.filter({$0})
@@ -400,7 +386,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				PrivilegedHelperManager.shared.isHelperReady.accept(true)
 			}
 		}
-		helperStatusTimer?.fire()
+		
+		if !PrivilegedHelperManager.shared.isHelperCheckFinished.value {
+			proxySettingMenuItem.target = nil
+			tunModeMenuItem.target = nil
+			PrivilegedHelperManager.shared.isHelperCheckFinished
+				.filter({$0})
+				.take(1)
+				.observe(on: MainScheduler.instance)
+				.subscribe { [weak self] _ in
+					guard let self = self else { return }
+					self.proxySettingMenuItem.target = self
+					self.tunModeMenuItem.target = self
+					
+					self.helperStatusTimer?.fire()
+				}.disposed(by: disposeBag)
+		}
+		
 		Logger.log("Fire helperStatusTimer")
     }
 
