@@ -39,7 +39,7 @@
             <objects>
                 <viewController title="General" showSeguePresentationStyle="single" id="kma-mp-ncL" customClass="GeneralSettingViewController" customModule="ClashX_Meta" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" misplaced="YES" id="dpe-v8-fF7">
-                        <rect key="frame" x="0.0" y="0.0" width="400" height="674"/>
+                        <rect key="frame" x="0.0" y="0.0" width="472" height="674"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VYa-DX-JOe">
@@ -389,7 +389,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TVZ-xJ-zK0">
-                                                    <rect key="frame" x="18" y="175" width="396" height="16"/>
+                                                    <rect key="frame" x="18" y="165" width="396" height="26"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Bypass proxy settings for these Hosts &amp; Domains" id="NPu-V9-f3r">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -397,7 +397,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VvP-5I-QhW">
-                                                    <rect key="frame" x="18" y="158" width="396" height="13"/>
+                                                    <rect key="frame" x="18" y="148" width="396" height="13"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Separated by commas(,)" id="sfe-wu-UXp">
                                                         <font key="font" textStyle="footnote" name=".SFNS-Regular"/>
                                                         <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -405,7 +405,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vfh-gi-qYe">
-                                                    <rect key="frame" x="20" y="50" width="392" height="100"/>
+                                                    <rect key="frame" x="20" y="40" width="392" height="100"/>
                                                     <clipView key="contentView" drawsBackground="NO" id="bzV-Hc-3eJ">
                                                         <rect key="frame" x="0.0" y="0.0" width="377" height="100"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -434,7 +434,7 @@
                                                     </scroller>
                                                 </scrollView>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="F3Y-d6-RGr">
-                                                    <rect key="frame" x="340" y="13" width="79" height="32"/>
+                                                    <rect key="frame" x="340" y="3" width="79" height="32"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="65" id="j7r-Bw-Nk6"/>
                                                     </constraints>
@@ -461,7 +461,6 @@
                                                 <constraint firstAttribute="trailing" secondItem="F3Y-d6-RGr" secondAttribute="trailing" constant="20" symbolic="YES" id="qgc-wk-Aom"/>
                                                 <constraint firstAttribute="trailing" secondItem="vfh-gi-qYe" secondAttribute="trailing" constant="20" symbolic="YES" id="siv-mY-uhW"/>
                                                 <constraint firstItem="vfh-gi-qYe" firstAttribute="leading" secondItem="Xgo-Uz-aYp" secondAttribute="leading" constant="20" symbolic="YES" id="w76-ua-GEo"/>
-                                                <constraint firstAttribute="bottom" secondItem="F3Y-d6-RGr" secondAttribute="bottom" constant="20" symbolic="YES" id="yKg-vb-iw4"/>
                                             </constraints>
                                         </view>
                                     </box>
@@ -513,7 +512,7 @@
                 </viewController>
                 <customObject id="Co2-xv-pHW" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1546" y="1152"/>
+            <point key="canvasLocation" x="1582" y="1152"/>
         </scene>
         <!--Application-->
         <scene sceneID="JPo-4y-FX3">
@@ -852,12 +851,6 @@
                                                     <modifierMask key="keyEquivalentModifierMask"/>
                                                     <connections>
                                                         <action selector="actionUpdateProxyGroupMenu:" target="Voe-Tx-rLC" id="XsH-da-e3b"/>
-                                                    </connections>
-                                                </menuItem>
-                                                <menuItem title="Set benchmark url" id="rls-O1-mpQ">
-                                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                                    <connections>
-                                                        <action selector="actionSetBenchmarkUrl:" target="Voe-Tx-rLC" id="uok-Pz-Uuz"/>
                                                     </connections>
                                                 </menuItem>
                                             </items>
@@ -1732,7 +1725,7 @@
                                                 </button>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5WY-QP-cCq">
                                                     <rect key="frame" x="-2" y="275" width="154" height="18"/>
-                                                    <buttonCell key="cell" type="check" title="Use Built-in clash api" bezelStyle="regularSquare" imagePosition="left" inset="2" id="IET-Bf-hGj">
+                                                    <buttonCell key="cell" type="check" title="Use Built-in clash api" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="IET-Bf-hGj">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
@@ -1794,7 +1787,7 @@
                                                         </textField>
                                                         <button verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="tHw-or-Djh">
                                                             <rect key="frame" x="105" y="-7" width="79" height="32"/>
-                                                            <buttonCell key="cell" type="push" title="Update" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="pHl-C4-fNt">
+                                                            <buttonCell key="cell" type="push" title="Update" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="pHl-C4-fNt">
                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                 <font key="font" metaFont="system"/>
                                                                 <connections>
@@ -1930,7 +1923,7 @@
                                                         </textField>
                                                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gjb-nb-14I">
                                                             <rect key="frame" x="103" y="-4" width="39" height="25"/>
-                                                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="qZF-t6-s4q">
+                                                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="qZF-t6-s4q">
                                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                                 <font key="font" metaFont="menu"/>
                                                                 <menu key="menu" id="XPC-Mb-vvl"/>
