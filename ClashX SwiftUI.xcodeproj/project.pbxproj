@@ -10,8 +10,9 @@
 		011946B62A32F64600502077 /* TunModeSettingCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011946B52A32F64500502077 /* TunModeSettingCommand.swift */; };
 		011946BA2A334C4900502077 /* ClashWebViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011946B92A334C4900502077 /* ClashWebViewContoller.swift */; };
 		012875E52A2E39CD004FB615 /* ClashX Dashboard in Frameworks */ = {isa = PBXBuildFile; productRef = 012875E42A2E39CD004FB615 /* ClashX Dashboard */; };
-		015A00072A4ABBCC000FD974 /* NSMutableArray+Safe.m in Sources */ = {isa = PBXBuildFile; fileRef = 015A00052A4ABBCC000FD974 /* NSMutableArray+Safe.m */; };
-		015EC9412A4888E400145F7F /* Hotfixs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EC9402A4888E300145F7F /* Hotfixs.swift */; };
+		0144905C2A8150920056028A /* Combine+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0144905A2A8150920056028A /* Combine+Ext.swift */; };
+		0144905D2A8150920056028A /* SpeedUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0144905B2A8150920056028A /* SpeedUtils.swift */; };
+		0144905F2A8153260056028A /* ClashWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0144905E2A8153250056028A /* ClashWindowController.swift */; };
 		015EC9432A48891000145F7F /* NormalMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015EC9422A48891000145F7F /* NormalMenuItemView.swift */; };
 		015F1E91288E42A50052B20A /* ClashMetaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015F1E90288E42A50052B20A /* ClashMetaConfig.swift */; };
 		015F1E92288E60D30052B20A /* MetaTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162E74E2864B819007218A6 /* MetaTask.swift */; };
@@ -162,9 +163,9 @@
 /* Begin PBXFileReference section */
 		011946B52A32F64500502077 /* TunModeSettingCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TunModeSettingCommand.swift; sourceTree = "<group>"; };
 		011946B92A334C4900502077 /* ClashWebViewContoller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClashWebViewContoller.swift; sourceTree = "<group>"; };
-		015A00052A4ABBCC000FD974 /* NSMutableArray+Safe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Safe.m"; sourceTree = "<group>"; };
-		015A00062A4ABBCC000FD974 /* NSMutableArray+Safe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Safe.h"; sourceTree = "<group>"; };
-		015EC9402A4888E300145F7F /* Hotfixs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hotfixs.swift; sourceTree = "<group>"; };
+		0144905A2A8150920056028A /* Combine+Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Combine+Ext.swift"; sourceTree = "<group>"; };
+		0144905B2A8150920056028A /* SpeedUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeedUtils.swift; sourceTree = "<group>"; };
+		0144905E2A8153250056028A /* ClashWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClashWindowController.swift; sourceTree = "<group>"; };
 		015EC9422A48891000145F7F /* NormalMenuItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalMenuItemView.swift; sourceTree = "<group>"; };
 		015F1E90288E42A50052B20A /* ClashMetaConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClashMetaConfig.swift; sourceTree = "<group>"; };
 		0162E74D2864B818007218A6 /* com.metacubex.ClashX.ProxyConfigHelper-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "com.metacubex.ClashX.ProxyConfigHelper-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -276,8 +277,6 @@
 		F977FAAB2366790500C17F1F /* AutoUpgardeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoUpgardeManager.swift; sourceTree = "<group>"; };
 		F977FAAD23669D6400C17F1F /* ConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
 		F9A7C0692306E874007163C7 /* com.metacubex.ClashX.ProxyConfigHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = com.metacubex.ClashX.ProxyConfigHelper; sourceTree = BUILT_PRODUCTS_DIR; };
-		F9C180A1243C6590005EE8C4 /* goClash.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = goClash.a; path = ClashX/goClash/goClash.a; sourceTree = SOURCE_ROOT; };
-		F9C180A2243C6590005EE8C4 /* goClash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = goClash.h; path = ClashX/goClash/goClash.h; sourceTree = SOURCE_ROOT; };
 		F9E754CF239CC21F00CEE7CC /* WebPortalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPortalManager.swift; sourceTree = "<group>"; };
 		F9E754D1239CC28D00CEE7CC /* NSAlert+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAlert+Extension.swift"; sourceTree = "<group>"; };
 		F9E8F34523A12B89002DE5E8 /* String+Encode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Encode.swift"; sourceTree = "<group>"; };
@@ -319,15 +318,6 @@
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		015A00042A4ABBCC000FD974 /* Safe */ = {
-			isa = PBXGroup;
-			children = (
-				015A00052A4ABBCC000FD974 /* NSMutableArray+Safe.m */,
-				015A00062A4ABBCC000FD974 /* NSMutableArray+Safe.h */,
-			);
-			path = Safe;
 			sourceTree = "<group>";
 		};
 		4913C82021157CEB00F6B87C /* Macro */ = {
@@ -397,7 +387,6 @@
 				492C4868210EE6B9004554A0 /* ApiRequest.swift */,
 				015F1E90288E42A50052B20A /* ClashMetaConfig.swift */,
 				016BEAAF29D80102001586C5 /* AlphaMetaDownloader.swift */,
-				015EC9402A4888E300145F7F /* Hotfixs.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -441,7 +430,6 @@
 			children = (
 				4929F683258CE07500A435F6 /* UserDefaultWrapper.swift */,
 				F976275D23634F18000EDEFE /* LoginServiceKit */,
-				015A00042A4ABBCC000FD974 /* Safe */,
 				49722FE9211F338B00650A41 /* Witness */,
 				49D8276627E9B01700159D93 /* LoginKitWrapper.h */,
 				49D8276727E9B01700159D93 /* LoginKitWrapper.m */,
@@ -507,6 +495,8 @@
 				49B10869216A356D0064FFCE /* String+Extension.swift */,
 				49ABB748236B0F9E00535CD7 /* UnsafePointer+bridge.swift */,
 				01EACC772A2F94C7001C584B /* NSView+Layout.swift */,
+				0144905B2A8150920056028A /* SpeedUtils.swift */,
+				0144905A2A8150920056028A /* Combine+Ext.swift */,
 			);
 			path = Basic;
 			sourceTree = "<group>";
@@ -562,6 +552,7 @@
 				49CF3B2A20CD7465001EBF94 /* ClashX.entitlements */,
 				49CF3B3520CD75DF001EBF94 /* ClashX-Bridging-Header.h */,
 				F9FAB31D262BE04800DE02A6 /* Images.xcassets */,
+				0144905E2A8153250056028A /* ClashWindowController.swift */,
 			);
 			path = ClashX;
 			sourceTree = "<group>";
@@ -569,8 +560,6 @@
 		49CF3B3A20CD783A001EBF94 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				F9C180A1243C6590005EE8C4 /* goClash.a */,
-				F9C180A2243C6590005EE8C4 /* goClash.h */,
 				4981C88D216BAE4A008CC14A /* Localizable.strings */,
 			);
 			path = "Support Files";
@@ -762,6 +751,7 @@
 				49ABB749236B0F9E00535CD7 /* UnsafePointer+bridge.swift in Sources */,
 				01EACC762A2F94AB001C584B /* GlobalShortCutViewController.swift in Sources */,
 				499A485522ED707300F6C675 /* RemoteConfigViewController.swift in Sources */,
+				0144905C2A8150920056028A /* Combine+Ext.swift in Sources */,
 				49D6A45229AEEC15006487EF /* StatusItemTool.swift in Sources */,
 				49CF3B5C20CE8068001EBF94 /* ClashResourceManager.swift in Sources */,
 				4952C3D02117027C004A4FA8 /* ConfigFileManager.swift in Sources */,
@@ -786,6 +776,7 @@
 				016BEAB029D80103001586C5 /* AlphaMetaDownloader.swift in Sources */,
 				49D176A72355FE680093DD7B /* NetworkChangeNotifier.swift in Sources */,
 				4913C82321157D0200F6B87C /* Notification.swift in Sources */,
+				0144905D2A8150920056028A /* SpeedUtils.swift in Sources */,
 				015F1E91288E42A50052B20A /* ClashMetaConfig.swift in Sources */,
 				8ACD21BD27A04ED500BC4632 /* ProxyModeChangeCommand.swift in Sources */,
 				498BC2552929CCAE00CA8084 /* GeneralSettingViewController.swift in Sources */,
@@ -798,10 +789,10 @@
 				492C4871210EF62E004554A0 /* ClashConfig.swift in Sources */,
 				492C4869210EE6B9004554A0 /* ApiRequest.swift in Sources */,
 				49CF3B6520CEE06C001EBF94 /* ConfigManager.swift in Sources */,
+				0144905F2A8153260056028A /* ClashWindowController.swift in Sources */,
 				F9E754D0239CC21F00CEE7CC /* WebPortalManager.swift in Sources */,
 				018F88F9286DD0CB004DD0F7 /* DualTitleMenuItem.swift in Sources */,
 				495BFB8821919B9800C8779D /* RemoteConfigManager.swift in Sources */,
-				015EC9412A4888E400145F7F /* Hotfixs.swift in Sources */,
 				4982F51F2344A216008804B0 /* Cgo+Convert.swift in Sources */,
 				8ACD21BB27A04C7800BC4632 /* ProxySettingCommand.swift in Sources */,
 				49722FF1211F338B00650A41 /* Witness.swift in Sources */,
@@ -813,7 +804,6 @@
 				4952C3BF2115C7CA004A4FA8 /* MenuItemFactory.swift in Sources */,
 				49D6A45429AEEC3C006487EF /* NewStatusItemView.swift in Sources */,
 				015F1E92288E60D30052B20A /* MetaTask.swift in Sources */,
-				015A00072A4ABBCC000FD974 /* NSMutableArray+Safe.m in Sources */,
 				F977FAAC2366790500C17F1F /* AutoUpgardeManager.swift in Sources */,
 				499A485822ED715200F6C675 /* RemoteConfigModel.swift in Sources */,
 				49D176AB23575BB20093DD7B /* ProxyGroupMenuItemView.swift in Sources */,
