@@ -779,21 +779,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func setupExperimentalMenuItem() {
-        ConnectionManager.addCloseOptionMenuItem(&experimentalMenu)
-//        ClashResourceManager.addUpdateMMDBMenuItem(&experimentalMenu)
-        SystemProxyManager.shared.addDisableRestoreProxyMenuItem(&experimentalMenu)
-        MenuItemFactory.addExperimentalMenuItem(&experimentalMenu)
-        if WebPortalManager.hasWebProtal {
-            WebPortalManager.shared.addWebProtalMenuItem(&statusMenu)
-        }
-
-//        AutoUpgardeManager.shared.setup()
-//        AutoUpgardeManager.shared.addChanelMenuItem(&experimentalMenu)
-        updateExperimentalFeatureStatus()
-        RemoteControlManager.setupMenuItem(separator: externalControlSeparator)
-    }
-
     func updateExperimentalFeatureStatus() {
         showProxyGroupCurrentMenuItem.state = ConfigManager.shared.disableShowCurrentProxyInMenu ? .off : .on
     }

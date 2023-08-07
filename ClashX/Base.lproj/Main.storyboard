@@ -43,10 +43,10 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VYa-DX-JOe">
-                                <rect key="frame" x="20" y="20" width="432" height="610"/>
+                                <rect key="frame" x="20" y="20" width="432" height="602"/>
                                 <subviews>
                                     <box borderType="line" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Gnh-m8-PAz">
-                                        <rect key="frame" x="-3" y="516" width="438" height="96"/>
+                                        <rect key="frame" x="-3" y="510" width="438" height="94"/>
                                         <view key="contentView" id="Lai-8r-q7z">
                                             <rect key="frame" x="3" y="3" width="432" height="88"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -97,7 +97,7 @@
                                         </view>
                                     </box>
                                     <box title="Port Settings (restart app to take effect)" translatesAutoresizingMaskIntoConstraints="NO" id="bcR-rG-52F">
-                                        <rect key="frame" x="-3" y="374" width="438" height="136"/>
+                                        <rect key="frame" x="-3" y="370" width="438" height="134"/>
                                         <view key="contentView" id="baR-Ra-RV2">
                                             <rect key="frame" x="3" y="3" width="432" height="116"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -254,13 +254,13 @@
                                         </view>
                                     </box>
                                     <box borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="F94-On-Zm0">
-                                        <rect key="frame" x="-3" y="281" width="438" height="89"/>
+                                        <rect key="frame" x="-3" y="277" width="438" height="89"/>
                                         <view key="contentView" id="icq-Gs-lyb">
-                                            <rect key="frame" x="3" y="3" width="432" height="81"/>
+                                            <rect key="frame" x="3" y="3" width="432" height="83"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dOk-QZ-mIx" userLabel="SSID Suspend">
-                                                    <rect key="frame" x="18" y="55" width="396" height="16"/>
+                                                    <rect key="frame" x="18" y="55" width="396" height="18"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="SSID Suspend" id="F1s-SF-dqX">
                                                         <font key="font" usesAppearanceFont="YES"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -286,7 +286,7 @@
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                <size key="minSize" width="375" height="20"/>
+                                                                <size key="minSize" width="377" height="20"/>
                                                                 <size key="maxSize" width="450" height="10000000"/>
                                                                 <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                             </textView>
@@ -320,16 +320,16 @@
                                         </view>
                                     </box>
                                     <box borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="BeT-cl-vgr">
-                                        <rect key="frame" x="-3" y="209" width="438" height="68"/>
+                                        <rect key="frame" x="-3" y="207" width="438" height="66"/>
                                         <view key="contentView" id="kkS-1K-s09">
-                                            <rect key="frame" x="4" y="5" width="430" height="60"/>
+                                            <rect key="frame" x="3" y="3" width="432" height="60"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YUR-mA-R4I">
-                                                    <rect key="frame" x="20" y="20" width="390" height="20"/>
+                                                    <rect key="frame" x="20" y="20" width="392" height="20"/>
                                                     <subviews>
                                                         <customView focusRingType="none" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="dcS-bg-IKd">
-                                                            <rect key="frame" x="0.0" y="0.0" width="390" height="20"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="392" height="20"/>
                                                             <subviews>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Rkp-p5-5Uv">
                                                                     <rect key="frame" x="-2" y="2" width="135" height="16"/>
@@ -340,7 +340,7 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="m7z-Fp-ctz">
-                                                                    <rect key="frame" x="139" y="0.0" width="251" height="20"/>
+                                                                    <rect key="frame" x="139" y="0.0" width="253" height="20"/>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="nhC-xY-dyM">
                                                                         <numberFormatter key="formatter" formatterBehavior="default10_4" localizesFormat="NO" usesGroupingSeparator="NO" formatWidth="-1" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="42" id="WfP-3f-zii">
                                                                             <real key="minimum" value="0.0"/>
@@ -415,7 +415,7 @@
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                <size key="minSize" width="375" height="100"/>
+                                                                <size key="minSize" width="377" height="100"/>
                                                                 <size key="maxSize" width="450" height="10000000"/>
                                                                 <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                             </textView>
@@ -688,7 +688,6 @@
                         <outlet property="autoStartMenuItem" destination="B1J-XB-BiZ" id="xaS-h5-qd0"/>
                         <outlet property="checkForUpdateMenuItem" destination="p0T-J8-Emx" id="9BN-2j-QNB"/>
                         <outlet property="configSeparatorLine" destination="WzG-og-OyZ" id="hhn-AP-zKJ"/>
-                        <outlet property="connectionsMenuItem" destination="v4s-jd-g1N" id="MXJ-IS-6uq"/>
                         <outlet property="copyExportCommandExternalMenuItem" destination="7wl-vK-5JO" id="1Lu-Tu-FJy"/>
                         <outlet property="copyExportCommandMenuItem" destination="Jmb-PK-rMW" id="tiF-vV-Sqh"/>
                         <outlet property="dashboardMenuItem" destination="XG6-2M-PNi" id="hzn-77-3Uc"/>
@@ -711,7 +710,6 @@
                         <outlet property="separatorLineTop" destination="1fM-p6-bHd" id="NFb-qS-TKR"/>
                         <outlet property="sepatatorLineEndProxySelect" destination="n67-fU-hLx" id="Vgv-N6-SOH"/>
                         <outlet property="showNetSpeedIndicatorMenuItem" destination="YIO-Vj-64f" id="9a5-3N-Ylk"/>
-                        <outlet property="showProxyGroupCurrentMenuItem" destination="j9o-36-NTd" id="5jc-iE-bou"/>
                         <outlet property="snifferMenuItem" destination="mk5-fI-KvW" id="wy5-NG-fu9"/>
                         <outlet property="socksPortMenuItem" destination="Uy1-g8-r6Q" id="NiI-Gy-9Sa"/>
                         <outlet property="statusMenu" destination="Afa-lD-EbR" id="cov-E9-WrO"/>
@@ -800,12 +798,6 @@
                                 <action selector="actionDashboard:" target="Voe-Tx-rLC" id="i6y-pW-cD3"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Connection Details" keyEquivalent="D" id="v4s-jd-g1N">
-                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
-                            <connections>
-                                <action selector="actionConnections:" target="Voe-Tx-rLC" id="vlk-mX-pNQ"/>
-                            </connections>
-                        </menuItem>
                         <menuItem isSeparatorItem="YES" id="UpD-DI-Smv"/>
                         <menuItem title="Configs" id="JMV-Dy-CI0">
                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -867,9 +859,6 @@
                                                     <connections>
                                                         <action selector="actionSetBenchmarkUrl:" target="Voe-Tx-rLC" id="uok-Pz-Uuz"/>
                                                     </connections>
-           											<connections>
-                                                        <segue destination="s6y-wL-pnr" kind="show" id="YYz-MS-98Q"/>
-                                                    </connections>
                                                 </menuItem>
                                             </items>
                                         </menu>
@@ -877,13 +866,13 @@
                                 </items>
                             </menu>
                         </menuItem>
-                      	<menuItem title="Settings" id="krh-QF-pqZ">
+                        <menuItem title="Settings" id="krh-QF-pqZ">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="actionUpdateConfig:" target="Voe-Tx-rLC" id="L8c-KG-g8D"/>
                                 <segue destination="LAj-p8-9gd" kind="show" id="BTv-JW-0Fb"/>
                             </connections>
-						</menuItem>
+                        </menuItem>
                         <menuItem title="Meta" id="F3d-AD-N6E">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <menu key="submenu" title="Meta" id="ji6-hK-w0I">
@@ -1722,17 +1711,17 @@
             <objects>
                 <viewController title="Debug" showSeguePresentationStyle="single" id="kdV-Em-qBi" customClass="DebugSettingViewController" customModule="ClashX_Meta" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="mud-rj-Isy">
-                        <rect key="frame" x="0.0" y="0.0" width="416" height="429"/>
+                        <rect key="frame" x="0.0" y="0.0" width="416" height="427"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <box title="Debug Setting" translatesAutoresizingMaskIntoConstraints="NO" id="NLT-FZ-48V">
-                                <rect key="frame" x="17" y="21" width="382" height="388"/>
+                                <rect key="frame" x="17" y="21" width="382" height="386"/>
                                 <view key="contentView" id="JPj-NU-Cwp">
-                                    <rect key="frame" x="4" y="5" width="374" height="368"/>
+                                    <rect key="frame" x="3" y="3" width="376" height="368"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <stackView distribution="fillProportionally" orientation="vertical" alignment="leading" spacing="20" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="1000" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6bh-Rg-qaG">
-                                            <rect key="frame" x="20" y="20" width="334" height="328"/>
+                                            <rect key="frame" x="20" y="20" width="336" height="328"/>
                                             <subviews>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CUS-EE-bqd">
                                                     <rect key="frame" x="-2" y="311" width="336" height="18"/>

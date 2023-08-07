@@ -68,11 +68,6 @@ enum KeyboardShortCutManager {
         KeyboardShortcuts.onKeyUp(for: .openMenu) {
             AppDelegate.shared.statusItem.button?.performClick(nil)
         }
-        if #available(macOS 10.15, *) {
-            KeyboardShortcuts.onKeyUp(for: .nativeDashboard) {
-                ClashWindowController<DashboardViewController>.create().showWindow(self)
-            }
-        }
     }
 }
 

@@ -13,7 +13,7 @@ import SwiftyJSON
 class MenuItemFactory {
     private static var cachedProxyData: ClashProxyResp?
 
-    static let useViewToRenderProxy: Bool = AppDelegate.isAboveMacOS152
+	static var useViewToRenderProxy: Bool = AppDelegate.isAboveMacOS152
 
     static var hideUnselectable: Int = UserDefaults.standard.object(forKey: "hideUnselectable") as? Int ?? NSControl.StateValue.off.rawValue {
         didSet {
