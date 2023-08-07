@@ -103,9 +103,6 @@
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "id7-f0-u56"; */
 "id7-f0-u56.title" = "Text Cell";
 
-/* Class = "NSMenuItem"; title = "Show current proxy in menu"; ObjectID = "j9o-36-NTd"; */
-"j9o-36-NTd.title" = "快捷展示策略组策略";
-
 /* Class = "NSMenuItem"; title = "API Connect Error"; ObjectID = "jGT-1M-xJu"; */
 "jGT-1M-xJu.title" = "API Connect Error";
 
@@ -141,9 +138,6 @@
 
 /* Class = "NSMenu"; title = "Help"; ObjectID = "ogW-pn-jeR"; */
 "ogW-pn-jeR.title" = "帮助";
-
-/* Class = "NSMenuItem"; title = "Experimental"; ObjectID = "OLP-Uv-at6"; */
-"OLP-Uv-at6.title" = "试验性功能";
 
 /* Class = "NSMenuItem"; title = "Check Update"; ObjectID = "p0T-J8-Emx"; */
 "p0T-J8-Emx.title" = "检查更新";
@@ -369,3 +363,24 @@
 
 /* Class = "NSTextFieldCell"; title = "App Setting"; ObjectID = "PF0-Gd-XbR"; */
 "PF0-Gd-XbR.title" = "应用配置";
+
+/* Class = "NSMenuItem"; title = "Connection Details"; ObjectID = "v4s-jd-g1N"; */
+"v4s-jd-g1N.title" = "连接查看器";
+
+/* Class = "NSButtonCell"; title = "Use Built-in clash api"; ObjectID = "IET-Bf-hGj"; */
+"IET-Bf-hGj.title" = "使用Clash内置Api";
+
+/* Class = "NSButtonCell"; title = "Revert to previous proxy on proxy disabled"; ObjectID = "JOF-yU-YHc"; */
+"JOF-yU-YHc.title" = "取消代理时还原更早的系统代理设置";
+
+/* Class = "NSTextFieldCell"; title = "Update Channel"; ObjectID = "NLt-OM-k6i"; */
+"NLt-OM-k6i.title" = "更新通道";
+
+/* Class = "NSTextFieldCell"; title = "Geo-IP Datebase"; ObjectID = "OMy-zu-iho"; */
+"OMy-zu-iho.title" = "Geo-IP数据库";
+
+/* Class = "NSTextFieldCell"; title = "Proxy Benchmark Url:"; ObjectID = "e0M-xf-ovR"; */
+"e0M-xf-ovR.title" = "代理延迟测试地址";
+
+/* Class = "NSButtonCell"; title = "Update"; ObjectID = "pHl-C4-fNt"; */
+"pHl-C4-fNt.title" = "更新";

@@ -16,6 +16,12 @@ extension DateFormatter {
         return dateFormatter
     }
 
+    static var simple: DateFormatter {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd HH:mm:ss"
+        return dateFormatter
+    }
+
     static var provider: DateFormatter {
         let f = DateFormatter()
         f.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSSZZ"

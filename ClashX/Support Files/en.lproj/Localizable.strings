@@ -1,3 +1,6 @@
+/* No comment provided by engineer. */
+"Active Connections" = "Active Connections";
+
 /* Provider update time title */
 " ago" = " ago";
 
@@ -11,7 +14,13 @@
 "Alpha Meta core Warning" = "If you don't know what you're doing, never turn this switch on.\nRunning Meta Core without any authentication under 'su' privileges may damage your mac.";
 
 /* No comment provided by engineer. */
-"Auto Close Connection" = "Auto Close Connection";
+"All Clients" = "All Clients";
+
+/* No comment provided by engineer. */
+"All Hosts" = "All Hosts";
+
+/* No comment provided by engineer. */
+"Apply and Quit" = "Apply and Quit";
 
 /* No comment provided by engineer. */
 "Benchmark" = "Benchmark";
@@ -44,10 +53,19 @@
 "Click OK to quit the app and apply change." = "Click OK to quit the app and apply change.";
 
 /* No comment provided by engineer. */
+"Client" = "Client";
+
+/* No comment provided by engineer. */
+"Close Connection" = "Close Connection";
+
+/* No comment provided by engineer. */
 "Config file have been changed" = "Config file have been changed";
 
 /* No comment provided by engineer. */
 "Config loading Fail!" = "Config loading Fail!";
+
+/* No comment provided by engineer. */
+"Connecting" = "Connecting";
 
 /* No comment provided by engineer. */
 "Copy Shell Command" = "Copy Shell Command";
@@ -65,6 +83,9 @@
 "Decode current config failed." = "Decode current config failed.";
 
 /* No comment provided by engineer. */
+"Date" = "Date";
+
+/* No comment provided by engineer. */
 "Details" = "Details";
 
 /* No comment provided by engineer. */
@@ -74,7 +95,10 @@
 "Direct Mode" = "Direct Mode";
 
 /* No comment provided by engineer. */
-"Disable Restore Proxy Setting" = "Disable Restore Proxy Setting";
+"Done" = "Done";
+
+/* No comment provided by engineer. */
+"Download" = "Download";
 
 /* No comment provided by engineer. */
 "Download fail" = "Download fail";
@@ -86,13 +110,16 @@
 "Enhance proxy list render" = "Enhance proxy list render";
 
 /* No comment provided by engineer. */
+"Download speed" = "Download speed";
+
+/* No comment provided by engineer. */
 "fail" = "fail";
 
 /* No comment provided by engineer. */
-"Fail:" = "Fail:";
+"Fail" = "Fail";
 
 /* No comment provided by engineer. */
-"fails: %@" = "fails: %@";
+"Fail:" = "Fail:";
 
 /* No comment provided by engineer. */
 "Flush fake-ip cache" = "Flush fake-ip cache";
@@ -105,6 +132,12 @@
 
 /* No comment provided by engineer. */
 "Good luck to you  🙃" = "Good luck to you  🙃";
+
+/* No comment provided by engineer. */
+"Host" = "Host";
+
+/* No comment provided by engineer. */
+"Hosts" = "Hosts";
 
 /* No comment provided by engineer. */
 "hours" = "hours";
@@ -128,6 +161,9 @@
 "Load Balance" = "Load Balance";
 
 /* No comment provided by engineer. */
+"Local Clients" = "Local Clients";
+
+/* No comment provided by engineer. */
 
 "Never show again" = "Never show again";
 
@@ -139,6 +175,9 @@
 
 /* No comment provided by engineer. */
 "OK" = "OK";
+
+/* No comment provided by engineer. */
+"Open Connection Details" = "Open Connection Details";
 
 /* No comment provided by engineer. */
 "Open Dashboard" = "Open Dashboard";
@@ -171,6 +210,9 @@
 "Quit" = "Quit";
 
 /* No comment provided by engineer. */
+"Recent Connections" = "Recent Connections";
+
+/* No comment provided by engineer. */
 "Reduce alerts if notification permission is disabled" = "Reduce alerts if notification permission is disabled";
 
 /* No comment provided by engineer. */
@@ -189,6 +231,9 @@
 "Remote Config Update Fail" = "Remote Config Update Fail";
 
 /* No comment provided by engineer. */
+"Requests" = "Requests";
+
+/* No comment provided by engineer. */
 "Reset Daemon" = "Reset Daemon";
 
 /* No comment provided by engineer. */
@@ -201,22 +246,22 @@
 "Rule Mode" = "Rule Mode";
 
 /* No comment provided by engineer. */
-"Script" = "Script";
-
-/* No comment provided by engineer. */
-"Script Mode" = "Script Mode";
-
-/* No comment provided by engineer. */
 "Should be a least 1 hour" = "Should be a least 1 hour";
 
 /* No comment provided by engineer. */
 "Some thing failed." = "Some thing failed.";
 
 /* No comment provided by engineer. */
+"Sources" = "Sources";
+
+/* No comment provided by engineer. */
 "Stable" = "Stable";
 
 /* No comment provided by engineer. */
 "Start Meta Fail!" = "Start Meta Fail!";
+
+/* No comment provided by engineer. */
+"Status" = "Status";
 
 /* No comment provided by engineer. */
 "Succeed!" = "Succeed!";
@@ -255,6 +300,12 @@
 "Update Alpha Meta core" = "Update Alpha Meta core";
 
 /* No comment provided by engineer. */
+"Type" = "Type";
+
+/* No comment provided by engineer. */
+"Unknown" = "Unknown";
+
+/* No comment provided by engineer. */
 "Update GEOIP Database" = "Update GEOIP Database";
 
 /* No comment provided by engineer. */
@@ -270,10 +321,10 @@
 "Upgrade Channel" = "Upgrade Channel";
 
 /* No comment provided by engineer. */
-"URL is not valid" = "URL is not valid";
+"Upload" = "Upload";
 
 /* No comment provided by engineer. */
-"Use iCloud" = "Use iCloud";
+"Upload speed" = "Upload speed";
 
 /* No comment provided by engineer. */
 "Use reload config to try reconnect." = "Use reload config to try reconnect.";

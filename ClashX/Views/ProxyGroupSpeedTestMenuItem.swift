@@ -116,6 +116,9 @@ private class ProxyGroupSpeedTestMenuItemView: MenuItemBaseView {
             self.label.stringValue = menu.title
             menu.isEnabled = true
             self.setNeedsDisplay()
+            if !providers.isEmpty {
+                MenuItemFactory.refreshExistingMenuItems()
+            }
         }
     }
 }

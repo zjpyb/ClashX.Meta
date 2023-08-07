@@ -48,9 +48,9 @@ class ApiRequest {
         alamoFireManager = Session(configuration: configuration)
     }
 
-    private static func authHeader() -> HTTPHeaders {
+    static func authHeader() -> HTTPHeaders {
         let secret = ConfigManager.shared.overrideSecret ?? ConfigManager.shared.apiSecret
-        return (secret.count > 0) ? ["Authorization": "Bearer \(secret)"] : [:]
+        return (!secret.isEmpty) ? ["Authorization": "Bearer \(secret)"] : [:]
     }
 
     @discardableResult
@@ -302,8 +302,8 @@ class ApiRequest {
 // MARK: - Connections
 
 extension ApiRequest {
-    static func getConnections(completeHandler: @escaping ([ClashConnectionSnapShot.Connection]) -> Void) {
-        req("/connections").responseDecodable(of: ClashConnectionSnapShot.self) { resp in
+    static func getConnections(completeHandler: @escaping ([ClashConnectionBaseSnapShot.Connection]) -> Void) {
+        req("/connections").responseDecodable(of: ClashConnectionBaseSnapShot.self) { resp in
             switch resp.result {
             case let .success(snapshot):
                 completeHandler(snapshot.connections)
@@ -314,8 +314,8 @@ extension ApiRequest {
         }
     }
 
-    static func closeConnection(_ conn: ClashConnectionSnapShot.Connection) {
-        req("/connections/".appending(conn.id), method: .delete).response { _ in }
+    static func closeConnection(_ id: String) {
+        req("/connections/\(id)", method: .delete).response { _ in }
     }
 
     static func closeAllConnection() {
