@@ -47,8 +47,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var showProxyGroupCurrentMenuItem: NSMenuItem!
     @IBOutlet var copyExportCommandMenuItem: NSMenuItem!
     @IBOutlet var copyExportCommandExternalMenuItem: NSMenuItem!
-    @IBOutlet var experimentalMenu: NSMenu!
     @IBOutlet var externalControlSeparator: NSMenuItem!
+    @IBOutlet var connectionsMenuItem: NSMenuItem!
 
     @IBOutlet var tunModeMenuItem: NSMenuItem!
 
@@ -121,11 +121,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if #unavailable(macOS 10.15) {
             // dashboard is not support in macOS 10.15 below
             self.dashboardMenuItem.isHidden = true
+            self.connectionsMenuItem.isHidden = true
         }
         setupStatusMenuItemData()
         AppVersionUtil.showUpgradeAlert()
         ICloudManager.shared.setup()
-        setupExperimentalMenuItem()
+
+        if WebPortalManager.hasWebProtal {
+            WebPortalManager.shared.addWebProtalMenuItem(&statusMenu)
+        }
+        AutoUpgardeManager.shared.setup()
+        AutoUpgardeManager.shared.setupCheckForUpdatesMenuItem(checkForUpdateMenuItem)
 
         // install proxy helper
         _ = ClashResourceManager.check()
@@ -149,7 +155,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         setupNetworkNotifier()
         registCrashLogger()
         KeyboardShortCutManager.setup()
-        Hotfixs.applyMacOS14Hotfix(modeItem: proxyModeMenuItem)
+        RemoteControlManager.setupMenuItem(separator: externalControlSeparator)
     }
 
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
@@ -363,20 +369,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 ConfigManager.shared.isTunModeVariable.accept(config.tun.enable)
             }.disposed(by: disposeBag)
 
-        if !PrivilegedHelperManager.shared.isHelperCheckFinished.value {
-            proxySettingMenuItem.target = nil
-            tunModeMenuItem.target = nil
-            PrivilegedHelperManager.shared.isHelperCheckFinished
-                .filter({$0})
-                .take(1)
-                .observe(on: MainScheduler.instance)
-                .subscribe { [weak self] _ in
-                    guard let self = self else { return }
-                    self.proxySettingMenuItem.target = self
-                    self.tunModeMenuItem.target = self
-                }.disposed(by: disposeBag)
-        }
-
         // start proxy
 		PrivilegedHelperManager.shared.isHelperReady
 			.filter({$0})
@@ -400,7 +392,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				PrivilegedHelperManager.shared.isHelperReady.accept(true)
 			}
 		}
-		helperStatusTimer?.fire()
+		
+		if !PrivilegedHelperManager.shared.isHelperCheckFinished.value {
+			proxySettingMenuItem.target = nil
+			tunModeMenuItem.target = nil
+			PrivilegedHelperManager.shared.isHelperCheckFinished
+				.filter({$0})
+				.take(1)
+				.observe(on: MainScheduler.instance)
+				.subscribe { [weak self] _ in
+					guard let self = self else { return }
+					self.proxySettingMenuItem.target = self
+					self.tunModeMenuItem.target = self
+					
+					self.helperStatusTimer?.fire()
+				}.disposed(by: disposeBag)
+		}
+		
 		Logger.log("Fire helperStatusTimer")
     }
 
@@ -489,7 +497,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func updateProxyList(withMenus menus: [NSMenuItem]) {
         let startIndex = statusMenu.items.firstIndex(of: separatorLineTop)! + 1
         let endIndex = statusMenu.items.firstIndex(of: sepatatorLineEndProxySelect)!
-        sepatatorLineEndProxySelect.isHidden = menus.count == 0
+        sepatatorLineEndProxySelect.isHidden = menus.isEmpty
         for _ in 0..<endIndex - startIndex {
             statusMenu.removeItem(at: startIndex)
         }
@@ -769,21 +777,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 NotificationCenter.default.post(name: .reloadDashboard, object: nil)
             }
         }
-    }
-
-    func setupExperimentalMenuItem() {
-        ConnectionManager.addCloseOptionMenuItem(&experimentalMenu)
-//        ClashResourceManager.addUpdateMMDBMenuItem(&experimentalMenu)
-        SystemProxyManager.shared.addDisableRestoreProxyMenuItem(&experimentalMenu)
-        MenuItemFactory.addExperimentalMenuItem(&experimentalMenu)
-        if WebPortalManager.hasWebProtal {
-            WebPortalManager.shared.addWebProtalMenuItem(&statusMenu)
-        }
-
-//        AutoUpgardeManager.shared.setup()
-//        AutoUpgardeManager.shared.addChanelMenuItem(&experimentalMenu)
-        updateExperimentalFeatureStatus()
-        RemoteControlManager.setupMenuItem(separator: externalControlSeparator)
     }
 
     func updateExperimentalFeatureStatus() {
@@ -1395,7 +1388,7 @@ extension AppDelegate {
         #if DEBUG
             return
         #else
-            UserDefaults.standard.register(defaults: ["NSApplicationCrashOnExceptions": true])
+            UserDefaults.standard.register(defaults: ["NSApplicationCrashOnExceptions": false])
             let x = UserDefaults.standard
             var launch_fail_times: Int = 0
             if let xx = x.object(forKey: "launch_fail_times") as? Int { launch_fail_times = xx }

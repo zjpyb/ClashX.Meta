@@ -18,8 +18,6 @@ gzip com.metacubex.ClashX.ProxyConfigHelper.meta
 cp com.metacubex.ClashX.ProxyConfigHelper.meta.gz ../ClashX/Resources/
 cd ..
 
-echo "Pod install"
-pod install
 echo "delete old files"
 rm -f ./ClashX/Resources/country.mmdb
 rm -f ./ClashX/Resources/geosite.dat
