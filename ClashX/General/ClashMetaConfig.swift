@@ -7,6 +7,7 @@ import Cocoa
 import Yams
 
 class ClashMetaConfig: NSObject {
+	static let initRulePayload = "ClashXMetaInitConfigQWERTYUIOP".lowercased()
 
     struct Config: Codable {
         var externalUI: String? = {
@@ -27,6 +28,8 @@ class ClashMetaConfig: NSObject {
 		var geoxUrl: [String: String]?
 
         var logLevel = ConfigManager.selectLoggingApiLevel.rawValue
+		
+		var rules = ["DOMAIN-KEYWORD,\(initRulePayload),REJECT"]
 
         var path: String {
             get {
@@ -48,7 +51,8 @@ class ClashMetaConfig: NSObject {
                  logLevel = "log-level",
                  geodataMode = "geodata-mode",
 				 geoxUrl = "geox-url",
-                 secret
+                 secret,
+				 rules
         }
 
         mutating func loadDefaultConfigFile(_ path: String) {

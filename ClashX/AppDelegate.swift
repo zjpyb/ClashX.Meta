@@ -72,6 +72,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var runAfterConfigReload: (() -> Void)?
 	
 	var helperStatusTimer: Timer?
+	var updateGeoTimer: Timer?
 
     func applicationWillFinishLaunching(_ notification: Notification) {
         Logger.log("applicationWillFinishLaunching")
@@ -1288,8 +1289,32 @@ extension AppDelegate {
     }
 
     @IBAction func updateGEO(_ sender: NSMenuItem) {
+		guard updateGeoTimer == nil else { return }
+		updateGeoTimer = Timer.scheduledTimer(withTimeInterval: 500, repeats: true) { [weak self] timer in
+			
+			timer.fireDate = .init(timeIntervalSinceNow: 5)
+			
+			ApiRequest.getRules { rules in
+				guard self?.updateGeoTimer != nil else { return }
+				if let rule = rules.first,
+				   rule.payload == ClashMetaConfig.initRulePayload {
+					Logger.log("Update GEO Finished.")
+					self?.updateConfig(showNotification: false) { _ in
+						NSUserNotificationCenter.default.post(title: "Update GEO Databases Finished.", info: "")
+					}
+					
+					timer.invalidate()
+					self?.updateGeoTimer = nil
+				} else {
+					timer.fireDate = .init(timeIntervalSinceNow: 0.5)
+				}
+			}
+		}
+		
         ApiRequest.updateGEO { _ in
             NSUserNotificationCenter.default.post(title: NSLocalizedString("Updating GEO Databases...", comment: ""), info: NSLocalizedString("Good luck to you  🙃", comment: ""))
+			
+			self.updateGeoTimer?.fire()
         }
     }
 
