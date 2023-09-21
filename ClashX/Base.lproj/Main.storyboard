@@ -1067,8 +1067,8 @@
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="AppIcon" id="Vx1-G4-Xby"/>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="prU-ck-7Na">
-                                <rect key="frame" x="199" y="165" width="53" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ClashX" id="MzG-sW-3g7">
+                                <rect key="frame" x="180" y="165" width="91" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ClashX Meta" id="MzG-sW-3g7">
                                     <font key="font" metaFont="systemBold" size="14"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1089,14 +1089,14 @@
                                 </attributedString>
                             </textField>
                             <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gM7-9K-QZN">
-                                <rect key="frame" x="48" y="31" width="355" height="40"/>
+                                <rect key="frame" x="16" y="31" width="419" height="40"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Eta-0y-44x">
-                                        <rect key="frame" x="0.0" y="0.0" width="113" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="147" height="40"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8pQ-pI-ToK">
-                                                <rect key="frame" x="-2" y="24" width="109" height="16"/>
-                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="GitHub for Clash:" allowsEditingTextAttributes="YES" id="lsq-AW-K0M">
+                                                <rect key="frame" x="-2" y="24" width="142" height="16"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="GitHub for Clash Meta:" allowsEditingTextAttributes="YES" id="lsq-AW-K0M">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1106,8 +1106,8 @@
                                                 </attributedString>
                                             </textField>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kch-A0-ga2">
-                                                <rect key="frame" x="-2" y="0.0" width="117" height="16"/>
-                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="GitHub for ClashX:" id="89f-5u-Eo0">
+                                                <rect key="frame" x="-2" y="0.0" width="151" height="16"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="GitHub for ClashX Meta:" id="89f-5u-Eo0">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1127,11 +1127,11 @@
                                         </customSpacing>
                                     </stackView>
                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BaZ-rB-g4s">
-                                        <rect key="frame" x="118" y="0.0" width="237" height="40"/>
+                                        <rect key="frame" x="152" y="0.0" width="267" height="40"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q4m-SB-uHV" customClass="HyperlinkTextField" customModule="ClashX_Meta" customModuleProvider="target">
-                                                <rect key="frame" x="-2" y="24" width="221" height="16"/>
-                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="https://github.com/Dreamacro/clash" id="Bej-j7-KKV">
+                                                <rect key="frame" x="-2" y="24" width="262" height="16"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="https://github.com/MetaCubeX/Clash.Meta" id="Bej-j7-KKV">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1140,12 +1140,12 @@
                                                     <fragment content="#bc-ignore!"/>
                                                 </attributedString>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="href" value="https://github.com/Dreamacro/clash"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="href" value="https://github.com/MetaCubeX/Clash.Meta"/>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bSi-kz-Dkf" customClass="HyperlinkTextField" customModule="ClashX_Meta" customModuleProvider="target">
-                                                <rect key="frame" x="-2" y="0.0" width="241" height="16"/>
-                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="https://github.com/yichengchen/clashX" id="9ox-Fc-Wk3">
+                                                <rect key="frame" x="-2" y="0.0" width="271" height="16"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="https://github.com/MetaCubeX/ClashX.Meta" id="9ox-Fc-Wk3">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1154,7 +1154,7 @@
                                                     <fragment content="#bc-ignore!"/>
                                                 </attributedString>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="href" value="https://github.com/yichengchen/clashX"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="href" value="https://github.com/MetaCubeX/ClashX.Meta"/>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                         </subviews>
