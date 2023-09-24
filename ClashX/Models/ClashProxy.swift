@@ -94,9 +94,7 @@ class ClashProxySpeedHistory: Codable {
         }
     }()
 
-    lazy var dateDisplay: String = {
-        return HisDateFormaterInstance.shared.formater.string(from: time)
-    }()
+    lazy var dateDisplay: String = HisDateFormaterInstance.shared.formater.string(from: time)
 
     lazy var displayString: String = "\(dateDisplay) \(delayDisplay)"
 }
@@ -141,9 +139,7 @@ class ClashProxy: Codable {
         return proxys
     }()
 
-    lazy var isSpeedTestable: Bool = {
-        return !speedtestAble.isEmpty
-    }()
+    lazy var isSpeedTestable: Bool = !speedtestAble.isEmpty
 
     private enum CodingKeys: String, CodingKey {
         case type, all, history, now, name, alive
@@ -152,7 +148,7 @@ class ClashProxy: Codable {
     lazy var maxProxyNameLength: CGFloat = {
         let rect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: 20)
 
-        let lengths = all?.compactMap({ name -> CGFloat in
+        let lengths = all?.compactMap { name -> CGFloat in
             if let length = ClashProxy.nameLengthCachedMap[name] {
                 return length
             }
@@ -165,7 +161,7 @@ class ClashProxy: Codable {
                               attributes: attr).width
             ClashProxy.nameLengthCachedMap[name] = length
             return length
-        })
+        }
         return lengths?.max() ?? 0
     }()
 }
@@ -228,15 +224,11 @@ class ClashProxyResp {
         return map
     }()
 
-    lazy var proxyGroups: [ClashProxy] = {
-        return proxies.filter {
-            ClashProxyType.isProxyGroup($0)
-        }.sorted(by: { proxiesSortMap[$0.name] ?? -1 < proxiesSortMap[$1.name] ?? -1 })
-    }()
+    lazy var proxyGroups: [ClashProxy] = proxies.filter {
+        ClashProxyType.isProxyGroup($0)
+    }.sorted(by: { proxiesSortMap[$0.name] ?? -1 < proxiesSortMap[$1.name] ?? -1 })
 
-    lazy var longestProxyGroupName = {
-        return proxyGroups.max { $1.name.count > $0.name.count }?.name ?? ""
-    }()
+    lazy var longestProxyGroupName = proxyGroups.max { $1.name.count > $0.name.count }?.name ?? ""
 
     lazy var maxProxyNameLength: CGFloat = {
         let rect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: 20)
