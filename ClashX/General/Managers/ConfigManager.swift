@@ -75,7 +75,7 @@ class ConfigManager {
         }
     }
 
-    let proxyPortAutoSetObservable = UserDefaults.standard.rx.observe(Bool.self, "proxyPortAutoSet").map({ $0 ?? false })
+    let proxyPortAutoSetObservable = UserDefaults.standard.rx.observe(Bool.self, "proxyPortAutoSet").map { $0 ?? false }
 
     var isProxySetByOtherVariable = BehaviorRelay<Bool>(value: false)
     var proxyShouldPaused = BehaviorRelay<Bool>(value: false)
@@ -154,6 +154,21 @@ class ConfigManager {
     var disableShowCurrentProxyInMenu: Bool = UserDefaults.standard.object(forKey: "kSDisableShowCurrentProxyInMenu") as? Bool ?? !AppDelegate.isAboveMacOS14 {
         didSet {
             UserDefaults.standard.set(disableShowCurrentProxyInMenu, forKey: "kSDisableShowCurrentProxyInMenu")
+        }
+    }
+
+    static func getConfigPath(configName: String, complete: ((String) -> Void)? = nil) {
+        if ICloudManager.shared.useiCloud.value {
+            ICloudManager.shared.getUrl { url in
+                guard let url = url else {
+                    return
+                }
+                let configPath = url.appendingPathComponent(Paths.configFileName(for: configName)).path
+                complete?(configPath)
+            }
+        } else {
+            let filePath = Paths.localConfigPath(for: configName)
+            complete?(filePath)
         }
     }
 }

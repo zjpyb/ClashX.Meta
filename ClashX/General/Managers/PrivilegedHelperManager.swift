@@ -7,9 +7,9 @@
 //
 
 import AppKit
-import ServiceManagement
-import RxSwift
 import RxCocoa
+import RxSwift
+import ServiceManagement
 
 class PrivilegedHelperManager {
     let isHelperCheckFinished = BehaviorRelay<Bool>(value: false)
@@ -36,7 +36,7 @@ class PrivilegedHelperManager {
         Logger.log("checkInstall", level: .debug)
         getHelperStatus { [weak self] status in
             Logger.log("check result: \(status)", level: .debug)
-            guard let self = self else {return}
+            guard let self = self else { return }
             switch status {
             case .noFound:
                 if #available(macOS 13, *) {
@@ -161,7 +161,7 @@ class PrivilegedHelperManager {
         var called = false
         let reply: ((HelperStatus) -> Void) = {
             status in
-            if called {return}
+            if called { return }
             called = true
             callback(status)
         }
@@ -251,7 +251,7 @@ extension PrivilegedHelperManager {
     }
 }
 
-private struct AppAuthorizationRights {
+private enum AppAuthorizationRights {
     static let rightName: NSString = "\(PrivilegedHelperManager.machServiceName).config" as NSString
     static let rightDefaultRule: Dictionary = adminRightsRule
     static let rightDescription: CFString = "ProxyConfigHelper wants to configure your proxy setting'" as CFString

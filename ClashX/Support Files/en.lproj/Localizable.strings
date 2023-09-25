@@ -113,6 +113,9 @@
 "Download speed" = "Download speed";
 
 /* No comment provided by engineer. */
+"Edit in Text Mode" = "Edit in Text Mode";
+
+/* No comment provided by engineer. */
 "fail" = "fail";
 
 /* No comment provided by engineer. */
@@ -123,6 +126,9 @@
 
 /* No comment provided by engineer. */
 "Flush fake-ip cache" = "Flush fake-ip cache";
+
+/* No comment provided by engineer. */
+"fails: %@" = "fails: %@";
 
 /* No comment provided by engineer. */
 "Global" = "Global";
@@ -210,6 +216,9 @@
 "Quit" = "Quit";
 
 /* No comment provided by engineer. */
+"Quit ClashX?" = "Quit ClashX?";
+
+/* No comment provided by engineer. */
 "Recent Connections" = "Recent Connections";
 
 /* No comment provided by engineer. */
@@ -244,6 +253,9 @@
 
 /* No comment provided by engineer. */
 "Rule Mode" = "Rule Mode";
+
+/* No comment provided by engineer. */
+"Script" = "Script";
 
 /* No comment provided by engineer. */
 "Should be a least 1 hour" = "Should be a least 1 hour";
@@ -285,6 +297,9 @@
 "Testing" = "Testing";
 
 /* No comment provided by engineer. */
+"The active connections will be interrupted." = "The active connections will be interrupted.";
+
+/* No comment provided by engineer. */
 "The remote config name is duplicated" = "The remote config name is duplicated";
 
 /* No comment provided by engineer. */
@@ -300,10 +315,16 @@
 "Update Alpha Meta core" = "Update Alpha Meta core";
 
 /* No comment provided by engineer. */
+"total: %d, success: %d" = "total: %d, success: %d";
+
+/* No comment provided by engineer. */
 "Type" = "Type";
 
 /* No comment provided by engineer. */
 "Unknown" = "Unknown";
+
+/* No comment provided by engineer. */
+"Update external resource complete" = "Update external resource complete";
 
 /* No comment provided by engineer. */
 "Update GEOIP Database" = "Update GEOIP Database";
