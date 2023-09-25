@@ -117,6 +117,9 @@ class ClashWebViewContoller: NSViewController {
 
         view.window?.isOpaque = false
         view.window?.backgroundColor = NSColor.clear
+		view.window?.styleMask.insert(.closable)
+		view.window?.styleMask.insert(.resizable)
+		view.window?.styleMask.insert(.miniaturizable)
         view.window?.toolbar = NSToolbar()
         view.window?.toolbar?.showsBaselineSeparator = false
         view.wantsLayer = true

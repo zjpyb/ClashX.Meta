@@ -18,6 +18,9 @@ enum TerminalConfirmAction {
         let group = DispatchGroup()
         var shouldWait = false
 
+		PrivilegedHelperManager.shared.helper()?.stopMeta()
+		PrivilegedHelperManager.shared.helper()?.updateTun(with: false)
+		
         if ConfigManager.shared.proxyPortAutoSet && !ConfigManager.shared.isProxySetByOtherVariable.value || NetworkChangeNotifier.isCurrentSystemSetToClash(looser: true) ||
             NetworkChangeNotifier.hasInterfaceProxySetToClash() {
             Logger.log("ClashX quit need clean proxy setting")

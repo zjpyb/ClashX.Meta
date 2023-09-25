@@ -108,19 +108,10 @@ class ApiRequest {
                 let configPath = url.appendingPathComponent(Paths.configFileName(for: configName)).path
                 callback(configPath)
             }
-            return
-        }
-
-        let data = clashGetConfigs()?.toString().data(using: .utf8) ?? Data()
-        guard let config = ClashConfig.fromData(data) else {
-            NSUserNotificationCenter.default.post(title: "Error", info: "Get clash config failed. Try Fix your config file then reload config or restart ClashX.")
-            (NSApplication.shared.delegate as? AppDelegate)?.startProxy()
-            return
         } else {
             let filePath = Paths.localConfigPath(for: configName)
             callback(filePath)
         }
-        completeHandler(config)
     }
 
     static func requestConfigUpdate(configName: String, callback: @escaping ((ErrorString?) -> Void)) {
@@ -487,10 +478,12 @@ extension ApiRequest {
         }
     }
 
+	/*
     enum ProviderType {
         case proxy
         case rule
     }
+	 */
 
     static func updateProvider(name: String, type: ProviderType, completeHandler: @escaping (Bool) -> Void) {
         let url: String

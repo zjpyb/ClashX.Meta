@@ -207,7 +207,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }.disposed(by: disposeBag)
 
         statusItemView.updateViewStatus(enableProxy: ConfigManager.shared.proxyPortAutoSet)
-    }
 
         hideUnselecableMenuItem.state = .init(rawValue: MenuItemFactory.hideUnselectable)
 		
