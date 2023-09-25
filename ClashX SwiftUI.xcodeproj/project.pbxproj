@@ -1298,7 +1298,7 @@
 			repositoryURL = "https://github.com/mxcl/PromiseKit";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
+				minimumVersion = 8.0.0;
 			};
 		};
 		01EACC6E2A2F9408001C584B /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
