@@ -873,7 +873,7 @@
                                                 <menuItem title=" Manage" id="hlb-KQ-Fdr">
                                                     <modifierMask key="keyEquivalentModifierMask"/>
                                                     <connections>
-                                                        <action selector="actionUpdateProxyGroupMenu:" target="Voe-Tx-rLC" id="XsH-da-e3b"/>
+                                                        <segue destination="s6y-wL-pnr" kind="show" id="jV7-hu-Lqg"/>
                                                     </connections>
                                                 </menuItem>
                                             </items>

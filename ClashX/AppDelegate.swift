@@ -44,7 +44,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var apiPortMenuItem: NSMenuItem!
     @IBOutlet var ipMenuItem: NSMenuItem!
     @IBOutlet var remoteConfigAutoupdateMenuItem: NSMenuItem!
-    @IBOutlet var showProxyGroupCurrentMenuItem: NSMenuItem!
     @IBOutlet var copyExportCommandMenuItem: NSMenuItem!
     @IBOutlet var copyExportCommandExternalMenuItem: NSMenuItem!
     @IBOutlet var externalControlSeparator: NSMenuItem!
@@ -731,9 +730,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func updateExperimentalFeatureStatus() {
-        showProxyGroupCurrentMenuItem.state = ConfigManager.shared.disableShowCurrentProxyInMenu ? .off : .on
-    }
 
     @objc func resetProxySettingOnWakeupFromSleep() {
         guard !ConfigManager.shared.isProxySetByOtherVariable.value,
@@ -1144,31 +1140,6 @@ extension AppDelegate {
         RemoteConfigManager.showAdd()
     }
 
-    @IBAction func actionUpdateProxyGroupMenu(_ sender: Any) {
-        ConfigManager.shared.disableShowCurrentProxyInMenu = !ConfigManager.shared.disableShowCurrentProxyInMenu
-        updateExperimentalFeatureStatus()
-        MenuItemFactory.recreateProxyMenuItems()
-    }
-
-    @IBAction func actionSetBenchmarkUrl(_ sender: Any) {
-        let alert = NSAlert()
-        let textfiled = NSTextField(frame: NSRect(x: 0, y: 0, width: 300, height: 20))
-        textfiled.stringValue = ConfigManager.shared.benchMarkUrl
-        alert.messageText = NSLocalizedString("Benchmark", comment: "")
-        alert.accessoryView = textfiled
-        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-
-        if alert.runModal() == .alertFirstButtonReturn {
-            if textfiled.stringValue.isUrlVaild() {
-                ConfigManager.shared.benchMarkUrl = textfiled.stringValue
-            } else {
-                let err = NSAlert()
-                err.messageText = NSLocalizedString("URL is not valid", comment: "")
-                err.runModal()
-            }
-        }
-    }
 }
 
 // MARK: Meta Update Notification
