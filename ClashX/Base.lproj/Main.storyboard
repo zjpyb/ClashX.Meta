@@ -1740,7 +1740,7 @@
                                             <subviews>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5WY-QP-cCq">
                                                     <rect key="frame" x="-2" y="315" width="154" height="18"/>
-                                                    <buttonCell key="cell" type="check" title="Use Built-in clash api" bezelStyle="regularSquare" imagePosition="left" inset="2" id="IET-Bf-hGj">
+                                                    <buttonCell key="cell" type="check" title="Use Built-in clash api" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="IET-Bf-hGj">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
