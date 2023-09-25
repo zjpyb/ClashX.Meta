@@ -341,9 +341,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 		
 		Logger.log("Fire helperStatusTimer")
-    }
 
-    func setupSystemData() {
+		
         if !PrivilegedHelperManager.shared.isHelperCheckFinished.value &&
             ConfigManager.shared.proxyPortAutoSet {
             PrivilegedHelperManager.shared.isHelperCheckFinished
