@@ -310,7 +310,7 @@
 		01C1462928962E4E00346AF3 /* com.metacubex.ClashX.ProxyConfigHelper.meta.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = com.metacubex.ClashX.ProxyConfigHelper.meta.gz; sourceTree = "<group>"; };
 		01E33AB129B5BF4200FD1006 /* NSColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSColor+Extension.swift"; sourceTree = "<group>"; };
 		01E33AB429B5C5E300FD1006 /* menu_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_icon@2x.png"; sourceTree = "<group>"; };
-		01F336442AD10D0B0048AF77 /* ClashX Meta SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ClashX Meta SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		01F336442AD10D0B0048AF77 /* ClashX Meta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ClashX Meta.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		01F336452AD10D0B0048AF77 /* ClashX Meta SwiftUI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ClashX Meta SwiftUI-Info.plist"; path = "/Users/xjbeta/Developer/Clash/ClashX.Meta/ClashX Meta SwiftUI-Info.plist"; sourceTree = "<absolute>"; };
 		2753484F2A3082FD0077B458 /* TunModeSettingCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TunModeSettingCommand.swift; sourceTree = "<group>"; };
 		4905A2C42A2058B000AEDA2E /* GlobalShortCutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalShortCutViewController.swift; sourceTree = "<group>"; };
@@ -691,7 +691,7 @@
 			children = (
 				49CF3B1D20CD7463001EBF94 /* ClashX Meta.app */,
 				F9A7C0692306E874007163C7 /* com.metacubex.ClashX.ProxyConfigHelper */,
-				01F336442AD10D0B0048AF77 /* ClashX Meta SwiftUI.app */,
+				01F336442AD10D0B0048AF77 /* ClashX Meta.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -813,7 +813,7 @@
 				01F336472AD139CC0048AF77 /* ClashX Dashboard */,
 			);
 			productName = ClashX;
-			productReference = 01F336442AD10D0B0048AF77 /* ClashX Meta SwiftUI.app */;
+			productReference = 01F336442AD10D0B0048AF77 /* ClashX Meta.app */;
 			productType = "com.apple.product-type.application";
 		};
 		49CF3B1C20CD7463001EBF94 /* ClashX Meta */ = {
@@ -1247,7 +1247,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = v1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.metacubex.ClashX.meta;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "ClashX Meta";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRIP_PNG_TEXT = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG SwiftUI_Version";
@@ -1295,7 +1295,7 @@
 				MARKETING_VERSION = v1.0;
 				OTHER_CODE_SIGN_FLAGS = "--timestamp";
 				PRODUCT_BUNDLE_IDENTIFIER = com.metacubex.ClashX.meta;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "ClashX Meta";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRIP_PNG_TEXT = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SwiftUI_Version;
