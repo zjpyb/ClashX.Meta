@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "01F335B32AD10D0B0048AF77"
-               BuildableName = "ClashX Meta SwiftUI.app"
+               BuildableName = "ClashX Meta.app"
                BlueprintName = "ClashX Meta SwiftUI"
                ReferencedContainer = "container:ClashX.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "01F335B32AD10D0B0048AF77"
-            BuildableName = "ClashX Meta SwiftUI.app"
+            BuildableName = "ClashX Meta.app"
             BlueprintName = "ClashX Meta SwiftUI"
             ReferencedContainer = "container:ClashX.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "01F335B32AD10D0B0048AF77"
-            BuildableName = "ClashX Meta SwiftUI.app"
+            BuildableName = "ClashX Meta.app"
             BlueprintName = "ClashX Meta SwiftUI"
             ReferencedContainer = "container:ClashX.xcodeproj">
          </BuildableReference>

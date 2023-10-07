@@ -308,10 +308,10 @@
 		01B2274A29B845F100FE35C9 /* country.mmdb.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = country.mmdb.gz; sourceTree = "<group>"; };
 		01BC9ABD2928E5C600F9B177 /* MetaDNS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaDNS.swift; sourceTree = "<group>"; };
 		01C1462928962E4E00346AF3 /* com.metacubex.ClashX.ProxyConfigHelper.meta.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = com.metacubex.ClashX.ProxyConfigHelper.meta.gz; sourceTree = "<group>"; };
+		01D567DF2AD1562700CDA0AE /* ClashX Meta SwiftUI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ClashX Meta SwiftUI-Info.plist"; sourceTree = "<group>"; };
 		01E33AB129B5BF4200FD1006 /* NSColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSColor+Extension.swift"; sourceTree = "<group>"; };
 		01E33AB429B5C5E300FD1006 /* menu_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_icon@2x.png"; sourceTree = "<group>"; };
 		01F336442AD10D0B0048AF77 /* ClashX Meta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ClashX Meta.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		01F336452AD10D0B0048AF77 /* ClashX Meta SwiftUI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ClashX Meta SwiftUI-Info.plist"; path = "/Users/xjbeta/Developer/Clash/ClashX.Meta/ClashX Meta SwiftUI-Info.plist"; sourceTree = "<absolute>"; };
 		2753484F2A3082FD0077B458 /* TunModeSettingCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TunModeSettingCommand.swift; sourceTree = "<group>"; };
 		4905A2C42A2058B000AEDA2E /* GlobalShortCutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalShortCutViewController.swift; sourceTree = "<group>"; };
 		4905A2C92A20841B00AEDA2E /* NSView+Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSView+Layout.swift"; sourceTree = "<group>"; };
@@ -714,7 +714,7 @@
 				49CF3B2020CD7463001EBF94 /* AppDelegate.swift */,
 				49CF3B2620CD7465001EBF94 /* Main.storyboard */,
 				49CF3B2920CD7465001EBF94 /* Info.plist */,
-				01F336452AD10D0B0048AF77 /* ClashX Meta SwiftUI-Info.plist */,
+				01D567DF2AD1562700CDA0AE /* ClashX Meta SwiftUI-Info.plist */,
 				49CF3B2A20CD7465001EBF94 /* ClashX.entitlements */,
 				49CF3B3520CD75DF001EBF94 /* ClashX-Bridging-Header.h */,
 				F9FAB31D262BE04800DE02A6 /* Images.xcassets */,
@@ -1234,7 +1234,7 @@
 					"$(PROJECT_DIR)/ClashX/Support\\ Files",
 					"$(PROJECT_DIR)/ClashX/Support\\ Files",
 				);
-				INFOPLIST_FILE = "ClashX Meta SwiftUI-Info.plist";
+				INFOPLIST_FILE = "ClashX/ClashX Meta SwiftUI-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1281,7 +1281,7 @@
 					"$(PROJECT_DIR)/ClashX/Support\\ Files",
 					"$(PROJECT_DIR)/ClashX/Support\\ Files",
 				);
-				INFOPLIST_FILE = "ClashX Meta SwiftUI-Info.plist";
+				INFOPLIST_FILE = "ClashX/ClashX Meta SwiftUI-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
