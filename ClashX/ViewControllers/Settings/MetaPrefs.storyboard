@@ -170,8 +170,20 @@
                                                             </textField>
                                                         </gridCell>
                                                         <gridCell row="fHm-jM-gt5" column="u8z-TL-hvE" id="6dC-n9-Oqw">
+                                                            <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UWj-Su-skJ">
+                                                                <rect key="frame" x="-7" y="-7" width="124" height="32"/>
+                                                                <buttonCell key="cell" type="push" title="Show in Finder" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="CD3-zN-LVL">
+                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <action selector="showAlphaInFinder:" target="bU7-R8-ocO" id="5W9-yP-GWK"/>
+                                                                </connections>
+                                                            </button>
+                                                        </gridCell>
+                                                        <gridCell row="fHm-jM-gt5" column="1Gr-S3-ZBU" id="7FM-zT-NVR">
                                                             <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hlf-QW-sRt">
-                                                                <rect key="frame" x="0.0" y="0.0" width="89" height="20"/>
+                                                                <rect key="frame" x="138" y="0.0" width="89" height="20"/>
                                                                 <subviews>
                                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SRr-f9-XRY">
                                                                         <rect key="frame" x="-7" y="-7" width="79" height="32"/>
@@ -196,18 +208,6 @@
                                                                     <real value="3.4028234663852886e+38"/>
                                                                 </customSpacing>
                                                             </stackView>
-                                                        </gridCell>
-                                                        <gridCell row="fHm-jM-gt5" column="1Gr-S3-ZBU" id="7FM-zT-NVR">
-                                                            <button key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UWj-Su-skJ">
-                                                                <rect key="frame" x="131" y="-7" width="124" height="32"/>
-                                                                <buttonCell key="cell" type="push" title="Show in Finder" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="CD3-zN-LVL">
-                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                                <connections>
-                                                                    <action selector="showAlphaInFinder:" target="bU7-R8-ocO" id="5W9-yP-GWK"/>
-                                                                </connections>
-                                                            </button>
                                                         </gridCell>
                                                     </gridCells>
                                                 </gridView>
@@ -240,12 +240,61 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
+                            <box horizontalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="9fd-zM-y8F">
+                                <rect key="frame" x="424" y="40" width="5" height="155"/>
+                            </box>
+                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="xKe-Qu-hcc">
+                                <rect key="frame" x="415" y="193" width="12" height="5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="GuQ-Wu-4Wd"/>
+                                </constraints>
+                            </box>
+                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="gFx-Lb-iFL">
+                                <rect key="frame" x="415" y="165" width="12" height="5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="Y0d-Xy-ztL"/>
+                                </constraints>
+                            </box>
+                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="FrB-J6-MgI">
+                                <rect key="frame" x="415" y="95" width="12" height="5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="DFM-5Q-cRE"/>
+                                </constraints>
+                            </box>
+                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="bHj-ai-2Dz">
+                                <rect key="frame" x="415" y="37" width="12" height="5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="12" id="c8e-Ar-gqj"/>
+                                </constraints>
+                            </box>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="V9S-ix-ppO">
+                                <rect key="frame" x="274" y="127" width="135" height="14"/>
+                                <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="right" title="restart app to take effect" id="oLx-08-DXe">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="9fd-zM-y8F" firstAttribute="top" secondItem="xKe-Qu-hcc" secondAttribute="bottom" id="2VP-FN-ddK"/>
                             <constraint firstAttribute="bottom" secondItem="0gk-BB-Gdf" secondAttribute="bottom" priority="999" constant="20" symbolic="YES" id="41D-Qn-QFB"/>
+                            <constraint firstItem="gFx-Lb-iFL" firstAttribute="trailing" secondItem="9fd-zM-y8F" secondAttribute="trailing" id="9z4-Fn-nJO"/>
+                            <constraint firstItem="bHj-ai-2Dz" firstAttribute="centerY" secondItem="SRr-f9-XRY" secondAttribute="centerY" id="B4j-kO-o2T"/>
+                            <constraint firstItem="V9S-ix-ppO" firstAttribute="top" secondItem="KHD-s8-L0n" secondAttribute="bottom" constant="9" id="DJP-lb-FuN"/>
+                            <constraint firstItem="V9S-ix-ppO" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="tOy-S4-hL0" secondAttribute="leading" constant="20" id="Dz5-P4-oOk"/>
                             <constraint firstItem="0gk-BB-Gdf" firstAttribute="top" secondItem="tOy-S4-hL0" secondAttribute="top" constant="20" id="HMj-bI-0qk"/>
                             <constraint firstItem="0gk-BB-Gdf" firstAttribute="leading" secondItem="tOy-S4-hL0" secondAttribute="leading" constant="20" symbolic="YES" id="IiH-bU-bk9"/>
+                            <constraint firstItem="FrB-J6-MgI" firstAttribute="trailing" secondItem="9fd-zM-y8F" secondAttribute="trailing" id="L7H-ES-XI6"/>
+                            <constraint firstItem="V9S-ix-ppO" firstAttribute="trailing" secondItem="9fd-zM-y8F" secondAttribute="trailing" constant="-20" id="atW-G9-M0a"/>
+                            <constraint firstAttribute="trailing" secondItem="9fd-zM-y8F" secondAttribute="trailing" constant="45" id="f2U-NH-55J"/>
                             <constraint firstAttribute="trailing" secondItem="0gk-BB-Gdf" secondAttribute="trailing" constant="20" symbolic="YES" id="hOC-5w-szi"/>
+                            <constraint firstItem="xKe-Qu-hcc" firstAttribute="centerY" secondItem="Fty-b5-ZE7" secondAttribute="centerY" id="jNu-jR-KyJ"/>
+                            <constraint firstItem="gFx-Lb-iFL" firstAttribute="centerY" secondItem="uY1-el-AeU" secondAttribute="centerY" id="lr1-In-RzS"/>
+                            <constraint firstItem="xKe-Qu-hcc" firstAttribute="trailing" secondItem="9fd-zM-y8F" secondAttribute="trailing" id="mno-6k-HO6"/>
+                            <constraint firstItem="bHj-ai-2Dz" firstAttribute="top" secondItem="9fd-zM-y8F" secondAttribute="bottom" id="ptj-PV-RkG"/>
+                            <constraint firstItem="bHj-ai-2Dz" firstAttribute="trailing" secondItem="9fd-zM-y8F" secondAttribute="trailing" id="scw-5M-2fP"/>
+                            <constraint firstItem="FrB-J6-MgI" firstAttribute="centerY" secondItem="dqT-AG-7Ec" secondAttribute="centerY" id="z60-DQ-YoZ"/>
                         </constraints>
                     </view>
                     <connections>
