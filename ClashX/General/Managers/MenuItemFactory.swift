@@ -22,18 +22,6 @@ class MenuItemFactory {
         }
     }
 	
-	static var useYacdDashboard: Bool = UserDefaults.standard.object(forKey: "useYacdDashboard") as? Bool ?? false {
-		didSet {
-			UserDefaults.standard.set(useYacdDashboard, forKey: "useYacdDashboard")
-			DashboardManager.shared.useYacd = useYacdDashboard
-		}
-	}
-
-    static var useAlphaCore: Bool = UserDefaults.standard.object(forKey: "useAlphaCore") as? Bool ?? false {
-        didSet {
-            UserDefaults.standard.set(useAlphaCore, forKey: "useAlphaCore")
-        }
-    }
 
     static let updateAllProvidersTitle = NSLocalizedString("Update All Providers", comment: "")
 

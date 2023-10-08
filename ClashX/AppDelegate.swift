@@ -51,18 +51,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet var tunModeMenuItem: NSMenuItem!
 
-    @IBOutlet var hideUnselecableMenuItem: NSMenuItem!
-	@IBOutlet var useYacdDashboardMenuItem: NSMenuItem!
     @IBOutlet var proxyProvidersMenu: NSMenu!
     @IBOutlet var ruleProvidersMenu: NSMenu!
     @IBOutlet var proxyProvidersMenuItem: NSMenuItem!
     @IBOutlet var ruleProvidersMenuItem: NSMenuItem!
     @IBOutlet var snifferMenuItem: NSMenuItem!
     @IBOutlet var flushFakeipCacheMenuItem: NSMenuItem!
-
-    @IBOutlet var useAlphaMetaMenuItem: NSMenuItem!
-    @IBOutlet var alphaMetaVersionMenuItem: NSMenuItem!
-    @IBOutlet var updateAlphaMetaMenuItem: NSMenuItem!
 
     var disposeBag = DisposeBag()
     var statusItemView: StatusItemViewProtocol!
@@ -207,12 +201,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         statusItemView.updateViewStatus(enableProxy: ConfigManager.shared.proxyPortAutoSet)
 
-        hideUnselecableMenuItem.state = .init(rawValue: MenuItemFactory.hideUnselectable)
-		
-		useYacdDashboardMenuItem.state = MenuItemFactory.useYacdDashboard ? .on : .off
-		useYacdDashboardMenuItem.isHidden = !DashboardManager.shared.enableSwiftUI
-		
-        useAlphaMetaMenuItem.state = MenuItemFactory.useAlphaCore ? .on : .off
     }
 	
     func setupData() {
@@ -341,9 +329,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 		
 		Logger.log("Fire helperStatusTimer")
-    }
 
-    func setupSystemData() {
+		
         if !PrivilegedHelperManager.shared.isHelperCheckFinished.value &&
             ConfigManager.shared.proxyPortAutoSet {
             PrivilegedHelperManager.shared.isHelperCheckFinished
@@ -491,13 +478,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			}
 
 			// alpha core
-			if let v = testMetaCore(alphaCorePath.path) {
-				updateAlphaVersion(v.version)
-				if MenuItemFactory.useAlphaCore {
+			if let _ = testMetaCore(alphaCorePath.path) {
+				if ConfigManager.useAlphaCore {
 					return (alphaCorePath.path, nil)
 				}
-			} else {
-				updateAlphaVersion(nil)
 			}
 
 			let fm = FileManager.default
@@ -1169,31 +1153,6 @@ extension AppDelegate {
         }
     }
 
-    @IBAction func hideUnselectable(_ sender: NSMenuItem) {
-        var newState = NSControl.StateValue.off
-        switch sender.state {
-        case .off:
-            newState = .mixed
-        case .mixed:
-            newState = .on
-        case .on:
-            newState = .off
-        default:
-            return
-        }
-
-        sender.state = newState
-        MenuItemFactory.hideUnselectable = newState.rawValue
-    }
-	
-	@IBAction func useYacdDashboard(_ sender: NSMenuItem) {
-		guard DashboardManager.shared.enableSwiftUI else { return }
-		
-		let useYacd = sender.state == .off
-		sender.state = useYacd ? .on : .off
-		MenuItemFactory.useYacdDashboard = useYacd
-	}
-
     @IBAction func checkForUpdate(_ sender: NSMenuItem) {
         let unc = NSUserNotificationCenter.default
         AF.request("https://api.github.com/repos/MetaCubeX/ClashX.Meta/releases/latest").responseString {
@@ -1258,64 +1217,6 @@ extension AppDelegate {
         let enable = sender.state != .on
         ApiRequest.updateSniffing(enable: enable) {
             sender.state = enable ? .on : .off
-        }
-    }
-
-    @IBAction func useAlphaMeta(_ sender: NSMenuItem) {
-        if UserDefaults.standard.object(forKey: "useAlphaCore") as? Bool == nil {
-            let alert = NSAlert()
-            alert.messageText = NSLocalizedString("Alpha Meta core Warning", comment: "")
-            alert.alertStyle = .warning
-            alert.addButton(withTitle: NSLocalizedString("Continue", comment: ""))
-            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-            if alert.runModal() != .alertFirstButtonReturn {
-                return
-            }
-        }
-
-        let use = sender.state != .on
-        MenuItemFactory.useAlphaCore = use
-        sender.state = use ? .on : .off
-    }
-
-    @IBAction func showAlphaInFinder(_ sender: NSMenuItem) {
-        guard let u = Paths.alphaCorePath(),
-              FileManager.default.fileExists(atPath: u.path) else { return }
-        NSWorkspace.shared.activateFileViewerSelecting([u])
-    }
-
-    @IBAction func updateAlphaMeta(_ sender: NSMenuItem) {
-        sender.isEnabled = false
-
-		AlphaMetaDownloader.alphaAsset().then {
-			AlphaMetaDownloader.checkVersion($0)
-		}.then {
-			AlphaMetaDownloader.downloadCore($0)
-		}.then {
-			AlphaMetaDownloader.replaceCore($0)
-		}.done {
-			self.updateAlphaVersion($0)
-			let msg = NSLocalizedString("Version: ", comment: "") + $0
-			NSUserNotificationCenter.default.post(title: "Clash Meta Core", info: msg)
-		}.ensure {
-			sender.isEnabled = true
-		}.catch {
-			let error = $0 as? AlphaMetaDownloader.errors
-			NSUserNotificationCenter.default.post(title: "Clash Meta Core", info: error?.des() ?? "")
-		}
-    }
-
-    func updateAlphaVersion(_ version: String?) {
-        let enable = version != nil
-        useAlphaMetaMenuItem.isEnabled = enable
-        alphaMetaVersionMenuItem.isEnabled = enable
-        if let v = version {
-            let info = NSLocalizedString("Version: ", comment: "") + v
-            alphaMetaVersionMenuItem.title = info
-            updateAlphaMetaMenuItem.title = NSLocalizedString("Update Alpha Meta core", comment: "")
-        } else {
-            alphaMetaVersionMenuItem.title = NSLocalizedString("Version: ", comment: "") + "none"
-            updateAlphaMetaMenuItem.title = NSLocalizedString("Download Meta core", comment: "")
         }
     }
 }

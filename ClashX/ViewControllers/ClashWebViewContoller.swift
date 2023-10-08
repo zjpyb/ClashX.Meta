@@ -153,9 +153,10 @@ class ClashWebViewContoller: NSViewController {
 
         var params = [String]()
         let cm = ConfigManager.shared
-        if cm.apiPort != "9090" {
-            params.append("port=\(cm.apiPort)")
-        }
+		
+		params.append("hostname=127.0.0.1")
+		params.append("port=\(cm.apiPort)")
+		
         if cm.apiSecret != "" {
             params.append("secret=\(cm.apiSecret)")
         }

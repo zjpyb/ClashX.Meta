@@ -36,8 +36,16 @@ echo "install geoip"
 curl -LO https://github.com/MetaCubeX/meta-rules-dat/raw/release/geoip.dat
 gzip geoip.dat
 mv geoip.dat.gz ./ClashX/Resources/geoip.dat.gz
-echo "install dashboard"
+
+
+echo "install yacd dashboard"
 cd ClashX/Resources
-git clone -b gh-pages https://github.com/MetaCubeX/yacd.git dashboard
-cd dashboard
+git clone -b gh-pages https://github.com/MetaCubeX/yacd.git dashboard/yacd
+cd dashboard/yacd
 rm -rf *.webmanifest *.js CNAME .git
+cd ../../
+
+echo "install XD dashboard"
+git clone -b gh-pages https://github.com/metacubex/metacubexd.git dashboard/xd
+cd dashboard/xd
+rm -rf *.webmanifest CNAME .git

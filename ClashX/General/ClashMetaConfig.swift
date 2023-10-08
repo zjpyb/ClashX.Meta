@@ -11,7 +11,10 @@ class ClashMetaConfig: NSObject {
 
     struct Config: Codable {
         var externalUI: String? = {
-            guard let htmlPath = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "dashboard") else {
+			var subpath = "dashboard/"
+			subpath += ConfigManager.useYacdDashboard ? "yacd" : "xd"
+			
+            guard let htmlPath = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: subpath) else {
                 return nil
             }
             return URL(fileURLWithPath: htmlPath).deletingLastPathComponent().path
