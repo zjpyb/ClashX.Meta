@@ -13,27 +13,32 @@ import ClashX_Dashboard
 
 
 class DashboardManager: NSObject {
+	
 	static let shared = DashboardManager()
 	
 	override init() {
 	}
 	
+	
 #if SwiftUI_Version
-	let enableSwiftUI = true
-	var useYacd = MenuItemFactory.useYacdDashboard {
-		didSet {
-			if useYacd {
+	var useSwiftUI: Bool {
+		get {
+			return ConfigManager.useSwiftUIDashboard
+		}
+		set {
+			ConfigManager.useSwiftUIDashboard = newValue
+			
+			if newValue {
+				clashWebWindowController?.close()
+			} else {
 				deinitNotifications()
 				dashboardWindowController?.close()
-			} else {
-				clashWebWindowController?.close()
 			}
 		}
 	}
 	var dashboardWindowController: DashboardWindowController?
 #else
-	let enableSwiftUI = false
-	var useYacd = true
+	let useSwiftUI = false
 #endif
 	
 	private var disposables = [Disposable]()
@@ -45,12 +50,12 @@ class DashboardManager: NSObject {
 #if SwiftUI_Version
 		initNotifications()
 		
-		if useYacd {
-			dashboardWindowController = nil
-			showWebWindow(sender)
-		} else {
+		if useSwiftUI {
 			clashWebWindowController = nil
 			showSwiftUIWindow(sender)
+		} else {
+			dashboardWindowController = nil
+			showWebWindow(sender)
 		}
 #else
 		showWebWindow(sender)
@@ -97,7 +102,7 @@ extension DashboardManager {
 	}
 	
 	func initNotifications() {
-		guard !useYacd, disposables.count == 0 else { return }
+		guard useSwiftUI, disposables.count == 0 else { return }
 		
 		let n1 = NotificationCenter.default.rx.notification(.configFileChange).subscribe {
 			[weak self] _ in

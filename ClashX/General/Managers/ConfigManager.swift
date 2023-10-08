@@ -185,3 +185,24 @@ extension ConfigManager {
         }
     }
 }
+
+extension ConfigManager {
+	static var useYacdDashboard: Bool = UserDefaults.standard.object(forKey: "useYacdDashboard") as? Bool ?? false {
+		didSet {
+			UserDefaults.standard.set(useYacdDashboard, forKey: "useYacdDashboard")
+		}
+	}
+	
+	static var useSwiftUIDashboard: Bool = UserDefaults.standard.object(forKey: "useSwiftUIDashboard") as? Bool ?? false {
+		didSet {
+			UserDefaults.standard.set(useSwiftUIDashboard, forKey: "useSwiftUIDashboard")
+		}
+	}
+	
+
+	static var useAlphaCore: Bool = UserDefaults.standard.object(forKey: "useAlphaCore") as? Bool ?? false {
+		didSet {
+			UserDefaults.standard.set(useAlphaCore, forKey: "useAlphaCore")
+		}
+	}
+}
