@@ -11,6 +11,7 @@ import CoreWLAN
 import Foundation
 import RxCocoa
 import RxSwift
+import AppKit
 
 class SSIDSuspendTool: NSObject {
     static let shared = SSIDSuspendTool()
