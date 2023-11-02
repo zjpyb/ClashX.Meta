@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0106179F2AF38EFA005C7877 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FEC6682AD9369C00BAD9F5 /* Command.swift */; };
 		015B976A2A4F2F4500F9FA4D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 015B97692A4F2F4500F9FA4D /* Alamofire */; };
 		015B976D2A4F2F6C00F9FA4D /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 015B976C2A4F2F6C00F9FA4D /* RxCocoa */; };
 		015B976F2A4F2F6C00F9FA4D /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 015B976E2A4F2F6C00F9FA4D /* RxSwift */; };
@@ -221,6 +222,7 @@
 		49D223392A1DA5F10002FFCB /* SSIDSuspendTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D223382A1DA5F10002FFCB /* SSIDSuspendTool.swift */; };
 		49D6A45229AEEC15006487EF /* StatusItemTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D6A45129AEEC15006487EF /* StatusItemTool.swift */; };
 		49D6A45629AEEC55006487EF /* StatusItemViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D6A45529AEEC55006487EF /* StatusItemViewProtocol.swift */; };
+		49FEC6692AD9369C00BAD9F5 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FEC6682AD9369C00BAD9F5 /* Command.swift */; };
 		8A2BBEA727A03ACB0081EBEF /* ProxySetting.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 8A2BBEA627A03ACB0081EBEF /* ProxySetting.sdef */; };
 		8ACD21BB27A04C7800BC4632 /* ProxySettingCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACD21BA27A04C7800BC4632 /* ProxySettingCommand.swift */; };
 		8ACD21BD27A04ED500BC4632 /* ProxyModeChangeCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACD21BC27A04ED500BC4632 /* ProxyModeChangeCommand.swift */; };
@@ -399,6 +401,7 @@
 		49D6A45529AEEC55006487EF /* StatusItemViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItemViewProtocol.swift; sourceTree = "<group>"; };
 		49D8276627E9B01700159D93 /* LoginKitWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginKitWrapper.h; sourceTree = "<group>"; };
 		49D8276727E9B01700159D93 /* LoginKitWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginKitWrapper.m; sourceTree = "<group>"; };
+		49FEC6682AD9369C00BAD9F5 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		8A2BBEA627A03ACB0081EBEF /* ProxySetting.sdef */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ProxySetting.sdef; sourceTree = "<group>"; };
 		8ACD21BA27A04C7800BC4632 /* ProxySettingCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxySettingCommand.swift; sourceTree = "<group>"; };
 		8ACD21BC27A04ED500BC4632 /* ProxyModeChangeCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyModeChangeCommand.swift; sourceTree = "<group>"; };
@@ -515,6 +518,7 @@
 				49D176A62355FE680093DD7B /* NetworkChangeNotifier.swift */,
 				49B445152457CDF000B27E3E /* ClashStatusTool.swift */,
 				49D223382A1DA5F10002FFCB /* SSIDSuspendTool.swift */,
+				49FEC6682AD9369C00BAD9F5 /* Command.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1019,6 +1023,7 @@
 				01F335E82AD10D0B0048AF77 /* AlphaMetaDownloader.swift in Sources */,
 				01F335E92AD10D0B0048AF77 /* NetworkChangeNotifier.swift in Sources */,
 				01F335EA2AD10D0B0048AF77 /* GlobalShortCutViewController.swift in Sources */,
+				0106179F2AF38EFA005C7877 /* Command.swift in Sources */,
 				01F335EB2AD10D0B0048AF77 /* Notification.swift in Sources */,
 				01F335EC2AD10D0B0048AF77 /* ClashMetaConfig.swift in Sources */,
 				01F335ED2AD10D0B0048AF77 /* ProxyModeChangeCommand.swift in Sources */,
@@ -1135,6 +1140,7 @@
 				49722FF0211F338B00650A41 /* EventStream.swift in Sources */,
 				499A486522EEA3FD00F6C675 /* Array+Safe.swift in Sources */,
 				F92D0B24236BC12000575E15 /* SavedProxyModel.swift in Sources */,
+				49FEC6692AD9369C00BAD9F5 /* Command.swift in Sources */,
 				F92D0B2A236C759100575E15 /* NSTextField+Vibrancy.swift in Sources */,
 				49D223392A1DA5F10002FFCB /* SSIDSuspendTool.swift in Sources */,
 				F910AA24240134AF00116E95 /* ProxyGroupMenu.swift in Sources */,
