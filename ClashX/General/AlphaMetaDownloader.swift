@@ -79,12 +79,13 @@ class AlphaMetaDownloader: NSObject {
 	static func alphaAsset() -> Promise<ReleasesResp.Asset> {
 		Promise { resolver in
 			let assetName = assetName()
-			AF.request("https://api.github.com/repos/MetaCubeX/Clash.Meta/releases/tags/Prerelease-Alpha").responseDecodable(of: ReleasesResp.self) {
+			AF.request("https://api.github.com/repos/MetaCubeX/mihomo/releases/tags/Prerelease-Alpha").responseDecodable(of: ReleasesResp.self) {
 				guard let assets = $0.value?.assets,
 					  let assetName,
 					  let asset = assets.first(where: {
 						  $0.name.contains(assetName) &&
 						  !$0.name.contains("cgo") &&
+						  !$0.name.contains("go120") &&
 						  $0.state == "uploaded" &&
 						  $0.contentType == "application/gzip"
 					  }) else {

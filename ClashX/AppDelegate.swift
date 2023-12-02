@@ -579,13 +579,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		let outs = out
 			.split(separator: "\n")
 			.first {
-				$0.starts(with: "Clash Meta")
+				$0.starts(with: "Clash Meta") || $0.starts(with: "Mihomo Meta")
 			}?.split(separator: " ")
 			.map(String.init)
 
         guard let outs,
 			  outs.count == 13,
-              outs[0] == "Clash",
+              (outs[0] == "Clash" || outs[0] == "Mihomo"),
               outs[1] == "Meta",
               outs[3] == "darwin" else {
             return nil
