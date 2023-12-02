@@ -7,12 +7,9 @@ on:
     inputs:
       logLevel:
 
-env:
-  DEVELOPER_DIR: /Applications/Xcode_14.2.app/Contents/Developer
-
 jobs:
   build:
-    runs-on: macos-12
+    runs-on: macos-13
     steps:
     - uses: actions/checkout@v3
       with:
@@ -23,8 +20,8 @@ jobs:
     - name: download meta core
       uses: robinraju/release-downloader@v1.8
       with:
-        repository: 'MetaCubeX/Clash.Meta'
-        tag: "v1.16.0"
+        repository: 'MetaCubeX/mihomo'
+        tag: "v1.17.0"
         fileName: ".*darwin.*64-v.*.gz"
 
         # releaseId: "62870807"
