@@ -350,7 +350,7 @@ class MetaTask: NSObject {
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         
         guard let str = try? JSONDecoder().decode(MetaCurl.self, from: data),
-              str.hello == "clash.meta" else {
+			  (str.hello == "clash.meta" || str.hello == "mihomo") else {
             return false
         }
         return true
