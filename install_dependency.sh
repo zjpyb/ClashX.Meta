@@ -6,7 +6,7 @@ cd clash.meta
 ls
 gzip -d *.gz
 echo "Create Universal core"
-lipo -create -output com.metacubex.ClashX.ProxyConfigHelper.meta clash.meta-darwin-amd64* clash.meta-darwin-arm64*
+lipo -create -output com.metacubex.ClashX.ProxyConfigHelper.meta mihomo-darwin-amd64* mihomo-darwin-arm64*
 chmod +x com.metacubex.ClashX.ProxyConfigHelper.meta
 
 echo "Update meta core md5 to code"
@@ -40,7 +40,7 @@ mv geoip.dat.gz ./ClashX/Resources/geoip.dat.gz
 
 echo "install yacd dashboard"
 cd ClashX/Resources
-git clone -b gh-pages https://github.com/MetaCubeX/yacd.git dashboard/yacd
+git clone -b gh-pages https://github.com/MetaCubeX/Yacd-meta.git dashboard/yacd
 cd dashboard/yacd
 rm -rf *.webmanifest *.js CNAME .git
 cd ../../
