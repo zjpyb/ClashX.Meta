@@ -42,7 +42,8 @@ class Logger {
     }
 
     static func log(_ msg: String, level: ClashLogLevel = .info, file: String = #file, function: String = #function) {
-        shared.logToFile(msg: "[\(level.rawValue)] \(file) \(function) \(msg)", level: level)
+		let fileName = URL(fileURLWithPath: file).lastPathComponent
+        shared.logToFile(msg: "[\(level.rawValue)] \(fileName) \(function) \(msg)", level: level)
     }
 
     func logFilePath() -> String {
