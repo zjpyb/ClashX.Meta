@@ -46,6 +46,21 @@ jobs:
         /usr/libexec/PlistBuddy -c 'Print gitCommit' ClashX/Info.plist
         /usr/libexec/PlistBuddy -c 'Print buildTime' ClashX/Info.plist
 
+    - name: swiftui build infos
+      run: |
+        /usr/libexec/PlistBuddy -c "Set CFBundleVersion $(git rev-list --count origin/master..origin/meta)" ClashX/ClashX\ Meta\ SwiftUI-Info.plist
+        /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString $(git describe --tags --abbrev=0)" ClashX/ClashX\ Meta\ SwiftUI-Info.plist
+        /usr/libexec/PlistBuddy -c "Add coreVersion string $(ls clash.meta | grep -m1 "" | sed -ne 's/.*64-\(.*\).gz/\1/p')" ClashX/ClashX\ Meta\ SwiftUI-Info.plist
+        /usr/libexec/PlistBuddy -c "Add gitBranch string $CI_ACTION_REF_NAME" ClashX/ClashX\ Meta\ SwiftUI-Info.plist
+        /usr/libexec/PlistBuddy -c "Add gitCommit string $CI_SHA_SHORT" ClashX/ClashX\ Meta\ SwiftUI-Info.plist
+        /usr/libexec/PlistBuddy -c "Add buildTime string $(date +%Y-%m-%d\ %H:%M)" ClashX/ClashX\ Meta\ SwiftUI-Info.plist
+
+        /usr/libexec/PlistBuddy -c 'Print CFBundleVersion' ClashX/ClashX\ Meta\ SwiftUI-Info.plist
+        /usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' ClashX/ClashX\ Meta\ SwiftUI-Info.plist
+        /usr/libexec/PlistBuddy -c 'Print coreVersion' ClashX/ClashX\ Meta\ SwiftUI-Info.plist
+        /usr/libexec/PlistBuddy -c 'Print gitBranch' ClashX/ClashX\ Meta\ SwiftUI-Info.plist
+        /usr/libexec/PlistBuddy -c 'Print gitCommit' ClashX/ClashX\ Meta\ SwiftUI-Info.plist
+        /usr/libexec/PlistBuddy -c 'Print buildTime' ClashX/ClashX\ Meta\ SwiftUI-Info.plist
 
     - name: install deps
       run: |
