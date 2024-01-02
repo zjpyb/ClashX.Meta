@@ -325,10 +325,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 					self.tunModeMenuItem.target = self
 					
 					self.helperStatusTimer?.fire()
+					Logger.log("Fire helperStatusTimer")
 				}.disposed(by: disposeBag)
+		} else {
+			self.proxySettingMenuItem.target = self
+			self.tunModeMenuItem.target = self
+			
+			self.helperStatusTimer?.fire()
+			Logger.log("Fire helperStatusTimer")
 		}
-		
-		Logger.log("Fire helperStatusTimer")
 
 		
         if !PrivilegedHelperManager.shared.isHelperCheckFinished.value &&
