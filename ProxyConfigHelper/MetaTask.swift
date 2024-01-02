@@ -29,7 +29,6 @@ class MetaTask: NSObject {
     }
     
     let proc = Process()
-    let procQueue = DispatchQueue(label: Bundle.main.bundleIdentifier! + ".MetaProcess")
     
     var timer: DispatchSourceTimer?
     let timerQueue = DispatchQueue(label: Bundle.main.bundleIdentifier! + ".timer")
@@ -49,9 +48,7 @@ class MetaTask: NSObject {
             timer?.cancel()
             timer = nil
             resultReturned = true
-            DispatchQueue.main.async {
-                result(re)
-            }
+			result(re)
         }
         
         var args = [
@@ -68,147 +65,148 @@ class MetaTask: NSObject {
         
         killOldProc()
         
-        procQueue.async {
-            do {
-                if let info = self.test(confPath, confFilePath: confFilePath) {
-                    returnResult(info)
-                    return
-                } else {
-                    print("Test meta config success.")
-                }
-                
-                guard var serverResult = self.parseConfFile(confPath, confFilePath: confFilePath) else {
-                    returnResult("Can't decode config file.")
-                    return
-                }
-                
-                self.proc.arguments = args
-                let pipe = Pipe()
-                var logs = [String]()
-                
-                let errorPipe = Pipe()
-                var errorLogs = [String]()
-                
-                pipe.fileHandleForReading.readabilityHandler = { pipe in
-                    guard let output = String(data: pipe.availableData, encoding: .utf8),
-                          !resultReturned else {
-                        return
-                    }
-                    
-                    output.split(separator: "\n").map {
-                        self.formatMsg(String($0))
-                    }.forEach {
-                        logs.append($0)
-                        if $0.contains("External controller listen error:") || $0.contains("External controller serve error:") {
-                            returnResult($0)
-                        }
-                        
-                        /*
-                        if let range = $0.range(of: "RESTful API listening at: ") {
-                            let addr = String($0[range.upperBound..<$0.endIndex])
-                            guard addr.split(separator: ":").count == 2,
-                                  let port = Int(addr.split(separator: ":")[1]) else {
-                                returnResult("Not found RESTful API port.")
-                                return
-                            }
-                            let testLP = self.testListenPort(port)
-                            if testLP.pid != 0,
-                               testLP.pid == self.proc.processIdentifier,
-                               testLP.addr == addr {
-                                serverResult.log = logs.joined(separator: "\n")
-                                returnResult(serverResult.jsonString())
-                            } else {
-                                returnResult("Check RESTful API pid failed.")
-                            }
-                        }
-                         */
-                        
-                        if $0.contains("RESTful API listening at:") {
-                            if self.testExternalController(serverResult) {
-                                serverResult.log = logs.joined(separator: "\n")
-                                returnResult(serverResult.jsonString())
-                            } else {
-                                returnResult("Check RESTful API failed.")
-                            }
-                        }
-                    }
-                }
-                
-                
-                errorPipe.fileHandleForReading.readabilityHandler = { pipe in
-                    guard let output = String(data: pipe.availableData, encoding: .utf8) else {
-                        return
-                    }
-                    output.split(separator: "\n").forEach {
-                        errorLogs.append(String($0))
-                    }
-                }
-                
-                
-                self.proc.standardError = errorPipe
-                self.proc.standardOutput = pipe
-                
-                self.proc.terminationHandler = { proc in
-                    
-                    guard !resultReturned else {
-                        guard errorLogs.count > 0 else { return }
-                        
-                        errorLogs.append("terminationStatus: \(proc.terminationStatus)")
-                        errorLogs.append("terminationReason: \(proc.terminationReason)")
-                        
-                        let data = errorLogs.joined(separator: "\n").data(using: .utf8)
-                        
-                        let url = URL(fileURLWithPath: confPath)
-                            .appendingPathComponent("logs")
-                            
-                        let fm = FileManager.default
-                        try? fm.createDirectory(atPath: url.path, withIntermediateDirectories: true)
-                        
-                        let fileName = {
-                            let dateformat = DateFormatter()
-                            dateformat.dateFormat = "yyyy-MM-dd_HH-mm-ss"
-                            let s = dateformat.string(from: Date())
-                            return "meta_core_crash_\(s).log"
-                        }()
-                        
-                        fm.createFile(atPath: url.appendingPathComponent(fileName).path, contents: data)
-                        return
-                    }
-                    
-                    
-                    let data = pipe.fileHandleForReading.readDataToEndOfFile()
-                    guard let string = String(data: data, encoding: String.Encoding.utf8) else {
-                        
-                        returnResult("Meta process terminated, no found output.")
-                        return
-                    }
-                    
-                    let results = string.split(separator: "\n").map(String.init).map(self.formatMsg(_:))
-                    
-                    returnResult(results.joined(separator: "\n"))
-                }
-                
-                self.timer = DispatchSource.makeTimerSource(queue: self.timerQueue)
-                self.timer?.schedule(deadline: .now(), repeating: .milliseconds(500))
-                self.timer?.setEventHandler {
-                    guard self.testExternalController(serverResult) else {
-                        return
-                    }
-                    serverResult.log = logs.joined(separator: "\n")
-                    returnResult(serverResult.jsonString())
-                }
-                
-                DispatchQueue.global().asyncAfter(deadline: .now() + 30) {
-                    serverResult.log = logs.joined(separator: "\n")
-                    returnResult(serverResult.jsonString())
-                }
-                
-                try self.proc.run()
-                self.timer?.resume()
-            } catch let error {
-                returnResult("Start meta error, \(error.localizedDescription).")
-            }
-        }
+		do {
+			if let info = self.test(confPath, confFilePath: confFilePath) {
+				returnResult(info)
+				return
+			} else {
+				print("Test meta config success.")
+			}
+			
+			guard var serverResult = self.parseConfFile(confPath, confFilePath: confFilePath) else {
+				returnResult("Can't decode config file.")
+				return
+			}
+			
+			self.proc.arguments = args
+			self.proc.qualityOfService = .userInitiated
+			
+			let pipe = Pipe()
+			var logs = [String]()
+			
+			let errorPipe = Pipe()
+			var errorLogs = [String]()
+			
+			pipe.fileHandleForReading.readabilityHandler = { pipe in
+				guard let output = String(data: pipe.availableData, encoding: .utf8),
+					  !resultReturned else {
+					return
+				}
+				
+				output.split(separator: "\n").map {
+					self.formatMsg(String($0))
+				}.forEach {
+					logs.append($0)
+					if $0.contains("External controller listen error:") || $0.contains("External controller serve error:") {
+						returnResult($0)
+					}
+					
+					/*
+					 if let range = $0.range(of: "RESTful API listening at: ") {
+					 let addr = String($0[range.upperBound..<$0.endIndex])
+					 guard addr.split(separator: ":").count == 2,
+					 let port = Int(addr.split(separator: ":")[1]) else {
+					 returnResult("Not found RESTful API port.")
+					 return
+					 }
+					 let testLP = self.testListenPort(port)
+					 if testLP.pid != 0,
+					 testLP.pid == self.proc.processIdentifier,
+					 testLP.addr == addr {
+					 serverResult.log = logs.joined(separator: "\n")
+					 returnResult(serverResult.jsonString())
+					 } else {
+					 returnResult("Check RESTful API pid failed.")
+					 }
+					 }
+					 */
+					
+					if $0.contains("RESTful API listening at:") {
+						if self.testExternalController(serverResult) {
+							serverResult.log = logs.joined(separator: "\n")
+							returnResult(serverResult.jsonString())
+						} else {
+							returnResult("Check RESTful API failed.")
+						}
+					}
+				}
+			}
+			
+			
+			errorPipe.fileHandleForReading.readabilityHandler = { pipe in
+				guard let output = String(data: pipe.availableData, encoding: .utf8) else {
+					return
+				}
+				output.split(separator: "\n").forEach {
+					errorLogs.append(String($0))
+				}
+			}
+			
+			
+			self.proc.standardError = errorPipe
+			self.proc.standardOutput = pipe
+			
+			self.proc.terminationHandler = { proc in
+				
+				guard !resultReturned else {
+					guard errorLogs.count > 0 else { return }
+					
+					errorLogs.append("terminationStatus: \(proc.terminationStatus)")
+					errorLogs.append("terminationReason: \(proc.terminationReason)")
+					
+					let data = errorLogs.joined(separator: "\n").data(using: .utf8)
+					
+					let url = URL(fileURLWithPath: confPath)
+						.appendingPathComponent("logs")
+					
+					let fm = FileManager.default
+					try? fm.createDirectory(atPath: url.path, withIntermediateDirectories: true)
+					
+					let fileName = {
+						let dateformat = DateFormatter()
+						dateformat.dateFormat = "yyyy-MM-dd_HH-mm-ss"
+						let s = dateformat.string(from: Date())
+						return "meta_core_crash_\(s).log"
+					}()
+					
+					fm.createFile(atPath: url.appendingPathComponent(fileName).path, contents: data)
+					return
+				}
+				
+				
+				let data = pipe.fileHandleForReading.readDataToEndOfFile()
+				guard let string = String(data: data, encoding: String.Encoding.utf8) else {
+					
+					returnResult("Meta process terminated, no found output.")
+					return
+				}
+				
+				let results = string.split(separator: "\n").map(String.init).map(self.formatMsg(_:))
+				
+				returnResult(results.joined(separator: "\n"))
+			}
+			
+			self.timer = DispatchSource.makeTimerSource(queue: self.timerQueue)
+			self.timer?.schedule(deadline: .now(), repeating: .milliseconds(500))
+			self.timer?.setEventHandler {
+				guard self.testExternalController(serverResult) else {
+					return
+				}
+				serverResult.log = logs.joined(separator: "\n")
+				returnResult(serverResult.jsonString())
+			}
+			
+			DispatchQueue.global().asyncAfter(deadline: .now() + 30) {
+				serverResult.log = logs.joined(separator: "\n")
+				returnResult(serverResult.jsonString())
+			}
+			
+			try self.proc.run()
+			self.timer?.resume()
+		} catch let error {
+			returnResult("Start meta error, \(error.localizedDescription).")
+		}
+	
     }
 
     @objc func stop() {
@@ -350,7 +348,7 @@ class MetaTask: NSObject {
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         
         guard let str = try? JSONDecoder().decode(MetaCurl.self, from: data),
-              str.hello == "clash.meta" else {
+			  (str.hello == "clash.meta" || str.hello == "mihomo") else {
             return false
         }
         return true
